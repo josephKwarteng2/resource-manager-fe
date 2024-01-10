@@ -13,6 +13,6 @@ export const modal = [
   },
   {
     archieve: 'Archieve',
-    label: 'archieve',
+    label: 'Archieve',
   },
 ];

@@ -1,0 +1,70 @@
+<div class="global-pages-auth">
+  <div class="global-illustration-left">
+    <login-side-illustration
+      imgUrl="../../../../assets/images/auth/Man Working on laptop.png"></login-side-illustration>
+  </div>
+  <div class="global-formfield-right">
+    <div class="global-forms-auth">
+      @if (storeData.error) {
+      <div class="validation-error-message backend">
+        {{ storeData.error.message }}
+      </div>
+      }
+
+      <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
+      <h2>Login</h2>
+      <p>
+        Welcome back, Enter your details to open your account. Don't have an
+        account yet,
+        <a href="/" (click)="$event.preventDefault()">create account</a>.
+      </p>
+      <form (submit)="submitForm($event)" [formGroup]="loginForm">
+        <label for="email" class="form-label">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="global-input-auth {{ getEmailErrors() ? 'error' : '' }}"
+          formControlName="email"
+          placeholder="something@example.com" />
+        @if(getEmailErrors()){
+        <div class="validation-error-message">
+          {{ getEmailErrors() }}
+        </div>
+        }
+        <label for="password" class="form-label">Password</label>
+        <div class="password-input">
+          <input
+            id="password"
+            type="{{ passwordField }}"
+            class="global-input-auth {{ getPasswordErrors() ? 'error' : '' }}"
+            formControlName="password"
+            placeholder="Enter password" />
+          @if(getPasswordErrors()){
+          <div class="validation-error-message">
+            {{ getPasswordErrors() }}
+          </div>
+          }
+          <img
+            (click)="showPassword = !showPassword"
+            src="../../../../assets/images/auth/EyeSlash.svg"
+            alt="show password" />
+        </div>
+        <div>
+          <label id="remember">
+            <input type="checkbox" name="rememberMe" />
+            Remember me
+          </label>
+          <a routerLink="/forgot-password">Forgot Password?</a>
+        </div>
+        <button
+          type="submit"
+          class="global-button-auth"
+          [disabled]="storeData.pending">
+          LOGIN
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

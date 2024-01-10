@@ -1,0 +1,75 @@
+<ng-container *ngIf="loading; else userList">
+  <div class="spinner-dots">
+    <div class="custom-spinner">
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #userList>
+  <div class="user-list-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Department</th>
+          <!-- <th>Specialization</th> -->
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td style="display: flex">
+            <input
+              type="checkbox"
+              [checked]="false"
+              style="
+                width: 20px;
+                height: 20px;
+                margin-right: 8px;
+                font-family: 'LexendMedium';
+                color: #022f54;
+              " />
+            <!-- <img src="assets/images/user/avatar-wrap.svg" alt="avatar" /> -->
+            {{ user.firstName }} {{ user.lastName }}
+          </td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.roles }}</td>
+          <td>{{ user.department }}</td>
+          <!-- <td>{{ user.specializations }}</td> -->
+          <td>
+            <button
+              class="actions-btn"
+              [cdkMenuTriggerFor]="dropdownOverlay"
+              (click)="openEditModal(user)">
+              <div class="actions-dot">
+                <img src="assets/images/user/dots-v.svg" alt="dots" />
+              </div>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
+<ng-template #dropdownOverlay>
+  <div class="dropdown-container">
+    <div class="overlay overlay-dropdown overlay-fall" cdkMenu>
+      <ul>
+        <li
+          class="dropdown-details-container"
+          *ngFor="let modal of dropdownModal"
+          cdkMenuItem>
+          <div>
+            <div class="dropdown-subject">
+              {{ modal.label }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>

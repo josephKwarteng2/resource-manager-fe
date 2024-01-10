@@ -1,0 +1,39 @@
+<div>
+  <h2>Password reset</h2>
+  <p>
+    We sent a code to <span>{{ this.resBody.user.email }}</span>
+  </p>
+  <form [formGroup]="otpForm" (submit)="submitForm($event)">
+    <!-- <input
+      id="otp"
+      type="number"
+      class="global-input-auth {{ getOtpErrors() ? 'error' : '' }}"
+      formControlName="otp" />
+    @if(getOtpErrors()){
+    <div class="validation-error-message">
+      {{ getOtpErrors() }}
+    </div>
+    } -->
+    <div class="otp-container">
+      @for (box of [].constructor(numberOfBoxes); track $index) {
+      <div class="otp-input" (keydown)="onOtpInputKeydown($event, $index)">
+        <label for="otp" class="visibly-hidden">otp</label>
+        <input
+          class="input"
+          id="otp"
+          #otpInput
+          type="text"
+          [value]="otpValues[$index] || ''"
+          (input)="onOtpInputChange($event, $index)"
+          (focus)="onOtpInputChange($event, $index)"
+          maxlength="1" />
+      </div>
+      }
+    </div>
+    <button type="submit" class="global-button-auth">CONTINUE</button>
+  </form>
+
+  <p class="drl">
+    Didn't recieve the link? <span href="">Click to resend</span>
+  </p>
+</div>

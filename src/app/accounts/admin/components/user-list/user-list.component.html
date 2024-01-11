@@ -54,6 +54,78 @@
       </tbody>
     </table>
   </div>
+  <button (click)="showAccountsModal = !showAccountsModal">
+    Click here to show accounts modal
+  </button>
+  <button (click)="showEditModal = !showEditModal">
+    Click here to show edit modal
+  </button>
+  <button (click)="showReplaceModal = !showReplaceModal">
+    Click here to show replace modal
+  </button>
+  <main id="accountModal" [class]="showAccountsModal ? 'visible' : ''">
+    <div
+      class="backdrop"
+      (click)="showAccountsModal = !showAccountsModal"></div>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 style="font-family: 'LexendMedium'; padding: 20px">Employee</h2>
+      </div>
+      <div class="modal-content">
+        <div class="user-basic-details">
+          <img src="assets/images/user/avatar.svg" alt="avatar" />
+          <div>
+            <p>Joseph Kwarteng</p>
+            <p>josephgmail</p>
+            <p>UI/UX Designer</p>
+          </div>
+          <div class="badge">
+            <button
+              style="
+                border-radius: 6px;
+                background: #f2f5ff;
+                padding: 2px 8px;
+                justify-content: center;
+                align-items: center;
+                color: #4a72ff;
+              ">
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="toggle">
+        <p>General</p>
+        <p>Normal Availability</p>
+      </div>
+      <div class="more-details">
+        <div>
+          <h5>Capacity</h5>
+          <p style="color: #5e718d">(GMT +0) UTC</p>
+        </div>
+        <div>
+          <h5>Notes</h5>
+          <p style="color: #5e718d">60</p>
+        </div>
+        <div>
+          <h5>Assigned Project</h5>
+          <p style="color: #5e718d">Notes</p>
+        </div>
+        <div>
+          <h5>Assigned Clients</h5>
+          <p style="color: #5e718d">Capstone</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <main id="editModal" [class]="showEditModal ? 'visible' : ''">
+    <div class="backdrop" (click)="showEditModal = !showEditModal"></div>
+    <div class="modal">Edit modal content goes here</div>
+  </main>
+  <main id="replaceModal" [class]="showReplaceModal ? 'visible' : ''">
+    <div class="backdrop" (click)="showReplaceModal = !showReplaceModal"></div>
+    <div class="modal">Replace Modal Content goes here</div>
+  </main>
 </ng-template>
 <ng-template #dropdownOverlay>
   <div class="dropdown-container">

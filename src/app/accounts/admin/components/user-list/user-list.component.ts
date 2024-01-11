@@ -33,8 +33,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   dropdownModal = modal;
   loading: boolean = false;
   selectedUser: User | null = null;
+  showAccountsModal = false;
   showEditModal = false;
-
+  showReplaceModal = false;
   private dataSubscription: Subscription | undefined;
 
   constructor(
@@ -58,7 +59,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     delete?: string;
   }): void {
     if (option.edit && this.selectedUser) {
-      this.showEditModal = true;
     } else if (option.view) {
     } else if (option.delete && this.selectedUser) {
     }

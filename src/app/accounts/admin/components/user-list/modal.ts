@@ -12,7 +12,7 @@ export const modal = [
     label: 'Delete',
   },
   {
-    archieve: 'Archieve',
-    label: 'Archieve',
+    archieve: 'Archive',
+    label: 'Archive',
   },
 ];

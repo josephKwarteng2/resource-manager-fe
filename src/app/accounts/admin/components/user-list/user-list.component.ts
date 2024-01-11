@@ -33,8 +33,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   dropdownModal = modal;
   loading: boolean = false;
   selectedUser: User | null = null;
-  showAccountsModal = false;
-  showEditModal = false;
+  showViewModal = false;
+  showDeleteModal = false;
   showReplaceModal = false;
   private dataSubscription: Subscription | undefined;
 
@@ -47,12 +47,21 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.fetchUsers();
   }
 
+  activeView = 'general';
+
+  toggleView(view: string) {
+    this.activeView = view;
+  }
+
   openEditModal(user: User): void {
     this.selectedUser = user;
 
     console.log('Selected User:', this.selectedUser);
   }
 
+  closeModal() {
+    this.showViewModal = !this.showViewModal;
+  }
   handleDropdownOption(option: {
     edit?: string;
     view?: string;

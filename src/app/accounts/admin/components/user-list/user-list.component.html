@@ -54,30 +54,38 @@
       </tbody>
     </table>
   </div>
-  <button (click)="showAccountsModal = !showAccountsModal">
-    Click here to show accounts modal
+  <button (click)="showViewModal = !showViewModal">
+    Click here to show view modal
   </button>
-  <button (click)="showEditModal = !showEditModal">
-    Click here to show edit modal
+  <button (click)="showDeleteModal = !showDeleteModal">
+    Click here to show delete modal
   </button>
   <button (click)="showReplaceModal = !showReplaceModal">
     Click here to show replace modal
   </button>
-  <main id="accountModal" [class]="showAccountsModal ? 'visible' : ''">
-    <div
-      class="backdrop"
-      (click)="showAccountsModal = !showAccountsModal"></div>
+  <main id="accountModal" [class]="showViewModal ? 'visible' : ''">
+    <div class="backdrop" (click)="showViewModal = !showViewModal"></div>
     <div class="modal">
       <div class="modal-header">
-        <h2 style="font-family: 'LexendMedium'; padding: 20px">Employee</h2>
+        <h2 style="font-family: 'LexendMedium'; padding: 20px; font-size: 22px">
+          Employee
+        </h2>
+        <img
+          src="assets/images/user/x-close.svg"
+          alt="close icon"
+          (click)="closeModal()"
+          style="cursor: pointer" />
       </div>
       <div class="modal-content">
         <div class="user-basic-details">
           <img src="assets/images/user/avatar.svg" alt="avatar" />
           <div>
+            <!-- <p>{{ newUser.firstName }} {{ newUser.lastName }}</p>
+            <p>{{ newUser.email }}</p>
+            <p>{{newUser.specializations}}</p> -->
             <p>Joseph Kwarteng</p>
-            <p>josephgmail</p>
-            <p>UI/UX Designer</p>
+            <p style="color: #5e718d">josgmail.com</p>
+            <p style="color: #5e718d">Frontend</p>
           </div>
           <div class="badge">
             <button
@@ -95,10 +103,28 @@
         </div>
       </div>
       <div class="toggle">
-        <p>General</p>
-        <p>Normal Availability</p>
+        <div class="toggle">
+          <button
+            [ngClass]="{
+              'toggle-button': true,
+              'toggle-button-active': activeView === 'general',
+              'toggle-button-not-active': activeView !== 'general'
+            }"
+            (click)="toggleView('general')">
+            General
+          </button>
+          <button
+            [ngClass]="{
+              'toggle-button': true,
+              'toggle-button-active': activeView === 'availability',
+              'toggle-button-not-active': activeView !== 'availability'
+            }"
+            (click)="toggleView('availability')">
+            Normal Availability
+          </button>
+        </div>
       </div>
-      <div class="more-details">
+      <!-- <div class="more-details" *ngIf="activeView === 'general'">
         <div>
           <h5>Capacity</h5>
           <p style="color: #5e718d">(GMT +0) UTC</p>
@@ -115,12 +141,27 @@
           <h5>Assigned Clients</h5>
           <p style="color: #5e718d">Capstone</p>
         </div>
+      </div> -->
+      <div *ngIf="activeView === 'availability'">
+        <!-- <p>Hey there</p> -->
       </div>
     </div>
   </main>
-  <main id="editModal" [class]="showEditModal ? 'visible' : ''">
-    <div class="backdrop" (click)="showEditModal = !showEditModal"></div>
-    <div class="modal">Edit modal content goes here</div>
+  <main id="editModal" [class]="showDeleteModal ? 'visible' : ''">
+    <div class="backdrop" (click)="showDeleteModal = !showDeleteModal"></div>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 style="font-family: 'LexendMedium'; padding: 20px; font-size: 22px">
+          Confirm Deletion
+        </h2>
+      </div>
+      <div class="delete-modal-content">
+        <p>
+          You are about to delete Joseph permanently. This cannot be undone.
+          Please confirm if you want to proceed.
+        </p>
+      </div>
+    </div>
   </main>
   <main id="replaceModal" [class]="showReplaceModal ? 'visible' : ''">
     <div class="backdrop" (click)="showReplaceModal = !showReplaceModal"></div>

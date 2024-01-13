@@ -126,8 +126,6 @@ export class AccountSetupFormComponent implements OnInit, OnDestroy {
     const userId = this.userId;
 
     if (this.userDetails.valid) {
-      console.log(userDetails);
-
       const reqBody = {
         ...userDetails,
         userId,

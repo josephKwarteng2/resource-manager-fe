@@ -148,20 +148,15 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
     const { email, userId } = this.userDetails;
 
     if (this.resetPasswordForm.valid === true) {
-      console.log(credentials);
-      console.log(true);
-
       //send this to the backend
       const reqBody = {
         ...credentials,
         email,
         userId,
       };
-      console.log('reqbody', reqBody);
 
       this.store.dispatch(AuthActions.updateUserPassword(reqBody));
     } else {
-      console.log(false);
     }
   }
 

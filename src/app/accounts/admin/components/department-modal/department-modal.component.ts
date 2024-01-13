@@ -33,10 +33,9 @@ export class DepartmentModalComponent implements OnInit {
     });
   }
 
-
   onSaveDepartment() {
     if (this.modalForm.valid) {
-      const newDepartment: string = this.modalForm.value.newDepartment; 
+      const newDepartment: string = this.modalForm.value.newDepartment;
 
       this.departmentService.addDepartment(newDepartment).subscribe(
         (response: ResponseType) => {
@@ -52,11 +51,9 @@ export class DepartmentModalComponent implements OnInit {
     }
   }
   fetchDepartments() {
-
     this.departmentService.getDepartments().subscribe(
       (departments: string[]) => {
         console.log('Fetched specializations from the backend:', departments);
-
       },
       err => {
         console.error('Error fetching specializations from the backend:', err);
@@ -67,7 +64,5 @@ export class DepartmentModalComponent implements OnInit {
   closeModal() {
     this.isOpen = false;
   }
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 }

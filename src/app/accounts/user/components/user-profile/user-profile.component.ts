@@ -183,8 +183,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('User Details:', this.user);
-
     /**
      * Email is intentionally omitted from the request body
      */
@@ -196,8 +194,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       lastName: lastName,
       phoneNumber: phoneNumber,
     };
-
-    console.log(reqBody);
 
     if (this.userDetails.valid) {
       this.settingsService.updateDetails(reqBody).subscribe({
@@ -218,7 +214,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
           }
         },
         error: error => {
-          console.log(error);
           this.settingsSig.set({
             success: null,
             error: error.errors,

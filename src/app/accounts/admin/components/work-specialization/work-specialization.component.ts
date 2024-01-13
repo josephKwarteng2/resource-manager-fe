@@ -53,21 +53,18 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
 
     const specSub = this.settingsService.getSpecializations().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.specializations = res;
       },
     });
 
     const departmentSub = this.settingsService.getDepartments().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.departments = res;
       },
     });
 
     const skillsSub = this.settingsService.getUserSkills().subscribe({
       next: res => {
-        console.log(res);
         this.skills = res;
       },
     });
@@ -131,8 +128,6 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('User Details:', this.user);
-
     const reqBody = {
       userId: this.user.userId,
       department: this.userSpecializationForm.get('department')?.value || '',
@@ -140,8 +135,6 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
         this.userSpecializationForm.get('specialization')?.value || '',
       skills: this.userSpecializationForm.get('skills')?.value || [],
     };
-
-    console.log(reqBody);
 
     if (this.userSpecializationForm.valid) {
       this.loading = true;
@@ -164,7 +157,6 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
           }
         },
         error: (error: any) => {
-          console.log(error);
           this.settingsSig.set({
             success: null,
             error: error.errors,

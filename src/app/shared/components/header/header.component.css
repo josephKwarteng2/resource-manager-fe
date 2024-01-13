@@ -156,6 +156,23 @@
   padding: 0.625rem;
   gap: 15px;
 }
+.pulse {
+  animation: pulse-animation 1s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
 
 @media only screen and (max-height: 700px) {
   .header {

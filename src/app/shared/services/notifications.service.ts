@@ -8,8 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class NotificationsService {
   constructor(private http: HttpClient) {}
-  getNotifications(): Observable<UserNotifications> {
-    return this.http.get<UserNotifications>(
+
+  getNotifications(): Observable<UserNotifications[]> {
+    return this.http.get<UserNotifications[]>(
       `${BASE_URL}/users/notifications/fetch`,
       {
         headers: {
@@ -19,10 +20,11 @@ export class NotificationsService {
       }
     );
   }
+
   markAllAsRead(email: string): Observable<CurrentUser> {
     return this.http.post<CurrentUser>(
       `${BASE_URL}/users/notifications/mark/all/read`,
-      { email }, // Pass only the email in the request body
+      { email },
       {
         headers: {
           'Content-Type': 'application/json',

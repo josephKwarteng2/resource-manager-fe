@@ -5,7 +5,8 @@
     <div class="head-menu-item">
       <button
         class="head-menu-item-btn ripple"
-        [cdkMenuTriggerFor]="notificationOverlay">
+        [cdkMenuTriggerFor]="notificationOverlay"
+        [ngClass]="{ pulse: hasNewNotifications }">
         <img
           src="assets/images/user/alarm-icon.svg"
           alt="Alarm Icon"
@@ -27,7 +28,7 @@
         <li class="notification-head-container">
           <div class="notification-head">Notifications</div>
           <span class="view-all-link">
-            <a (click)="markAllAsRead()">Mark all as read</a>
+            <button (click)="markAllAsRead()">Mark all as read</button>
           </span>
         </li>
         <div class="info-container">

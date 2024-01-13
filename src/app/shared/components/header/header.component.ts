@@ -17,20 +17,23 @@ export class HeaderComponent implements OnInit {
   query: string = '';
   notifications: UserNotifications[] = [];
   isOnline: boolean = navigator.onLine;
+  hasNewNotifications: boolean = false;
+
   constructor(
     private notificationService: NotificationsService,
     private currentUserService: CurrentUserService
   ) {}
+
   ngOnInit() {
     window.addEventListener('online', () => this.updateOnlineStatus(true));
     window.addEventListener('offline', () => this.updateOnlineStatus(false));
-    // Fetch notifications when the component initializes
     this.fetchNotifications();
   }
   private updateOnlineStatus(online: boolean) {
     this.isOnline = online;
   }
   performSearch() {}
+
   private fetchNotifications() {
     this.notificationService.getNotifications().subscribe(
       (response: any) => {
@@ -38,6 +41,9 @@ export class HeaderComponent implements OnInit {
         console.log(notifications);
         if (Array.isArray(notifications)) {
           this.notifications = notifications as UserNotifications[];
+          // this.hasNewNotifications = this.notifications.some(
+          //   notification => !notification.isRead
+          // );
         } else {
           console.log('Invalid notifications format for users', notifications);
         }
@@ -47,6 +53,7 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
+
   markAllAsRead() {
     this.currentUserService.get().subscribe(
       (response: any) => {

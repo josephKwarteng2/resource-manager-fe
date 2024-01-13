@@ -47,9 +47,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       specialization: new FormControl({ value: '', disabled: true }, [
         Validators.required,
       ]),
-      skills: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-      ]),
+      skills: new FormControl('', [Validators.required]),
     });
 
     const specSub = this.settingsService.getSpecializations().subscribe({

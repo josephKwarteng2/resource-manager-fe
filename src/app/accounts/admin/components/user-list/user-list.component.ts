@@ -10,6 +10,7 @@ import { ViewModalComponent } from '../view-modal/view-modal.component';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 @Component({
   selector: 'user-list',
   standalone: true,
@@ -17,6 +18,7 @@ import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
     CommonModule,
     CdkMenuModule,
     ViewModalComponent,
+    PaginationComponent,
     DeleteModalComponent,
   ],
   templateUrl: './user-list.component.html',
@@ -24,7 +26,9 @@ import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
 })
 export class UserListComponent implements OnInit, OnDestroy {
   users: User[] = [];
-
+  currentPage: number = 1;
+  itemsPerPage: number = 6;
+  totalPages: number = 0;
   dropdownModal = modal;
   loading: boolean = false;
 
@@ -81,6 +85,11 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.activeView = view;
   }
 
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.fetchUsers();
+  }
+
   ngOnDestroy(): void {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
@@ -90,11 +99,16 @@ export class UserListComponent implements OnInit, OnDestroy {
   fetchUsers(): void {
     this.loading = true;
 
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+    const endIndex = startIndex + this.itemsPerPage;
+
     this.usersService.getUsers().subscribe(
       (response: any) => {
         const users = response.users || response.data;
         if (Array.isArray(users)) {
-          this.users = users as User[];
+          this.users = users.slice(startIndex, endIndex) as User[];
+          this.totalPages = Math.ceil(users.length / this.itemsPerPage);
         } else {
           console.error('Invalid response format for users:', users);
         }

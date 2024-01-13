@@ -53,6 +53,10 @@
       </tbody>
     </table>
   </div>
+  <pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"></pagination>
 </ng-template>
 <ng-template #dropdownOverlay let-user>
   <div class="dropdown-container">

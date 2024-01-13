@@ -43,7 +43,9 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSpecializationForm = new FormGroup({
-      department: new FormControl('', [Validators.required]),
+      department: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
+      ]),
       specialization: new FormControl({ value: '', disabled: true }, [
         Validators.required,
       ]),

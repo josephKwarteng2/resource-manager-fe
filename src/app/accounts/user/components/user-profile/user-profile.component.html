@@ -6,7 +6,6 @@
     <div class="success-message">
       {{ signalValues.success.message }}
     </div>
-    <span class="close-btn"> </span>
     } @if (signalValues.error) {
     <div class="error-message">
       {{ signalValues.error.message }}
@@ -92,45 +91,6 @@
         {{ getNumberErrors() }}
       </div>
       }
-    </div>
-
-    <div>
-      <label for="department">DEPARTMENT</label>
-      <input
-        name="department"
-        class="input-settings {{ getDepartmentErrors() ? 'error' : '' }}"
-        id="department"
-        formControlName="department" />
-      @if(getDepartmentErrors()){
-      <div class="validation-error-message">
-        {{ getDepartmentErrors() }}
-      </div>
-      }
-    </div>
-
-    <div>
-      <label for="specialization">SPECIALIZATION</label>
-      <input
-        name="specialization"
-        class="input-settings {{ getSpecializationErrors() ? 'error' : '' }}"
-        id="specialization"
-        formControlName="specialization" />
-
-      @if(getSpecializationErrors()) {
-      <div class="validation-error-message">
-        {{ getSpecializationErrors() }}
-      </div>
-      }
-    </div>
-
-    <div>
-      <label for="addSkill">ADD SKILL</label>
-      <input
-        id="addSkill"
-        type="text"
-        class="input-settings {{ getNameErrors('lastName') ? 'error' : '' }}"
-        placeholder="Enter skill"
-        formControlName="addSkill" />
     </div>
   </div>
 

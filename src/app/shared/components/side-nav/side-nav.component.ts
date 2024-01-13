@@ -34,6 +34,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
   http = inject(HttpClient);
   tokenService = inject(AccesstokenService);
   router = inject(Router);
+  loggingOut = false;
 
   ngOnInit(): void {
     switch (this.userRole) {
@@ -55,7 +56,10 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   handleLogout(event: Event) {
     event.preventDefault();
-
+    this.loggingOut = true;
+    setTimeout(() => {
+      this.loggingOut = false;
+    }, 2000);
     const httpSub = this.http.post(`${BASE_URL}/users/logout`, {}).subscribe({
       next: () => {
         this.tokenService.clear();

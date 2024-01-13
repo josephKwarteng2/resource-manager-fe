@@ -8,7 +8,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { SettingsService } from '../../services/settings.service';
+import { SettingsService } from '../../../user/services/settings.service';
 import { selectCurrentUser } from '../../../../auth/store/authorization/AuthReducers';
 import {
   CurrentUser,
@@ -18,13 +18,13 @@ import {
 } from '../../../../shared/types/types';
 
 @Component({
-  selector: 'work-specialization',
+  selector: 'adm-work-specialization',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './work-specialization.component.html',
   styleUrls: [
     './work-specialization.component.css',
-    '../../pages/setting/setting.component.css',
+    // '../../pages/setting/setting.component.css',
   ],
 })
 export class WorkSpecializationComponent implements OnInit, OnDestroy {
@@ -44,30 +44,26 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSpecializationForm = new FormGroup({
       department: new FormControl('', [Validators.required]),
-      specialization: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-      ]),
-      skills: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-      ]),
+      specialization: new FormControl('', [Validators.required]),
+      skills: new FormControl('', [Validators.required]),
     });
 
     const specSub = this.settingsService.getSpecializations().subscribe({
-      next: res => {
+      next: (res: any) => {
         console.log(res);
         this.specializations = res;
       },
     });
 
     const departmentSub = this.settingsService.getDepartments().subscribe({
-      next: res => {
+      next: (res: any) => {
         console.log(res);
         this.departments = res;
       },
     });
 
     const skillsSub = this.settingsService.getDepartments().subscribe({
-      next: res => {
+      next: (res: any) => {
         console.log(res);
         this.departments = res;
       },
@@ -145,7 +141,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
 
     if (this.userSpecializationForm.valid) {
       this.settingsService.updateDetails(reqBody).subscribe({
-        next: response => {
+        next: (response: any) => {
           if (response && response.message) {
             this.settingsSig.set({
               success: response,
@@ -161,7 +157,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
             }, 3000);
           }
         },
-        error: error => {
+        error: (error: any) => {
           console.log(error);
           this.settingsSig.set({
             success: null,

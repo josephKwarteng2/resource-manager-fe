@@ -9,6 +9,7 @@ import {
   SettingsService,
 } from '../../services/settings.service';
 import { Subscription } from 'rxjs';
+import { WorkSpecializationComponent } from '../../components/work-specialization/work-specialization.component';
 
 @Component({
   selector: 'setting',
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
     HeaderComponent,
     UserProfileComponent,
     UserPasswordComponent,
+    WorkSpecializationComponent,
   ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.css',

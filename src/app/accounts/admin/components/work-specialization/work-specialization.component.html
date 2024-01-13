@@ -6,21 +6,25 @@
     <div class="success-message">
       {{ signalValues.success.message }}
     </div>
-    @if (signalValues.error) {
+    } @if (signalValues.error) {
     <div class="error-message">
       {{ signalValues.error.message }}
     </div>
-    } }
+    }
   </div>
   <div class="d-grid">
     <div>
       <label for="department">DEPARTMENT</label>
-      <input
+      <select
         name="department"
         class="input-settings {{ getDepartmentErrors() ? 'error' : '' }}"
         id="department"
-        formControlName="department" />
-      @if(getDepartmentErrors()){
+        formControlName="department">
+        <option *ngFor="let dept of departments" [value]="dept">
+          {{ dept }}
+        </option>
+      </select>
+      @if(getDepartmentErrors()) {
       <div class="validation-error-message">
         {{ getDepartmentErrors() }}
       </div>
@@ -29,12 +33,15 @@
 
     <div>
       <label for="specialization">SPECIALIZATION</label>
-      <input
+      <select
         name="specialization"
         class="input-settings {{ getSpecializationErrors() ? 'error' : '' }}"
         id="specialization"
-        formControlName="specialization" />
-
+        formControlName="specialization">
+        <option *ngFor="let spec of specializations" [value]="spec">
+          {{ spec }}
+        </option>
+      </select>
       @if(getSpecializationErrors()) {
       <div class="validation-error-message">
         {{ getSpecializationErrors() }}

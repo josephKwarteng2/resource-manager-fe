@@ -23,6 +23,7 @@ export type CurrentUser = {
   permissions?: Permisions;
   department: Departments;
   specializations: Specializations[];
+  skills: string;
 };
 
 /**

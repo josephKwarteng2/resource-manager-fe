@@ -10,7 +10,6 @@ import {
 import { SettingsService } from '../../services/settings.service';
 import { UpdateUserDetailsResponse } from '../../../../auth/types/auth-types';
 import { Router } from '@angular/router';
-import { LoginSideIllustrationComponent } from '../../../../auth/components/login-side-illustration/login-side-illustration.component';
 import { validPhoneNumber } from '../../../../auth/validators/invalidphonenumber';
 import { selectCurrentUser } from '../../../../auth/store/authorization/AuthReducers';
 import { Store } from '@ngrx/store';
@@ -24,7 +23,7 @@ import {
 @Component({
   selector: 'user-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LoginSideIllustrationComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-profile.component.html',
   styleUrls: [
     './user-profile.component.css',
@@ -68,26 +67,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         Validators.pattern('^[a-zA-Z]+( [a-zA-Z]+)*$'),
       ]),
       phoneNumber: new FormControl('', [Validators.required, validPhoneNumber]),
-      department: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-      ]),
-      specialization: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-      ]),
-    });
-
-    const specSub = this.settingsService.getSpecializations().subscribe({
-      next: res => {
-        console.log(res);
-        this.specializations = res;
-      },
-    });
-
-    const departmentSub = this.settingsService.getDepartments().subscribe({
-      next: res => {
-        console.log(res);
-        this.departments = res;
-      },
     });
 
     const storeSub = this.store.select(selectCurrentUser).subscribe({
@@ -99,7 +78,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.subscriptions.push(specSub, departmentSub, storeSub);
+    this.subscriptions.push(storeSub);
   }
 
   getEmailErrors(): string {
@@ -128,17 +107,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  getSpecializationErrors(): string {
-    const control = this.userDetails.get('specialization');
-    if (control?.invalid && (control.dirty || control.touched)) {
-      if (control.hasError('required')) {
-        return 'This field is required';
-      }
-    }
-
-    return '';
-  }
-
   getNumberErrors() {
     const control = this.userDetails.get('phoneNumber');
     if (control?.invalid && (control.dirty || control.touched)) {
@@ -146,17 +114,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         return 'This field is required';
       } else if (control.hasError('invalidPhoneNumber')) {
         return 'Number should be exactly 10 digits without country code';
-      }
-    }
-
-    return '';
-  }
-
-  getDepartmentErrors(): string {
-    const control = this.userDetails.get('qualification');
-    if (control?.invalid && (control.dirty || control.touched)) {
-      if (control.hasError('required')) {
-        return 'This field is required';
       }
     }
 
@@ -198,9 +155,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         phoneNumber: this.user.phoneNumber,
-        department: this.user.department || '',
         imgUrl: this.user.profilePicture,
-        specialization: this.user.specializations[0] || '',
       });
     }
   }
@@ -240,8 +195,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       firstName: firstName,
       lastName: lastName,
       phoneNumber: phoneNumber,
-      department: this.user.department,
-      specialization: this.user.specializations[0],
     };
 
     console.log(reqBody);

@@ -49,13 +49,12 @@
       }
     </div>
     <div>
-      <label for="addSkill">ADD SKILL</label>
-      <input
-        id="addSkill"
-        type="text"
-        class="input-settings"
-        placeholder="Enter skill"
-        formControlName="skills" />
+      <label for="skills">SKILLS</label>
+      <select id="skills" class="input-settings" formControlName="skills">
+        <option *ngFor="let skill of skills" [value]="skill">
+          {{ skill }}
+        </option>
+      </select>
     </div>
   </div>
   <div class="buttons">
@@ -66,6 +65,7 @@
     </button>
     <button
       type="submit"
+      [disabled]="loading || !userSpecializationForm.valid"
       class="button-settings bg-[#022F54] text-white hover:bg-[#1b4465]">
       Update Profile
     </button>

@@ -59,3 +59,27 @@ label:not(.visibly-hidden) {
   display: flex;
   gap: 40px;
 }
+
+.message-container {
+  position: fixed;
+  top: 20%;
+  /* left: 80%; */
+  right: -2%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.success-message,
+.error-message {
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.success-message {
+  color: #76bf4c;
+}
+
+.error-message {
+  color: #fc2e20;
+}

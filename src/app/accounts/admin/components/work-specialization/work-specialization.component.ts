@@ -15,6 +15,7 @@ import {
   Departments,
   InitialSig,
   Specializations,
+  Skills,
 } from '../../../../shared/types/types';
 
 @Component({
@@ -32,6 +33,8 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   specializations!: Specializations[];
   departments!: Departments[];
+  skills: Skills[] = [];
+  loading: Boolean = false;
   user!: CurrentUser;
   settingsSig = signal<InitialSig>({
     success: null,
@@ -62,10 +65,10 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       },
     });
 
-    const skillsSub = this.settingsService.getDepartments().subscribe({
-      next: (res: any) => {
+    const skillsSub = this.settingsService.getUserSkills().subscribe({
+      next: res => {
         console.log(res);
-        this.departments = res;
+        this.skills = res;
       },
     });
     const storeSub = this.store.select(selectCurrentUser).subscribe({
@@ -132,15 +135,17 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
 
     const reqBody = {
       userId: this.user.userId,
-      department: this.user.department,
-      specialization: this.user.specializations[0],
-      skills: this.user.skills,
+      department: this.userSpecializationForm.get('department')?.value || '',
+      specialization:
+        this.userSpecializationForm.get('specialization')?.value || '',
+      skills: this.userSpecializationForm.get('skills')?.value || [],
     };
 
     console.log(reqBody);
 
     if (this.userSpecializationForm.valid) {
-      this.settingsService.updateDetails(reqBody).subscribe({
+      this.loading = true;
+      this.settingsService.updateAdminSpecialization(reqBody).subscribe({
         next: (response: any) => {
           if (response && response.message) {
             this.settingsSig.set({
@@ -154,6 +159,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
                 error: null,
                 pending: false,
               });
+              this.loading = false;
             }, 3000);
           }
         },
@@ -171,7 +177,11 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
               error: null,
               pending: false,
             });
+            this.loading = false;
           }, 3000);
+        },
+        complete: () => {
+          this.loading = false;
         },
       });
     }

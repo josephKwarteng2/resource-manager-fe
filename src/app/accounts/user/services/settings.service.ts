@@ -9,7 +9,11 @@ import { BASE_URL } from '../../../../environment/config';
 import { UpdateUserDetails } from '../../../auth/types/auth-types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { Departments, Specializations } from '../../../shared/types/types';
+import {
+  Departments,
+  Specializations,
+  Skills,
+} from '../../../shared/types/types';
 
 export type SettingsFields = 'profile' | 'password' | 'work specialization';
 
@@ -70,6 +74,16 @@ export class SettingsService {
       .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
   }
 
+  updateAdminSpecialization(
+    userSpecializationForm: UpdateUserDetails
+  ): Observable<UpdateUserDetailsResponse> {
+    return this.http
+      .put<UpdateUserDetailsResponse>(
+        `${BASE_URL}/users/settings/admin/update/work/specialization`,
+        userSpecializationForm
+      )
+      .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+  }
   /**
    * Gets available specializations for display purposes
    * @returns An observable of @see{@link Specializations}
@@ -90,6 +104,21 @@ export class SettingsService {
       );
   }
 
+  getUserSkills(): Observable<Skills[]> {
+    return this.http
+      .get<{ skills: [{ id: number; name: Skills }] }>(
+        `${BASE_URL}/skills/fetch`,
+        this.headers
+      )
+      .pipe(
+        map(res => {
+          const temp: Skills[] = [];
+          res.skills.forEach(skill => temp.push(skill.name));
+          return temp;
+        }),
+        catchError((error: HttpErrorResponse) => this.onError(error))
+      );
+  }
   /**
    * Gets available departments for display purposes
    * @returns An observable of @see{@link Departments}

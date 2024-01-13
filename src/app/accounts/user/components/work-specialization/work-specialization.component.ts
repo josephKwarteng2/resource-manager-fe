@@ -15,6 +15,7 @@ import {
   Departments,
   InitialSig,
   Specializations,
+  Skills,
 } from '../../../../shared/types/types';
 
 @Component({
@@ -32,6 +33,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   specializations!: Specializations[];
   departments!: Departments[];
+  skills: Skills[] = [];
   user!: CurrentUser;
   settingsSig = signal<InitialSig>({
     success: null,
@@ -66,10 +68,10 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       },
     });
 
-    const skillsSub = this.settingsService.getDepartments().subscribe({
+    const skillsSub = this.settingsService.getUserSkills().subscribe({
       next: res => {
         console.log(res);
-        this.departments = res;
+        this.skills = res;
       },
     });
     const storeSub = this.store.select(selectCurrentUser).subscribe({

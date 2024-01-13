@@ -11,6 +11,8 @@ export type Roles = 'Basic User' | 'Administrator' | 'Manager';
 
 export type Departments = 'Service Center' | 'Training Center' | 'Operations';
 
+export type Skills = 'JavaScript' | 'Java' | 'MySQL';
+
 export type CurrentUser = {
   email: string;
   userId: string;
@@ -23,7 +25,7 @@ export type CurrentUser = {
   permissions?: Permisions;
   department: Departments;
   specializations: Specializations[];
-  skills: string;
+  skills: [];
 };
 
 /**

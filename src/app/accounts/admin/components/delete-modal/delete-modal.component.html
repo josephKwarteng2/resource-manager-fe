@@ -1,1 +1,23 @@
-<p>delete-modal works!</p>
+<form></form>
+<div class="delete-modal">
+  <div class="delete-modal-container">
+    <h2 style="font-family: 'LexendMedium'; padding: 20px; font-size: 22px">
+      Delete User
+    </h2>
+    <p>Are you sure you want to delete ? This action cannot be undone.</p>
+    <div class="buttons-wrapper">
+      <button
+        type="reset"
+        class="actions-button bg-[#FFFFFF] text-[#022F54] hover:bg-[#e6e6e6]"
+        (click)="closeDeleteModal()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="actions-button bg-[#ff0000] text-white hover:bg-[#ff8080]"
+        (click)="confirmDelete()">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

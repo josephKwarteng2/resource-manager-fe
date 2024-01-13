@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormGroup,
@@ -19,11 +19,21 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-usercreation',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SpecializationModalComponent,
+    DepartmentModalComponent,
+  ],
   templateUrl: './usercreation.component.html',
   styleUrl: './usercreation.component.css',
 })
-export class UsercreationComponent {
+export class UsercreationComponent implements OnInit {
+  @Input() isOpen = true;
+
+  specializationModalOpen = false;
+  departmentModalOpen = false;
+
   formData: FormGroup;
   loading = false;
   success = false;
@@ -54,6 +64,7 @@ export class UsercreationComponent {
       specialization: [''],
       department: [''],
       role: [''],
+      skills: [''],
     });
 
     this.specializationService.specializations$.subscribe(
@@ -128,17 +139,15 @@ export class UsercreationComponent {
   }
 
   openSpecializationModal() {
-    const modalRef = this.modalService.open(SpecializationModalComponent, {
-      centered: true,
-    });
+    this.specializationModalOpen = true;
+  }
 
-    modalRef.componentInstance.saveSpecialization.subscribe(
-      (newSpecialization: string) => {
-        console.log('Received new specialization:', newSpecialization);
-        this.updateSpecializationDropdown(newSpecialization);
-        this.fetchSpecializations();
-      }
-    );
+  handleAddSpecialization(newSpecializationEvent: string) {
+    if (typeof newSpecializationEvent === 'string') {
+      const newSpecialization = newSpecializationEvent;
+      this.updateSpecializationDropdown(newSpecialization);
+      this.fetchSpecializations();
+    }
   }
 
   updateSpecializationDropdown(newSpecialization: string) {
@@ -162,7 +171,6 @@ export class UsercreationComponent {
           'Fetched specializations from the backend:',
           specializations
         );
-        // Handle the fetched departments as needed
       },
       err => {
         console.error('Error fetching specializations from the backend:', err);
@@ -178,17 +186,16 @@ export class UsercreationComponent {
   }
 
   openDepartmentModal() {
-    const modalRef = this.modalService.open(DepartmentModalComponent, {
-      centered: true,
-    });
+    this.departmentModalOpen = true;
+  }
+  handleAddDepartment(newDepartmentEvent: string) {
+    if (typeof newDepartmentEvent === 'string') {
+      const newDepartment = newDepartmentEvent;
 
-    modalRef.componentInstance.saveDepartment.subscribe(
-      (newDepartment: string) => {
-        console.log('Received new department:', newDepartment);
-        this.updateDepartmentDropdown(newDepartment);
-        this.fetchDepartments();
-      }
-    );
+      this.updateDepartmentDropdown(newDepartment);
+
+      this.fetchDepartments();
+    }
   }
 
   updateDepartmentDropdown(newDepartment: string) {
@@ -203,11 +210,9 @@ export class UsercreationComponent {
   }
 
   fetchDepartments() {
-    // Call the service to fetch the list of departments
     this.departmentService.getDepartments().subscribe(
       (departments: string[]) => {
         console.log('Fetched departments from the backend:', departments);
-        // Handle the fetched departments as needed
       },
       err => {
         console.error('Error fetching departments from the backend:', err);
@@ -251,8 +256,13 @@ export class UsercreationComponent {
       console.error('Form is not valid');
     }
   }
+  closeUsercreationModal() {
+    this.isOpen = false;
+  }
 
   exitPage() {
     this.router.navigate(['/admin/dashboard']);
   }
+
+  ngOnInit(): void {}
 }

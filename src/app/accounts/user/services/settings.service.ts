@@ -11,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { Departments, Specializations } from '../../../shared/types/types';
 
-export type SettingsFields = 'profile' | 'password';
+export type SettingsFields = 'profile' | 'password' | 'work specialization';
 
 /**
  * Service for managing user settings.

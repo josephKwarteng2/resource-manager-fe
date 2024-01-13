@@ -4,6 +4,8 @@ import { UserListComponent } from '../../../admin/components/user-list/user-list
 import { ButtonAssignComponent } from '../../../user/components/button-assign/button-assign.component';
 import { ButtonNewComponent } from '../../../user/components/button-new/button-new.component';
 
+import { ManagerUsercreationComponent } from '../manager-usercreation/manager-usercreation.component';
+
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -12,8 +14,37 @@ import { ButtonNewComponent } from '../../../user/components/button-new/button-n
     UserListComponent,
     ButtonAssignComponent,
     ButtonNewComponent,
+    ManagerUsercreationComponent
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
-export class UsersComponent {}
+export class UsersComponent {
+  managerUserCreationModalOpen = false;
+  
+
+  openManagerUserCreationModal() {
+    
+    
+      this.managerUserCreationModalOpen = true;
+     
+  
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,6 +6,7 @@ export const modal = [
   {
     view: 'view',
     label: 'View',
+    content: 'accountModal',
   },
   {
     delete: 'delete',

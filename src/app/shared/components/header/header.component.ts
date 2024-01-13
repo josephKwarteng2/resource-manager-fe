@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { SearchComponent } from '../search/search.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { NotificationsService } from '../../services/notifications.service';
-import { UserNotifications } from '../../types/types';
-
+import { UserNotifications, CurrentUser } from '../../types/types';
+import { CurrentUserService } from '../../../auth/services/current-user.service';
 @Component({
   selector: 'rm-header',
   standalone: true,
@@ -17,23 +17,20 @@ export class HeaderComponent implements OnInit {
   query: string = '';
   notifications: UserNotifications[] = [];
   isOnline: boolean = navigator.onLine;
-
-  constructor(private notificationService: NotificationsService) {}
-
+  constructor(
+    private notificationService: NotificationsService,
+    private currentUserService: CurrentUserService
+  ) {}
   ngOnInit() {
     window.addEventListener('online', () => this.updateOnlineStatus(true));
     window.addEventListener('offline', () => this.updateOnlineStatus(false));
-
     // Fetch notifications when the component initializes
     this.fetchNotifications();
   }
-
   private updateOnlineStatus(online: boolean) {
     this.isOnline = online;
   }
-
   performSearch() {}
-
   private fetchNotifications() {
     this.notificationService.getNotifications().subscribe(
       (response: any) => {
@@ -50,6 +47,27 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
-
-  markAllAsRead() {}
+  markAllAsRead() {
+    this.currentUserService.get().subscribe(
+      (response: any) => {
+        const currentUser = response.user;
+        this.notificationService.markAllAsRead(currentUser.email).subscribe(
+          (markAsReadResponse: any) => {
+            console.log(
+              'Marked all notifications as read:',
+              markAsReadResponse
+            );
+            this.fetchNotifications();
+          },
+          error => {
+            console.log('Error marking notifications as read', error);
+          }
+        );
+        console.log('email', currentUser.email);
+      },
+      error => {
+        console.log('Error fetching current user', error);
+      }
+    );
+  }
 }

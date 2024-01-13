@@ -10,7 +10,6 @@
   margin: auto;
   width: 45%;
 }
-
 .global-formfield-right {
   grid-column: 4 / 13;
   display: flex;

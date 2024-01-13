@@ -1,5 +1,6 @@
-<div class="blur-container background-overlay">
+<div class="modal-overlay" *ngIf="isOpen">
   <div
+    *ngIf="isOpen"
     class="items-center form-size flex flex-col justify-center px-16 py-10 max-md:px-5">
     <div class="messages-container mt-1 flex items-center">
       <ul
@@ -30,7 +31,9 @@
               stroke-width="2"
               d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z" />
           </svg>
-          <span class="whitespace-nowrap">Error Creating User </span>
+          <span class="whitespace-nowrap"
+            >Failed to create user or user already exist, try again
+          </span>
         </li>
         <li *ngIf="loading" class="flex items-center">
           <div role="status">
@@ -70,10 +73,10 @@
           </div>
           <button>
             <img
-              (click)="exitPage()"
+              (click)="closeUsercreationModal()"
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/050c97bbe6a9bf7a65d1fdc9144a50f0141edf534cb48f78a8700baca522cd54?apiKey=ec472716d2e845e4bd782a888378d8ff&"
-              class="aspect-square object-contain object-center w-2 overflow-hidden shrink-0 max-w-full" />
+              class="aspect-square object-contain object-center w-3 overflow-hidden shrink-0 max-w-full" />
           </button>
         </div>
         <div
@@ -195,12 +198,22 @@
             </li>
 
             <li
+              *ngFor="let department of department"
+              (click)="selectDepartment(department)">
+              {{ department }}
+            </li>
+            <li
               value="service_center "
               (click)="selectDepartment('Service Center')">
               Service Center
             </li>
             <li value="operations " (click)="selectDepartment('Operations')">
               Operations
+            </li>
+            <li
+              value="Training Center"
+              (click)="selectDepartment('Training Center')">
+              Training Center
             </li>
           </ul>
         </div>
@@ -240,7 +253,11 @@
                 </svg>
               </div>
             </li>
-
+            <li
+              *ngFor="let specialization of specializations"
+              (click)="selectSpecialization(specialization)">
+              {{ specialization }}
+            </li>
             <li
               value="ui_ux_designer"
               (click)="selectSpecialization('UI/UX Designer')">
@@ -278,6 +295,7 @@
         </div>
         <div class="custom-dropdown">
           <input
+            formControlName="skills"
             type="text"
             id="skills"
             name="skills"
@@ -290,7 +308,7 @@
             <button
               type="button"
               class="text-sky-950 text-xs leading-6 whitespace-nowrap justify-center items-stretch border border-[color:var(--outline-input-enabled,#9AA8BC)] bg-white bg-opacity-0 grow px-3 py-1 rounded-xl border-solid"
-              (click)="exitPage()">
+              (click)="closeUsercreationModal()">
               Cancel
             </button>
             <button
@@ -304,5 +322,14 @@
         </div>
       </div>
     </form>
+
+    <app-specialization-modal
+      [isOpen]="specializationModalOpen"
+      (saveSpecialization)="
+        handleAddSpecialization($event)
+      "></app-specialization-modal>
+    <app-department-modal
+      [isOpen]="departmentModalOpen"
+      (saveDepartment)="handleAddDepartment($event)"></app-department-modal>
   </div>
 </div>

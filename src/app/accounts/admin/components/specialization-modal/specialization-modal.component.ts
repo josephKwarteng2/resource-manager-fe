@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,32 +6,34 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SpecializationService } from '../../services/specialization.service';
 //import { SpecializationResponse } from '../reponse.model';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { specializationResponse } from '../../interfaces';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-specialization-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule],
+  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
   templateUrl: './specialization-modal.component.html',
   styleUrls: ['./specialization-modal.component.css'],
 })
-export class SpecializationModalComponent {
+export class SpecializationModalComponent implements OnInit {
   @Output() saveSpecialization = new EventEmitter<string>();
   @Input() formGroup!: FormGroup;
+  @Input() isOpen = true;
   modalForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private activeModal: NgbActiveModal,
+
     private specializationService: SpecializationService
   ) {
     this.modalForm = this.fb.group({
       newSpecialization: ['', Validators.required],
-      // Add any additional form controls as needed
     });
   }
 
@@ -41,7 +43,7 @@ export class SpecializationModalComponent {
 
       // Call the service to add the new specialization
       this.specializationService.addSpecialization(newSpecialization).subscribe(
-        (response: ResponseType) => {
+        (response: specializationResponse) => {
           console.log(
             'New specialization added to the backend:',
             newSpecialization
@@ -73,6 +75,8 @@ export class SpecializationModalComponent {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.isOpen = false;
   }
+
+  ngOnInit(): void {}
 }

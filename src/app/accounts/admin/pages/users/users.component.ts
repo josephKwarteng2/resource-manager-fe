@@ -5,6 +5,8 @@ import { HeaderComponent } from '../../../../shared/components/header/header.com
 import { ButtonAssignComponent } from '../../../user/components/button-assign/button-assign.component';
 import { ButtonNewComponent } from '../../../user/components/button-new/button-new.component';
 import { UserListComponent } from '../../components/user-list/user-list.component';
+import { UsercreationComponent } from '../usercreation/usercreation.component';
+import { ManagerUsercreationComponent } from '../../../manager/pages/manager-usercreation/manager-usercreation.component';
 
 @Component({
   selector: 'app-users',
@@ -16,8 +18,18 @@ import { UserListComponent } from '../../components/user-list/user-list.componen
     ButtonAssignComponent,
     ButtonNewComponent,
     UserListComponent,
+    UsercreationComponent,
+    ManagerUsercreationComponent
+
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
-export class UsersComponent {}
+export class UsersComponent {
+    userCreationModalOpen = false;
+
+  openUserCreationModal() {
+    this.userCreationModalOpen = true;
+  }
+
+}

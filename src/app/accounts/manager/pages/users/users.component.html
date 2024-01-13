@@ -3,8 +3,12 @@
     <h1>Users</h1>
     <div class="buttons-wrapper">
       <button-assign></button-assign>
-      <button-new></button-new>
+
+      <button-new (click)="openManagerUserCreationModal()"></button-new>
+      <app-manager-usercreation [isOpen]="managerUserCreationModalOpen"></app-manager-usercreation>
+      
     </div>
   </header>
   <user-list></user-list>
 </div>
+

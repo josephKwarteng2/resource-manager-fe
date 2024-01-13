@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,24 +6,26 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { DepartmentService } from '../../services/department.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-department-modal',
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule],
+  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
   templateUrl: './department-modal.component.html',
   styleUrls: ['./department-modal.component.css'],
 })
-export class DepartmentModalComponent {
+export class DepartmentModalComponent implements OnInit {
   @Output() saveDepartment = new EventEmitter<string>();
   @Input() formGroup!: FormGroup;
+  @Input() isOpen = true;
   modalForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private activeModal: NgbActiveModal,
+
     private departmentService: DepartmentService
   ) {
     this.modalForm = this.fb.group({
@@ -31,9 +33,10 @@ export class DepartmentModalComponent {
     });
   }
 
+
   onSaveDepartment() {
     if (this.modalForm.valid) {
-      const newDepartment: string = this.modalForm.value.newDepartment;
+      const newDepartment: string = this.modalForm.value.newDepartment; 
 
       this.departmentService.addDepartment(newDepartment).subscribe(
         (response: ResponseType) => {
@@ -49,9 +52,11 @@ export class DepartmentModalComponent {
     }
   }
   fetchDepartments() {
+
     this.departmentService.getDepartments().subscribe(
       (departments: string[]) => {
         console.log('Fetched specializations from the backend:', departments);
+
       },
       err => {
         console.error('Error fetching specializations from the backend:', err);
@@ -60,6 +65,9 @@ export class DepartmentModalComponent {
   }
 
   closeModal() {
-    this.activeModal.close();
+    this.isOpen = false;
+  }
+  ngOnInit(): void {
+    
   }
 }

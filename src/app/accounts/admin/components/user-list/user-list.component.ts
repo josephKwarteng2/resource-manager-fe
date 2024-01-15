@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewContainerRef,
+  ComponentRef,
+} from '@angular/core';
 import { User } from '../../../../shared/types/types';
 import { Subscription } from 'rxjs';
 import { CreateUserService } from '../../services/create-user.service';
@@ -11,6 +17,7 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { ViewModalService } from '../view-modal/view-modal.service';
 @Component({
   selector: 'user-list',
   standalone: true,
@@ -31,13 +38,17 @@ export class UserListComponent implements OnInit, OnDestroy {
   totalPages: number = 0;
   dropdownModal = modal;
   loading: boolean = false;
+  showDropdownForUser: User | null = null;
 
   private dataSubscription: Subscription | undefined;
+  private viewModalRef?: ComponentRef<ViewModalComponent>;
 
   constructor(
     private usersService: UsersService,
     private userCreationService: CreateUserService,
-    private overlay: Overlay
+    private overlay: Overlay,
+    private viewModalService: ViewModalService,
+    private viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -61,33 +72,46 @@ export class UserListComponent implements OnInit, OnDestroy {
     const deleteModalRef = overlayRef.attach(deleteModalPortal);
   }
 
-  openModal() {
-    const overlayConfig = new OverlayConfig({
-      hasBackdrop: true,
-      backdropClass: 'cdk-overlay-dark-backdrop',
-      positionStrategy: this.overlay
-        .position()
-        .global()
-        .centerHorizontally()
-        .centerVertically(),
+  openViewModal(user?: User) {
+    /**
+     * user parameter should not be optional.
+     */
+    this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
+      user,
     });
-
-    const overlayRef = this.overlay.create(overlayConfig);
-
-    const modalPortal = new ComponentPortal(ViewModalComponent);
-    const deleteModalPortal = new ComponentPortal(DeleteModalComponent);
-    overlayRef.attach(modalPortal);
-    overlayRef.attach(deleteModalPortal);
   }
-  activeView = 'general';
+  // openModal() {
+  //   const overlayConfig = new OverlayConfig({
+  //     hasBackdrop: true,
+  //     backdropClass: 'cdk-overlay-dark-backdrop',
+  //     positionStrategy: this.overlay
+  //       .position()
+  //       .global()
+  //       .centerHorizontally()
+  //       .centerVertically(),
+  //   });
 
-  toggleView(view: string) {
-    this.activeView = view;
-  }
+  //   const overlayRef = this.overlay.create(overlayConfig);
+
+  //   const modalPortal = new ComponentPortal(ViewModalComponent);
+  //   const deleteModalPortal = new ComponentPortal(DeleteModalComponent);
+  //   overlayRef.attach(modalPortal);
+  //   overlayRef.attach(deleteModalPortal);
+  // }
+  // activeView = 'general';
+
+  // toggleView(view: string) {
+  //   this.activeView = view;
+  // }
 
   onPageChange(page: number): void {
     this.currentPage = page;
     this.fetchUsers();
+  }
+
+  toggleDropdown(user: User): void {
+    // Toggle the dropdown for the specified user
+    this.showDropdownForUser = this.showDropdownForUser === user ? null : user;
   }
 
   ngOnDestroy(): void {

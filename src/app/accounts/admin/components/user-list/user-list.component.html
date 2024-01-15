@@ -43,7 +43,22 @@
           <td>{{ user.roles }}</td>
           <td>{{ user.department }}</td>
           <td>
-            <button class="actions-btn" [cdkMenuTriggerFor]="dropdownOverlay">
+            <div
+              class="dropdown-container"
+              *ngIf="showDropdownForUser === user">
+              <ul class="dropdown-details-container">
+                <li>Edit</li>
+                <li (click)="openViewModal(user)" style="cursor: pointer">
+                  View
+                </li>
+                <li>Archive</li>
+                <li (click)="openDeleteModal()" style="cursor: pointer">
+                  Delete
+                </li>
+              </ul>
+            </div>
+
+            <button class="actions-btn" (click)="toggleDropdown(user)">
               <div class="actions-dot">
                 <img src="assets/images/user/dots-v.svg" alt="dots" />
               </div>
@@ -53,19 +68,5 @@
       </tbody>
     </table>
   </div>
-  <pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (pageChange)="onPageChange($event)"></pagination>
-</ng-template>
-<ng-template #dropdownOverlay let-user>
-  <div class="dropdown-container">
-    <div class="overlay overlay-dropdown overlay-fall" cdkMenuItem>
-      <ul class="dropdown-details-container">
-        <li>Edit</li>
-        <li (click)="openModal()" style="cursor: pointer">View</li>
-        <li (click)="openDeleteModal()" style="cursor: pointer">Delete</li>
-      </ul>
-    </div>
-  </div>
+  <!-- <pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></pagination> -->
 </ng-template>

@@ -1,7 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../../../../shared/types/types';
 
+/**
+ * how to use modal
+ * 1. Import and inject the modal service in any component where you want to trigger open the modal
+ * 2. Import and inject ViewContainerRef from '@angular/core' in the same component
+ * 3. Call the open method of the modal service and pass the viewContainerRef as the first argument
+ * followed by an object with the user property as the second argument like this:
+ * @example
+ * ```
+ * this.modalService.open(this.viewContainerRef, { user: user });
+ * ```
+ * 4. The modal and backdrop automatically handle closing
+ */
 @Component({
   selector: 'view-modal',
   standalone: true,
@@ -10,25 +22,55 @@ import { User } from '../../../../shared/types/types';
   styleUrl: './view-modal.component.css',
 })
 export class ViewModalComponent implements OnInit {
-  selectedUser: User | null = null;
+  @Input() user!: User;
+  display: 'general' | 'normal-avaliability' = 'general';
+  closed: boolean = false;
+  opening: boolean = true;
 
-  showViewModal = false;
+  @Output() closeEvent = new EventEmitter<void>();
+  @Output() submitEvent = new EventEmitter<void>();
 
-  ngOnInit(): void {}
-
-  activeView = 'general';
-
-  toggleView(view: string) {
-    this.activeView = view;
+  close() {
+    this.closed = true;
+    this.closeEvent.emit();
   }
 
-  openModal(user: User): void {
-    this.selectedUser = user;
-    this.showViewModal = true;
+  edit() {
+    /**
+     * do something to edit the user
+     */
   }
 
-  closeModal(): void {
-    this.selectedUser = null;
-    this.showViewModal = false;
+  submit() {
+    /**
+     * Access the user to make an api call before the last line
+     */
+    this.submitEvent.emit();
+  }
+
+  /**
+   * Just animations for modal fading in and out
+   */
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.opening = false;
+    }, 100);
+    console.log(this.user);
+  }
+
+  get modalClasses() {
+    return {
+      [`modal`]: true,
+      [`opening`]: this.opening,
+      [`closed`]: this.closed,
+    };
+  }
+
+  get backdropClasses() {
+    return {
+      [`backdrop`]: true,
+      [`opening`]: this.opening,
+      [`closed`]: this.closed,
+    };
   }
 }

@@ -33,6 +33,7 @@ export type LoginUserResponse = {
   accessToken: string;
   changePassword: boolean;
   user: CurrentUser;
+  isAuthenticated: boolean;
 };
 
 export type AuthErrorResponse = {

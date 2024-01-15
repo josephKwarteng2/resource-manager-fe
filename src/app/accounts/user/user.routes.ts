@@ -19,7 +19,7 @@ export const UserRoutes: Route[] = [
       },
       { path: 'users', component: UsersComponent },
       {
-        path: 'user-group',
+        path: 'client',
         component: UserGroupComponent,
       },
       {

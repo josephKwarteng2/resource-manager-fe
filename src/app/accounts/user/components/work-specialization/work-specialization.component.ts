@@ -7,6 +7,9 @@ import {
   FormGroup,
   Validators,
   FormControl,
+  FormArray,
+  AbstractControl,
+  FormBuilder,
 } from '@angular/forms';
 import { SettingsService } from '../../services/settings.service';
 import { selectCurrentUser } from '../../../../auth/store/authorization/AuthReducers';
@@ -33,7 +36,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   specializations!: Specializations[];
   departments!: Departments[];
-  skills: Skills[] = [];
+  userSkills: Skills[] = [];
   user!: CurrentUser;
   settingsSig = signal<InitialSig>({
     success: null,
@@ -41,17 +44,21 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
     pending: false,
   });
 
-  constructor(private store: Store, private settingsService: SettingsService) {}
+  constructor(
+    private store: Store,
+    private settingsService: SettingsService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.userSpecializationForm = new FormGroup({
-      department: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
+    this.userSpecializationForm = this.fb.group({
+      department: ['', Validators.required],
+      specialization: ['', Validators.required],
+      skills: this.fb.array([
+        this.fb.control('', Validators.required),
+        this.fb.control('', Validators.required),
+        this.fb.control('', Validators.required),
       ]),
-      specialization: new FormControl({ value: '', disabled: true }, [
-        Validators.required,
-      ]),
-      skills: new FormControl('', [Validators.required]),
     });
 
     const specSub = this.settingsService.getSpecializations().subscribe({
@@ -67,10 +74,12 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
     });
 
     const skillsSub = this.settingsService.getUserSkills().subscribe({
-      next: res => {
-        this.skills = res;
+      next: (res: Skills[]) => {
+        this.userSkills = res;
+        this.updateSkillsFormArray();
       },
     });
+
     const storeSub = this.store.select(selectCurrentUser).subscribe({
       next: user => {
         if (user) {
@@ -113,6 +122,24 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
     }
   }
 
+  getSkillsFormArray(): FormArray {
+    return this.userSpecializationForm.get('skills') as FormArray;
+  }
+
+  updateSkillsFormArray() {
+    const skillControls = this.userSkills.map(skill =>
+      this.fb.control(skill, Validators.required)
+    );
+    this.userSpecializationForm.setControl(
+      'skills',
+      this.fb.array(skillControls)
+    );
+  }
+
+  addSkill() {
+    this.getSkillsFormArray().push(this.fb.control('', Validators.required));
+  }
+
   get signalValues() {
     const val = this.settingsSig();
     return val;
@@ -127,7 +154,6 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
     });
 
     if (!this.user) {
-      console.error('User details not available.');
       return;
     }
 

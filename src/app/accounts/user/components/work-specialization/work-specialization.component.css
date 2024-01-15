@@ -21,6 +21,14 @@ label:not(.visibly-hidden) {
   display: block;
 }
 
+.skill-input {
+  border-radius: 8px;
+  border: 1px solid #9aa8bc;
+  padding: 11px 13.941px 11px 14px;
+  color: #728197;
+  width: 40%;
+}
+
 .d-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -63,4 +71,16 @@ label:not(.visibly-hidden) {
 
 .error-message {
   color: #fc2e20;
+}
+
+.skill-button {
+  width: 47px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #ececec;
+}
+
+.skills {
+  display: flex;
+  gap: 100px;
 }

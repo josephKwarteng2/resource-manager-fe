@@ -67,7 +67,7 @@
       type="submit"
       [disabled]="loading || !userSpecializationForm.valid"
       class="button-settings bg-[#022F54] text-white hover:bg-[#1b4465]">
-      Update Profile
+      {{ loading ? 'Updating...' : 'Update Profile' }}
     </button>
   </div>
 </form>

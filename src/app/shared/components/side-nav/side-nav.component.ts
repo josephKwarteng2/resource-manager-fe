@@ -57,16 +57,16 @@ export class SideNavComponent implements OnInit, OnDestroy {
   handleLogout(event: Event) {
     event.preventDefault();
     this.loggingOut = true;
-    setTimeout(() => {
-      this.loggingOut = false;
-    }, 2000);
+
     const httpSub = this.http.post(`${BASE_URL}/users/logout`, {}).subscribe({
       next: () => {
         this.tokenService.clear();
         this.router.navigateByUrl('/login');
+        this.loggingOut = false;
       },
       error: err => {
         console.error(err);
+        this.loggingOut = false;
       },
     });
 

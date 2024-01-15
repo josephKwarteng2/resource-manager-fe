@@ -10,9 +10,9 @@ export const navbarData = [
     label: 'Users',
   },
   {
-    routeLink: 'user-group',
+    routeLink: 'client',
     icon: 'user-group-icon.svg',
-    label: 'User Group',
+    label: 'Client',
   },
   {
     routeLink: 'project',

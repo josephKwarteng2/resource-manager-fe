@@ -11,9 +11,12 @@
       </div>
       }
 
-      <div *ngIf="successMessage" class="success-message">
-        {{ successMessage }}
+      <div
+        *ngIf="storeData.success && !storeData.success.user"
+        class="validation-success-message backend">
+        {{ storeData.success.message }}
       </div>
+
       <h2>Login</h2>
       <p>
         Welcome back, Enter your details to open your account. Don't have an

@@ -1,4 +1,3 @@
-/**********  Modal **********/
 .modal {
   position: absolute;
   left: 50%;
@@ -62,7 +61,6 @@ main > div:last-of-type {
   min-height: 128px;
 }
 
-/**********  User Details **********/
 h2 {
   font-size: 1.375rem;
 }
@@ -115,7 +113,6 @@ div.user-details {
   }
 }
 
-/**********  General **********/
 .d-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -153,7 +150,6 @@ div.user-details {
   }
 }
 
-/**********  Normal Availability **********/
 h5 {
   font-size: 1rem;
   color: #3d4a5c;

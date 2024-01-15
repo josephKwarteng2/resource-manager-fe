@@ -8,8 +8,8 @@
       <div>
         <img src="assets/images/user/avatar.svg" alt="avatar" />
         <section>
-          <h4>Joshuan Mensah</h4>
-          <p>joshuan.mensahamalitech.com</p>
+          <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+          <p>{{ user.email }}</p>
           <!-- <p>UI/UX Designer</p> -->
           <!-- <div class="availability">
             <p>Available</p>
@@ -36,13 +36,13 @@
     @if (display === 'general') {
     <div class="d-grid">
       <div class="key">Specialization</div>
-      <div class="value">Frontend</div>
+      <div class="value">{{ user.specializations }}</div>
       <div class="key">User Role</div>
-      <div class="value">Basic User</div>
+      <div class="value">{{ user.roles }}</div>
       <div class="key">Phone Number</div>
-      <div class="value">0553402325</div>
+      <div class="value">{{ user.phoneNumber }}</div>
       <div class="key">Skills</div>
-      <div class="value">Angular</div>
+      <div class="value">{{ user.skills }}</div>
       <div class="key">Bookable</div>
       <div class="value">No</div>
       <div class="key">Assigned Project</div>

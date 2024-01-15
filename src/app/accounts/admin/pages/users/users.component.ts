@@ -19,17 +19,26 @@ import { ManagerUsercreationComponent } from '../../../manager/pages/manager-use
     ButtonNewComponent,
     UserListComponent,
     UsercreationComponent,
-    ManagerUsercreationComponent
-
+    ManagerUsercreationComponent,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
 export class UsersComponent {
-    userCreationModalOpen = false;
+  userCreationModalOpen = false;
+  display: 'all' | 'archives' = 'all';
+  closed: boolean = false;
+  opening: boolean = true;
 
   openUserCreationModal() {
     this.userCreationModalOpen = true;
   }
 
+  get toggleClasses() {
+    return {
+      [`currentview`]: true,
+      [`opening`]: this.opening,
+      [`closed`]: this.closed,
+    };
+  }
 }

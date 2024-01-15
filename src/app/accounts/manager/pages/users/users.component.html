@@ -1,14 +1,26 @@
 <div class="users page">
   <header>
     <h1>Users</h1>
+
     <div class="buttons-wrapper">
       <button-assign></button-assign>
 
       <button-new (click)="openManagerUserCreationModal()"></button-new>
-      <app-manager-usercreation [isOpen]="managerUserCreationModalOpen"></app-manager-usercreation>
-      
+      <app-manager-usercreation
+        [isOpen]="managerUserCreationModalOpen"></app-manager-usercreation>
     </div>
   </header>
-  <user-list></user-list>
-</div>
+  <div class="toggles">
+    <h3 [class]="display === 'all' ? 'active' : ''" (click)="display = 'all'">
+      All
+    </h3>
+    <h3
+      [class]="display !== 'all' ? 'active' : ''"
+      (click)="display = 'archives'">
+      Archives
+    </h3>
+  </div>
+  @if (display === 'all') { <user-list></user-list>
 
+  } @else if (display === 'archives') { Archives }
+</div>

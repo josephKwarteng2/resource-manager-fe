@@ -1,13 +1,29 @@
 <div [class]="modalClasses">
   <header>
-    <span (click)="close()">
-      <img src="assets/images/user/x-close.svg" alt="close icon" />
-    </span>
-    <h2>Confirm Deletion</h2>
-    <div class="delete-description">
-      <p>Are you sure you want to delete this This action cannot be undone.</p>
+    <div>
+      <h2>Confirm Deletion</h2>
+      <span (click)="close()">
+        <img src="assets/images/user/x-close.svg" alt="close icon" />
+      </span>
     </div>
   </header>
+  <div class="delete-description">
+    <p>{{ user?.firstName }} {{ user?.lastName }}</p>
+    <p>Email: {{ user?.email }}</p>
+  </div>
+
+  <div class="buttons-wrapper">
+    <button
+      type="reset"
+      class="delete-button bg-[#FFFFFF] text-[#022F54] hover:bg-[#e6e6e6]">
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="delete-button bg-[#ff574d] text-white hover:bg-[#e64e45]">
+      Delete
+    </button>
+  </div>
 </div>
 
 <div [class]="backdropClasses" (click)="close()"></div>

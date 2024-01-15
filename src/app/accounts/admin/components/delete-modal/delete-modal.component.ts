@@ -10,7 +10,7 @@ import { User } from '../../../../shared/types/types';
   styleUrl: './delete-modal.component.css',
 })
 export class DeleteModalComponent {
-  @Input() user!: User;
+  @Input() user!: User | undefined;
   closed: boolean = false;
   opening: boolean = true;
 

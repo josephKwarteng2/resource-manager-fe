@@ -1,36 +1,20 @@
 <div>
+  <div class="validation-error-message backend">{{ errorMessage }}</div>
   <h2>Password reset</h2>
   <p>
     We sent a code to <span>{{ this.resBody.user.email }}</span>
   </p>
-  <form [formGroup]="otpForm" (submit)="submitForm($event)">
-    <!-- <input
-      id="otp"
-      type="number"
-      class="global-input-auth {{ getOtpErrors() ? 'error' : '' }}"
-      formControlName="otp" />
-    @if(getOtpErrors()){
-    <div class="validation-error-message">
-      {{ getOtpErrors() }}
-    </div>
-    } -->
+  <form (ngSubmit)="submitForm()">
     <div class="otp-container">
-      @for (box of [].constructor(numberOfBoxes); track $index) {
-      <div class="otp-input" (keydown)="onOtpInputKeydown($event, $index)">
-        <label for="otp" class="visibly-hidden">otp</label>
-        <input
-          class="input"
-          id="otp"
-          #otpInput
-          type="text"
-          [value]="otpValues[$index] || ''"
-          (input)="onOtpInputChange($event, $index)"
-          (focus)="onOtpInputChange($event, $index)"
-          maxlength="1" />
-      </div>
-      }
+      <ng-otp-input [formCtrl]="otp" [config]="{ length: 6 }"></ng-otp-input>
     </div>
-    <button type="submit" class="global-button-auth">CONTINUE</button>
+
+    <button
+      type="submit"
+      class="global-button-auth"
+      style="font-family: 'LexendMedium'">
+      CONTINUE
+    </button>
   </form>
 
   <p class="drl">

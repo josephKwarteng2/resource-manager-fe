@@ -7,7 +7,6 @@ import {
   EventEmitter,
   ElementRef,
   ViewChild,
-  AfterViewInit,
   ViewChildren,
   QueryList,
 } from '@angular/core';
@@ -17,26 +16,31 @@ import {
 } from '../../services/reset-toggle.service';
 import {
   ReactiveFormsModule,
-  FormGroup,
   FormControl,
   Validators,
+  FormsModule,
 } from '@angular/forms';
+import {
+  selectIsSubmitting,
+  selectError,
+} from '../../store/reset-password/ResetReducers';
+import { combineLatest } from 'rxjs';
+import { AuthState } from '../../types/auth-types';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { SendOtpResponse } from '../../types/reset-types';
 import { selectResponse } from '../../store/reset-password/ResetReducers';
-import { Subscription } from 'rxjs';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @Component({
   selector: 'otp-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgOtpInputModule, FormsModule],
   templateUrl: './otp-form.component.html',
   styleUrls: ['./otp-form.component.css', '../../styles/styles.css'],
 })
-export class OtpFormComponent implements OnInit, OnDestroy, AfterViewInit {
-  subscriptions: Subscription[] = [];
-  otpForm!: FormGroup;
+export class OtpFormComponent implements OnDestroy {
   nextFormField!: InputFields;
   resBody!: SendOtpResponse;
   @ViewChildren('otpInput') otpInputs!: QueryList<ElementRef>;
@@ -44,29 +48,24 @@ export class OtpFormComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() otpChange = new EventEmitter<string>();
   @ViewChild('otpInput') otpInput!: ElementRef;
   otpValues: string[] = [];
+  errorMessage: string = '';
+
+  otp: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
+
+  storeSubscription = this.store.select(selectResponse).subscribe({
+    next: res => {
+      this.resBody = res as SendOtpResponse;
+    },
+    error: err => {},
+  });
 
   constructor(
     private resetToggleService: ResetToggleService,
     private store: Store
   ) {}
-
-  ngOnInit(): void {
-    this.otpForm = new FormGroup({
-      otp: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    });
-
-    const storeSubscription = this.store.select(selectResponse).subscribe({
-      next: res => {
-        console.log(res);
-        this.resBody = res as SendOtpResponse;
-      },
-      error: err => {
-        console.log(err);
-      },
-    });
-
-    this.subscriptions.push(storeSubscription);
-  }
 
   ngAfterViewInit() {
     this.setFocus(0);
@@ -83,52 +82,17 @@ export class OtpFormComponent implements OnInit, OnDestroy, AfterViewInit {
     this.otpChange.emit(concatenatedValue);
   }
 
-  onOtpInputChange(event: any, index: number) {
-    if (event.inputType === 'delete' && this.otpValues.length > 0) {
-      this.otpValues.pop();
-    } else if (
-      event.target.value.length === 1 &&
-      index < this.numberOfBoxes - 1
-    ) {
-      this.otpValues[index] = event.target.value;
-      this.setFocus(index + 1);
-    } else if (
-      event.target.value.length === 1 &&
-      index === this.numberOfBoxes - 1
-    ) {
-      this.otpValues[index] = event.target.value;
-      this.emitOtp();
-    }
-  }
-  onOtpInputKeydown(event: KeyboardEvent, index: number) {
-    if (event.key === 'Backspace' && index > 0) {
-      this.setFocus(index - 1);
-    }
-  }
-
-  getOtpErrors(): string {
-    const control = this.otpForm.get('otp');
-    if (control?.invalid && (control.dirty || control.touched)) {
-      if (control.hasError('required')) {
-        return 'This field is required';
-      }
-    }
-
-    return '';
-  }
-
-  submitForm(event: Event) {
-    event.preventDefault();
-    const otp = parseInt(this.otpValues.join(''), 10);
-
-    //Compare otp and switch field if it matches
+  submitForm() {
+    const otp = Number(this.otp?.value);
     if (otp === this.resBody.OTP) {
       this.nextFormField = 'changePassword';
       this.resetToggleService.toggle(this.nextFormField);
+    } else {
+      this.errorMessage = 'Invalid OTP';
     }
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.storeSubscription.unsubscribe();
   }
 }

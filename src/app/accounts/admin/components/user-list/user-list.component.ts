@@ -16,6 +16,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { ViewModalService } from '../view-modal/view-modal.service';
+import { DeleteModalService } from '../delete-modal/delete-modal.service';
 @Component({
   selector: 'user-list',
   standalone: true,
@@ -39,36 +40,24 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   private dataSubscription: Subscription | undefined;
   private viewModalRef?: ComponentRef<ViewModalComponent>;
+  private deleteModalRef?: ComponentRef<DeleteModalComponent>;
 
   constructor(
     private usersService: UsersService,
     private userCreationService: CreateUserService,
     private overlay: Overlay,
     private viewModalService: ViewModalService,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private deleteModalService: DeleteModalService
   ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
   }
 
-  openDeleteModal(): void {
-    const overlayConfig = new OverlayConfig({
-      hasBackdrop: true,
-      backdropClass: 'cdk-overlay-dark-backdrop',
-      positionStrategy: this.overlay
-        .position()
-        .global()
-        .centerHorizontally()
-        .centerVertically(),
-    });
-
-    const overlayRef = this.overlay.create(overlayConfig);
-
-    const deleteModalPortal = new ComponentPortal(DeleteModalComponent);
-    const deleteModalRef = overlayRef.attach(deleteModalPortal);
+  openDeleteModal(user?: User) {
+    this.deleteModalRef = this.deleteModalService.open(this.viewContainerRef);
   }
-
   openViewModal(user?: User) {
     /**
      * user parameter should not be optional.
@@ -77,29 +66,6 @@ export class UserListComponent implements OnInit, OnDestroy {
       user,
     });
   }
-  // openModal() {
-  //   const overlayConfig = new OverlayConfig({
-  //     hasBackdrop: true,
-  //     backdropClass: 'cdk-overlay-dark-backdrop',
-  //     positionStrategy: this.overlay
-  //       .position()
-  //       .global()
-  //       .centerHorizontally()
-  //       .centerVertically(),
-  //   });
-
-  //   const overlayRef = this.overlay.create(overlayConfig);
-
-  //   const modalPortal = new ComponentPortal(ViewModalComponent);
-  //   const deleteModalPortal = new ComponentPortal(DeleteModalComponent);
-  //   overlayRef.attach(modalPortal);
-  //   overlayRef.attach(deleteModalPortal);
-  // }
-  // activeView = 'general';
-
-  // toggleView(view: string) {
-  //   this.activeView = view;
-  // }
 
   onPageChange(page: number): void {
     this.currentPage = page;
@@ -124,23 +90,22 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     const endIndex = startIndex + this.itemsPerPage;
 
-    this.usersService.getUsers().subscribe(
-      (response: any) => {
+    this.usersService.getUsers().subscribe({
+      next: (response: any) => {
         const users = response.users || response.data;
         if (Array.isArray(users)) {
           this.users = users.slice(startIndex, endIndex) as User[];
-          this.totalUsers = users.length;
           this.totalPages = Math.ceil(users.length / this.itemsPerPage);
         } else {
           console.error('Invalid response format for users:', users);
         }
       },
-      error => {
+      error: error => {
         console.error('Error fetching users:', error);
       },
-      () => {
+      complete: () => {
         this.loading = false;
-      }
-    );
+      },
+    });
   }
 }

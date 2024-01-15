@@ -1,1 +1,13 @@
-<p>delete-modal works!</p>
+<div [class]="modalClasses">
+  <header>
+    <span (click)="close()">
+      <img src="assets/images/user/x-close.svg" alt="close icon" />
+    </span>
+    <h2>Confirm Deletion</h2>
+    <div class="delete-description">
+      <p>Are you sure you want to delete this This action cannot be undone.</p>
+    </div>
+  </header>
+</div>
+
+<div [class]="backdropClasses" (click)="close()"></div>

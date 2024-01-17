@@ -20,7 +20,8 @@
     class="search-input"
     id="search"
     placeholder="Search for individuals or specialization"
-    list="projectsList" />
+    [(ngModel)]="searchQuery"
+    (input)="onSearchInput()" />
 
   <div *ngIf="loading; else userList">
     <div class="spinner-dots">
@@ -34,11 +35,19 @@
 
   <ng-template #userList>
     <div *ngIf="bookableUsers.length > 0" class="dropdown-list-item">
-      <div *ngFor="let user of bookableUsers">
+      <div *ngFor="let user of bookableUsers" class="group-item">
+        <img
+          src="assets/images/user/avatar.svg"
+          class="profile-picture"
+          alt="profile" />
         <div class="info">
           <p class="name">{{ user.firstName }} {{ user.lastName }}</p>
-          <p class="position">{{ user.specializations.join(', ') }}</p>
-          <p class="position">{{ user.specializations }}</p>
+          <p class="position">
+            <span
+              *ngFor="let specialization of user.specializations[0] | keyvalue">
+              {{ specialization.value }}
+            </span>
+          </p>
         </div>
       </div>
     </div>

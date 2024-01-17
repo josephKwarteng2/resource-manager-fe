@@ -16,6 +16,7 @@
           <th>Email</th>
           <th>Role</th>
           <th>Department</th>
+          <th>Specialization</th>
           <th>Actions</th>
         </tr>
         <!-- <delete-modal
@@ -42,6 +43,17 @@
           <td>{{ user.email }}</td>
           <td>{{ user.roles }}</td>
           <td>{{ user.department }}</td>
+          <td *ngIf="user.specializations && user.specializations.length > 0">
+            <span
+              *ngFor="let specialization of user.specializations[0] | keyvalue">
+              {{ specialization.value }}
+            </span>
+          </td>
+          <td
+            *ngIf="
+              !user.specializations || user.specializations.length === 0
+            "></td>
+
           <td>
             <div
               class="dropdown-container"

@@ -99,7 +99,7 @@ label:not(.visibly-hidden) {
 
 .dropdown-list-item {
   width: 90%;
-  height: auto;
+  height: 200px;
   /* border: 1px solid red; */
   overflow-y: auto;
 }
@@ -128,12 +128,13 @@ label:not(.visibly-hidden) {
 
 .name {
   font-size: 14px;
+  color: #344054;
   /* font-weight: bold; */
 }
 
 .position {
   font-size: 14px;
-  color: #555;
+  color: #667085;
 }
 
 .button {

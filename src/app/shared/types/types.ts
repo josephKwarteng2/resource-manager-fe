@@ -28,6 +28,7 @@ export type CurrentUser = {
   skills: Skills[];
   bookable: boolean;
   created_at: string;
+  selected?: boolean;
 };
 
 /**

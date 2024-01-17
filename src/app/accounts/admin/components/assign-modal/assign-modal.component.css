@@ -102,6 +102,7 @@ label:not(.visibly-hidden) {
   height: 200px;
   /* border: 1px solid red; */
   overflow-y: auto;
+  border-radius: 1px solid #f5f6f7;
 }
 
 .group-item {
@@ -113,6 +114,12 @@ label:not(.visibly-hidden) {
   border: 1px solid #f5f6f7;
   justify-content: flex-start;
   margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.group-item.selected {
+  background-color: #f2f5ff;
 }
 
 .profile-picture {
@@ -129,6 +136,7 @@ label:not(.visibly-hidden) {
 .name {
   font-size: 14px;
   color: #344054;
+
   /* font-weight: bold; */
 }
 

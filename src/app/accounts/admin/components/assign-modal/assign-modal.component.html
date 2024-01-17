@@ -35,7 +35,10 @@
 
   <ng-template #userList>
     <div *ngIf="bookableUsers.length > 0" class="dropdown-list-item">
-      <div *ngFor="let user of bookableUsers" class="group-item">
+      <div
+        *ngFor="let user of bookableUsers"
+        class="group-item"
+        [ngClass]="{ selected: user.selected }">
         <img
           src="assets/images/user/avatar.svg"
           class="profile-picture"
@@ -49,6 +52,11 @@
             </span>
           </p>
         </div>
+        <input
+          type="checkbox"
+          name="userId"
+          value="{{ user.userId }}"
+          [(ngModel)]="user.selected" />
       </div>
     </div>
   </ng-template>

@@ -47,12 +47,13 @@
               class="dropdown-container"
               *ngIf="showDropdownForUser === user">
               <ul class="dropdown-details-container">
+                <li (click)="openAssignModal(user)">Assign</li>
                 <li>Edit</li>
                 <li (click)="openViewModal(user)" style="cursor: pointer">
                   View
                 </li>
                 <li>Archive</li>
-                <li (click)="openDeleteModal()" style="cursor: pointer">
+                <li (click)="openDeleteModal(user)" style="cursor: pointer">
                   Delete
                 </li>
               </ul>
@@ -68,5 +69,8 @@
       </tbody>
     </table>
   </div>
-  <!-- <pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></pagination> -->
+  <pagination
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"></pagination>
 </ng-template>

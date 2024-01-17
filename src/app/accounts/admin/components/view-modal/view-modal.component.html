@@ -44,13 +44,17 @@
       <div class="key">Skills</div>
       <div class="value">{{ user.skills }}</div>
       <div class="key">Bookable</div>
-      <div class="value">No</div>
+      <div class="value" style="text-transform: capitalize">
+        {{ user.bookable }}
+      </div>
       <div class="key">Assigned Project</div>
       <div class="value">Capstone</div>
       <div class="key">Assigned Client</div>
       <div class="value">Joseph</div>
       <div class="key">Time Zone</div>
       <div class="value">Capstone</div>
+      <div class="key">Created At</div>
+      <div class="value">{{ user.created_at }}</div>
     </div>
     } @else if (display === 'normal-avaliability') {
     <div>

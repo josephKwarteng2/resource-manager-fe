@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
   ComponentRef,
 } from '@angular/core';
-import { User } from '../../../../shared/types/types';
+import { GenericResponse, User } from '../../../../shared/types/types';
 import { Subscription } from 'rxjs';
 import { CreateUserService } from '../../services/create-user.service';
 import { UsersService } from '../../services/users.service';
@@ -17,6 +17,9 @@ import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { ViewModalService } from '../view-modal/view-modal.service';
 import { DeleteModalService } from '../delete-modal/delete-modal.service';
+import { AssignModalComponent } from '../assign-modal/assign-modal.component';
+import { AssignModalService } from '../assign-modal/assign.service';
+
 @Component({
   selector: 'user-list',
   standalone: true,
@@ -25,6 +28,7 @@ import { DeleteModalService } from '../delete-modal/delete-modal.service';
     ViewModalComponent,
     PaginationComponent,
     DeleteModalComponent,
+    AssignModalComponent,
   ],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
@@ -32,37 +36,52 @@ import { DeleteModalService } from '../delete-modal/delete-modal.service';
 export class UserListComponent implements OnInit, OnDestroy {
   users: User[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 6;
+  itemsPerPage: number = 10;
   totalPages: number = 0;
   loading: boolean = false;
   showDropdownForUser: User | null = null;
-  totalUsers: number = 0;
 
   private dataSubscription: Subscription | undefined;
   private viewModalRef?: ComponentRef<ViewModalComponent>;
-  private deleteModalRef?: ComponentRef<DeleteModalComponent>;
+  private assignModalRef?: ComponentRef<AssignModalComponent>;
 
   constructor(
     private usersService: UsersService,
-    private userCreationService: CreateUserService,
-    private overlay: Overlay,
+    private deleteModalService: DeleteModalService,
     private viewModalService: ViewModalService,
     private viewContainerRef: ViewContainerRef,
-    private deleteModalService: DeleteModalService
+    private assignModalService: AssignModalService
   ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
   }
 
-  openDeleteModal(user?: User) {
-    this.deleteModalRef = this.deleteModalService.open(this.viewContainerRef);
+  openDeleteModal(user: User): void {
+    const modalRef = this.deleteModalService.open(this.viewContainerRef, {
+      user,
+    });
+
+    modalRef.instance.deleteConfirmedEvent.subscribe({
+      next: (response: GenericResponse) => {
+        console.log('Deletion successful:', response);
+      },
+      error: (error: any) => {
+        console.error('Error deleting user:', error);
+      },
+    });
   }
+
   openViewModal(user?: User) {
     /**
      * user parameter should not be optional.
      */
     this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
+      user,
+    });
+  }
+  openAssignModal(user?: User) {
+    this.assignModalRef = this.assignModalService.open(this.viewContainerRef, {
       user,
     });
   }

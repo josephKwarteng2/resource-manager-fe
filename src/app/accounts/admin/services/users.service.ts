@@ -25,4 +25,13 @@ export class UsersService {
       { email: email }
     );
   }
+
+  getBookableUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${BASE_URL}/users/fetch/bookable`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'skip-browser-warning',
+      },
+    });
+  }
 }

@@ -26,6 +26,8 @@ export type CurrentUser = {
   department: Departments;
   specializations: Specializations[];
   skills: [];
+  bookable: boolean;
+  created_at: string;
 };
 
 /**

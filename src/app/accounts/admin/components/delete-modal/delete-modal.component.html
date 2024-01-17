@@ -7,9 +7,11 @@
       </span>
     </div>
   </header>
-  <div class="delete-description">
-    <p>{{ user?.firstName }} {{ user?.lastName }}</p>
-    <p>Email: {{ user?.email }}</p>
+  <div class="delete-content">
+    <p>
+      Are you sure you want to delete {{ user?.firstName }}
+      {{ user?.lastName }} and email {{ user?.email }}? This cannot be undone.
+    </p>
   </div>
 
   <div class="buttons-wrapper">
@@ -20,7 +22,8 @@
     </button>
     <button
       type="submit"
-      class="delete-button bg-[#ff574d] text-white hover:bg-[#e64e45]">
+      class="delete-button bg-[#ff574d] text-white hover:bg-[#e64e45]"
+      (click)="submit()">
       Delete
     </button>
   </div>

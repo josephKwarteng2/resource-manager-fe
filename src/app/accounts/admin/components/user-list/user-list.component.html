@@ -1,3 +1,10 @@
+<div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+</div>
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
 <ng-container *ngIf="loading; else userList">
   <div class="spinner-dots">
     <div class="custom-spinner">
@@ -64,7 +71,7 @@
                 <li (click)="openViewModal(user)" style="cursor: pointer">
                   View
                 </li>
-                <li>Archive</li>
+                <li (click)="archiveUser(user.email)">Archive</li>
                 <li (click)="openDeleteModal(user)" style="cursor: pointer">
                   Delete
                 </li>

@@ -7,6 +7,7 @@ import { ButtonNewComponent } from '../../../user/components/button-new/button-n
 import { UserListComponent } from '../../components/user-list/user-list.component';
 import { UsercreationComponent } from '../usercreation/usercreation.component';
 import { ManagerUsercreationComponent } from '../../../manager/pages/manager-usercreation/manager-usercreation.component';
+import { ArchivedListComponent } from '../../components/archived-list/archived-list.component';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +21,7 @@ import { ManagerUsercreationComponent } from '../../../manager/pages/manager-use
     UserListComponent,
     UsercreationComponent,
     ManagerUsercreationComponent,
+    ArchivedListComponent,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',

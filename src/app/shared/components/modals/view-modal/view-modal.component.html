@@ -22,24 +22,17 @@
   <hr />
   <main>
     <div class="toggles">
-      <h3
-        [class]="display === 'general' ? 'active' : ''"
-        (click)="display = 'general'">
+      <h3 [class]="display === 'general' ? 'active' : ''" (click)="display = 'general'">
         General
       </h3>
-      <h3
-        [class]="display !== 'general' ? 'active' : ''"
-        (click)="display = 'normal-avaliability'">
+      <h3 [class]="display !== 'general' ? 'active' : ''" (click)="display = 'normal-avaliability'">
         Normal Availability
       </h3>
     </div>
     @if (display === 'general') {
     <div class="d-grid">
       <div class="key">Specialization</div>
-      <!-- <div class="value">{{ user.specializations }}</div> -->
-      <div
-        class="value"
-        style="text-transform: capitalize"
+      <div class="value" style="text-transform: capitalize"
         *ngFor="let specialization of user.specializations[0] | keyvalue">
         {{ specialization.value }}
       </div>
@@ -47,7 +40,8 @@
       <div class="value">{{ user.roles }}</div>
       <div class="key">Phone Number</div>
       <div class="value">{{ user.phoneNumber }}</div>
-      <div class="key">Skills</div>
+      <div class="key">Skill</div>
+
       <div class="value" *ngFor="let skill of user.skills[0] | keyvalue">
         {{ skill.value }}
       </div>

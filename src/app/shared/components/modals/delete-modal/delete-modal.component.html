@@ -23,7 +23,9 @@
     <button
       type="submit"
       class="delete-button bg-[#ff574d] text-white hover:bg-[#e64e45]"
-      (click)="submit()">
+      (deleteConfirmedEvent)="deleteUser()"
+      (cancelEvent)="closeDeleteModal()"
+      (click)="deleteUser()">
       Delete
     </button>
   </div>

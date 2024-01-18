@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../../../../shared/types/types';
-import { UsersService } from '../../services/users.service';
+import { User } from '../../../types/types';
+import { UsersService } from '../../../../accounts/admin/services/users.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -62,6 +62,14 @@ export class AssignModalComponent {
     this.fetchBookableUsers();
   }
 
+  /**
+   * The service being used by this should be able to take a query parameter as an argument and return
+   * the users that match the query
+   *
+   * @example this.usersService.getBookableUsers(this.searchQuery).subscribe(...)
+   *
+   * so that the  User array can be updated dynamically as the user types in the search bar
+   */
   fetchBookableUsers(): void {
     this.loading = true;
     this.usersService.getBookableUsers().subscribe({
@@ -76,6 +84,7 @@ export class AssignModalComponent {
       error: error => {
         console.log('Error fetching users:', error);
       },
+
       complete: () => {
         this.loading = false;
         this.cdr.detectChanges();

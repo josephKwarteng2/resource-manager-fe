@@ -1,5 +1,6 @@
+/**********  Modal **********/
 .modal {
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -23,7 +24,7 @@
 }
 
 .backdrop {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(203, 212, 225, 0.4);
@@ -58,9 +59,10 @@ span {
 }
 
 main > div:last-of-type {
-  min-height: 128px;
+  min-height: 294px;
 }
 
+/**********  User Details **********/
 h2 {
   font-size: 1.375rem;
   margin-top: -20px;
@@ -116,6 +118,7 @@ div.user-details {
   }
 }
 
+/**********  General **********/
 .d-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -153,6 +156,7 @@ div.user-details {
   }
 }
 
+/**********  Normal Availability **********/
 h5 {
   font-size: 1rem;
   color: #3d4a5c;

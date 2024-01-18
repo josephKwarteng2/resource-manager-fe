@@ -9,8 +9,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DeleteModalComponent } from './delete-modal.component';
-import { User, GenericResponse } from '../../../../shared/types/types';
-import { UsersService } from '../../services/users.service';
+import { User, GenericResponse } from '../../../types/types';
+import { UsersService } from '../../../../accounts/admin/services/users.service';
 import { tap, finalize, EMPTY } from 'rxjs';
 
 @Injectable({

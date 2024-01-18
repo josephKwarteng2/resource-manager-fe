@@ -7,13 +7,13 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { ViewModalComponent } from './view-modal.component';
-import { User } from '../../../../shared/types/types';
+import { AssignModalComponent } from './assign-modal.component';
+import { User } from '../../../types/types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ViewModalService {
+export class AssignModalService {
   constructor(
     private injector: Injector,
     @Inject(DOCUMENT) private document: Document
@@ -21,7 +21,7 @@ export class ViewModalService {
 
   open(viewContainerRef: ViewContainerRef, options?: { user?: User }) {
     const modalComponentRef = viewContainerRef.createComponent(
-      ViewModalComponent,
+      AssignModalComponent,
       {
         injector: this.injector,
       }
@@ -29,7 +29,7 @@ export class ViewModalService {
     if (options?.user) {
       modalComponentRef.instance.user = options.user;
     }
-    modalComponentRef.instance.closeEvent.subscribe(() =>
+    modalComponentRef.instance.closeAssignEvent.subscribe(() =>
       this.closeModal(modalComponentRef)
     );
     modalComponentRef.instance.submitEvent.subscribe(() =>
@@ -40,7 +40,7 @@ export class ViewModalService {
     return modalComponentRef;
   }
 
-  closeModal(modalComponentRef: ComponentRef<ViewModalComponent>) {
+  closeModal(modalComponentRef: ComponentRef<AssignModalComponent>) {
     /**
      * This timer is to make the modal fade out before destroying it
      */
@@ -49,7 +49,7 @@ export class ViewModalService {
     }, 400);
   }
 
-  submitModal(modalComponentRef: ComponentRef<ViewModalComponent>) {
+  submitModal(modalComponentRef: ComponentRef<AssignModalComponent>) {
     modalComponentRef.destroy();
   }
 }

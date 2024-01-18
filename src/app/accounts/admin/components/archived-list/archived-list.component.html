@@ -1,0 +1,84 @@
+<ng-container *ngIf="loading; else userList">
+  <div class="spinner-dots">
+    <div class="custom-spinner">
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #userList>
+  <div class="user-list-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Department</th>
+          <th>Specialization</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let archiveduser of archivedUsers">
+          <td style="display: flex">
+            <input
+              type="checkbox"
+              [checked]="false"
+              style="
+                width: 20px;
+                height: 20px;
+                margin-right: 8px;
+                font-family: 'LexendMedium';
+                color: #022f54;
+              " />
+            {{ archiveduser.firstName }} {{ archiveduser.lastName }}
+          </td>
+          <td>{{ archiveduser.email }}</td>
+          <td>{{ archiveduser.roles }}</td>
+          <td>{{ archiveduser.department }}</td>
+          <td
+            *ngIf="
+              archiveduser.specializations &&
+              archiveduser.specializations.length > 0
+            ">
+            <span
+              *ngFor="
+                let specialization of archiveduser.specializations[0] | keyvalue
+              ">
+              {{ specialization.value }}
+            </span>
+          </td>
+          <td
+            *ngIf="
+              !archiveduser.specializations ||
+              archiveduser.specializations.length === 0
+            "></td>
+          <td
+            *ngIf="
+              !archiveduser.specializations ||
+              archiveduser.specializations.length === 0
+            "></td>
+
+          <td>
+            <div
+              class="dropdown-container"
+              *ngIf="showDropdownForUser === archiveduser">
+              <ul class="dropdown-details-container">
+                <li (click)="restoreUser(archiveduser.email)">Restore</li>
+                <li>Delete</li>
+              </ul>
+            </div>
+
+            <button class="actions-btn" (click)="toggleDropdown(archiveduser)">
+              <div class="actions-dot">
+                <img src="assets/images/user/dots-v.svg" alt="dots" />
+              </div>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>

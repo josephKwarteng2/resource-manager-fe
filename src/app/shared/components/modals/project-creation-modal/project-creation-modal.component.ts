@@ -47,9 +47,13 @@ export class ProjectCreationModalComponent implements OnInit{
     this.formData = this.fb.group({
       details: [''],
       name: [''],
-      client: [''],
+      clientId: [''],
       date: [''],
       clientSearch: [''],
+      startDate: [''],
+      endDate: [''],
+      projectType: [''],
+      billable: [''],
     });
   }
 
@@ -59,6 +63,26 @@ export class ProjectCreationModalComponent implements OnInit{
     this.error = false;
     this.errorMessages = {};
     if (this.formData.valid) {
+      const formDataValue = this.formData.value;
+      const startDate = formDataValue['start-date'];
+      const endDate = formDataValue['end_date'];
+      const projectStatus = formDataValue['project-status'];
+      const billable = formDataValue['billable'];
+
+      // Convert 'billable' to boolean
+      const isBillable = billable === 'on';
+
+      // Prepare data to be sent to the service
+      const projectData = {
+        details: formDataValue['details'],
+        name: formDataValue['name'],
+        client: formDataValue['client'],
+        date: formDataValue['date'],
+        startDate: startDate,
+        endDate: endDate,
+        projectStatus: projectStatus,
+        billable: isBillable,
+      };
       // this.loading = true;
 
       this.projectcreationService
@@ -127,12 +151,16 @@ export class ProjectCreationModalComponent implements OnInit{
     );
   }
   selectClient(client: ClientDetails): void {
-    // this.formData.patchValue({ clientSearch: client.name });
-    if(this.formData.get('clientSearch')){
-    this.formData.get('clientSearch')!.setValue(client.name);
-    this.showClientDropdown = false;
- 
-  }
+    if (this.formData.get('clientSearch')) {
+      // Update the form control 'clientId' with the selected client's ID
+      this.formData.get('clientId')!.setValue(client.clientId);
+  
+      // Update the 'clientSearch' control to display the client's name
+      this.formData.get('clientSearch')!.setValue(client.name);
+  
+      // Hide the client dropdown
+      this.showClientDropdown = false;
+    }
   }
 
 }

@@ -11,7 +11,7 @@ export class UsersService {
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${BASE_URL}/users/fetch/?query=20`, {
+    return this.http.get<User[]>(`${BASE_URL}/users/fetch/?query=`, {
       headers: {
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'skip-browser-warning',

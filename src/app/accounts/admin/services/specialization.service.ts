@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { BASE_URL } from '../../../../environment/config';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { SpecializationModalComponent } from '../components/specialization-modal/specialization-modal.component';
+import { SpecializationModalComponent } from '../../../shared/components/modals/specialization-modal/specialization-modal.component';
 
 import { HttpClient } from '@angular/common/http';
 import { specializationResponse } from '../interfaces';

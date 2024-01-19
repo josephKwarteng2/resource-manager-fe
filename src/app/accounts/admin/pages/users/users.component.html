@@ -8,12 +8,14 @@
     </div>
   </header>
   <div class="toggles">
-    <h3 [class]="display === 'all' ? 'active' : ''" (click)="display = 'all'">
+    <h3
+      [class]="display === 'all' ? 'active' : ''"
+      (click)="toggleDisplay('all')">
       All
     </h3>
     <h3
       [class]="display !== 'all' ? 'active' : ''"
-      (click)="display = 'archives'">
+      (click)="toggleDisplay('archives')">
       Archives
     </h3>
   </div>

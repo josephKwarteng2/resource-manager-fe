@@ -10,6 +10,7 @@
   margin: auto;
   width: 45%;
 }
+
 .global-formfield-right {
   grid-column: 4 / 13;
   display: flex;
@@ -26,6 +27,7 @@
   margin: 12px 0px;
 }
 
+/* to do */
 .global-button-auth {
   padding: 0.75rem 1rem;
   width: 100%;

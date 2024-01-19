@@ -21,6 +21,7 @@ h1 {
   font-size: 0.8rem;
   display: flex;
   border-bottom: 1.5px solid #e4e7ec;
+  gap: 20px;
 
   & > h3 {
     padding: 16px 18px 16px 18px;

@@ -32,6 +32,10 @@ export class UsersComponent {
   closed: boolean = false;
   opening: boolean = true;
 
+  toggleDisplay(view: 'all' | 'archives'): void {
+    this.display = view;
+  }
+
   openUserCreationModal() {
     this.userCreationModalOpen = true;
   }

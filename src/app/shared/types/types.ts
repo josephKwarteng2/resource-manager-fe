@@ -38,9 +38,6 @@ export type CurrentUser = {
  */
 export interface User extends CurrentUser {}
 
-/**
- * @description you can use this type, anywhere the response is not of utmost importance
- */
 export type GenericResponse = {
   success: boolean;
   message: string;

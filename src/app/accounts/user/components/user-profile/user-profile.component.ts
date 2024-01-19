@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { SettingsService } from '../../services/settings.service';
-import { UpdateUserDetailsResponse } from '../../../../auth/types/auth-types';
 import { Router } from '@angular/router';
 import { validPhoneNumber } from '../../../../auth/validators/invalidphonenumber';
 import { selectCurrentUser } from '../../../../auth/store/authorization/AuthReducers';
@@ -44,11 +43,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   specializations!: Specializations[];
   departments!: Departments[];
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private settingsService: SettingsService
-  ) {}
+  constructor(private store: Store, private settingsService: SettingsService) {}
 
   ngOnInit(): void {
     this.userDetails = new FormGroup({
@@ -94,6 +89,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  // write types for the names and call it here
   getNameErrors(name: 'firstName' | 'lastName') {
     const control = this.userDetails.get(name);
     if (control?.invalid && (control.dirty || control.touched)) {
@@ -134,19 +130,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       reader.onload = (event: any) => {
         this.imgUrl = event.target.result;
       };
-
-      /**
-       * Profile picture should be a string
-       */
-      // this.userDetails.patchValue({
-      //   profilePicture: file,
-      // });
     }
   }
 
-  /**
-   * setvalues() is called on instanciaion to replace all the values with data from state
-   */
   setValues() {
     if (this.user) {
       this.userDetails.patchValue({
@@ -182,10 +168,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       console.error('User details not available.');
       return;
     }
-
-    /**
-     * Email is intentionally omitted from the request body
-     */
 
     const { firstName, lastName, phoneNumber } = this.userDetails.value;
     const reqBody = {

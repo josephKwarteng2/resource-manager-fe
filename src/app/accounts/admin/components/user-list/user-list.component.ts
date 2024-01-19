@@ -19,6 +19,8 @@ import { ViewModalService } from '../../../../shared/components/modals/view-moda
 import { DeleteModalService } from '../../../../shared/components/modals/delete-modal/delete-modal.service';
 import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
+import { DropdownService } from '../../../../shared/components/dropdown/dropdown.service';
+import { DropdownComponent } from '../../../../shared/components/dropdown/dropdown.component';
 
 @Component({
   selector: 'user-list',
@@ -42,60 +44,38 @@ export class UserListComponent implements OnInit, OnDestroy {
   showDropdownForUser: User | null = null;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  totalUsers: number = 0;
 
   private dataSubscription: Subscription | undefined;
   private viewModalRef?: ComponentRef<ViewModalComponent>;
   private assignModalRef?: ComponentRef<AssignModalComponent>;
+  private dropdownRef?: ComponentRef<DropdownComponent>;
 
   constructor(
     private usersService: UsersService,
-    private deleteModalService: DeleteModalService,
-    private viewModalService: ViewModalService,
-    private viewContainerRef: ViewContainerRef,
-    private assignModalService: AssignModalService
+    private dropdownService: DropdownService,
+    private viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
   }
 
-  openDeleteModal(user: User): void {
-    const modalRef = this.deleteModalService.open(this.viewContainerRef, {
+  openDropdown(event: MouseEvent, user: User) {
+    const position = {
+      top: event.clientY + 20,
+      left: event.clientX - 100,
+    };
+    this.dropdownRef = this.dropdownService.open(
+      this.viewContainerRef,
       user,
-    });
-
-    modalRef.instance.deleteConfirmedEvent.subscribe({
-      next: (response: GenericResponse) => {
-        console.log('Deletion successful:', response);
-      },
-      error: (error: any) => {
-        console.error('Error deleting user:', error);
-      },
-    });
-  }
-
-  openViewModal(user?: User) {
-    /**
-     * user parameter should not be optional.
-     */
-    this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
-      user,
-    });
-  }
-  openAssignModal(user?: User) {
-    this.assignModalRef = this.assignModalService.open(this.viewContainerRef, {
-      user,
-    });
+      position
+    );
   }
 
   onPageChange(page: number): void {
     this.currentPage = page;
     this.fetchUsers();
-  }
-
-  toggleDropdown(user: User): void {
-    // Toggle the dropdown for the specified user
-    this.showDropdownForUser = this.showDropdownForUser === user ? null : user;
   }
 
   ngOnDestroy(): void {
@@ -116,6 +96,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         const users = response.users || response.data;
         if (Array.isArray(users)) {
           this.users = users.slice(startIndex, endIndex) as User[];
+          this.totalUsers = users.length;
           this.totalPages = Math.ceil(users.length / this.itemsPerPage);
         } else {
           console.error('Invalid response format for users:', users);
@@ -131,8 +112,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   archiveUser(email: string): void {
-    this.usersService.archiveUser(email).subscribe(
-      () => {
+    this.usersService.archiveUser(email).subscribe({
+      next: () => {
         this.successMessage = 'User archived successfully.';
         this.errorMessage = null;
         this.fetchUsers();
@@ -140,14 +121,14 @@ export class UserListComponent implements OnInit, OnDestroy {
           this.successMessage = null;
         }, 3000);
       },
-      error => {
+      error: error => {
         this.errorMessage = 'Error archiving user.';
         this.successMessage = null;
         console.error('Error archiving user:', error);
         setTimeout(() => {
           this.errorMessage = null;
         }, 3000);
-      }
-    );
+      },
+    });
   }
 }

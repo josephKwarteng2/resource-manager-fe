@@ -35,22 +35,16 @@ export class ViewModalComponent implements OnInit {
     this.closeEvent.emit();
   }
 
-  edit() {
-    /**
-     * do something to edit the user
-     */
-  }
+  // toggleDisplay(view: 'general' | 'normal-available'): void {
+  //   this.display = view;
+  // }
+
+  edit() {}
 
   submit() {
-    /**
-     * Access the user to make an api call before the last line
-     */
     this.submitEvent.emit();
   }
 
-  /**
-   * Just animations for modal fading in and out
-   */
   ngOnInit(): void {
     setTimeout(() => {
       this.opening = false;

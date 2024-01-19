@@ -3,8 +3,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 250px;
+  width: 350px;
+  height: 170px;
   background-color: white;
   border-radius: 12px;
   padding: 24px;
@@ -24,12 +24,12 @@
 
 header > div {
   display: flex;
-  gap: 240px;
+  gap: 80px;
 }
 
 header > div > h2 {
   font-family: 'LexendSemiBold';
-  font-size: 1.375rem;
+  font-size: 1.2rem;
 }
 
 .backdrop {

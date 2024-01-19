@@ -7,11 +7,11 @@ import {
 } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SpecializationService } from '../../services/specialization.service';
+import { SpecializationService } from '../../../../accounts/admin/services/specialization.service';
 //import { SpecializationResponse } from '../reponse.model';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { specializationResponse } from '../../interfaces';
+import { specializationResponse } from '../../../../accounts/admin/interfaces';
 import { CommonModule } from '@angular/common';
 
 @Component({

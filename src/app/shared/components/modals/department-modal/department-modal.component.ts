@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { DepartmentService } from '../../services/department.service';
+import { DepartmentService } from '../../../../accounts/admin/services/department.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

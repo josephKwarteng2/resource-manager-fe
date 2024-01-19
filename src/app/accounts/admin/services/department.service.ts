@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../../../environment/config';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DepartmentModalComponent } from '../components/department-modal/department-modal.component';
+import { DepartmentModalComponent } from '../../../shared/components/modals/department-modal/department-modal.component';
 
 @Injectable({
   providedIn: 'root',

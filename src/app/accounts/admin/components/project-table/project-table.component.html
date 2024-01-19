@@ -1,1 +1,36 @@
-<p>project-table works!</p>
+<div *ngIf="loading" class="loading-message">Loading projects...</div>
+<div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+</div>
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<div class="project-list-container">
+  <table class="project-table">
+    <thead>
+      <tr>
+        <th>Client Name</th>
+        <th>Project Name</th>
+        <th>Project Code</th>
+        <th>Assigned People</th>
+        <th>Billable</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects">
+        <td class="grid-item">{{ project.client }}</td>
+        <td class="grid-item">{{ project.name }}</td>
+        <td class="grid-item">{{ project.projectCode }}</td>
+        <td class="grid-item"></td>
+        <td class="grid-item">{{ project.billable }}</td>
+        <td class="grid-item">
+          <!-- <button class="actions-btn" (click)="deleteProject(project.projectCode)">
+            Delete
+          </button> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

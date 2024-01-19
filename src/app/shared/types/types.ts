@@ -71,3 +71,8 @@ export type InitialSig = {
   error: { message: string } | null;
   pending: boolean;
 };
+
+export type Projects = {
+  id: string;
+  name: string;
+};

@@ -15,13 +15,17 @@
   <div>
     <div>
       <label for="projectName">Project</label>
-      <input
+      <select
         #projectNameInput
         id="name"
         name="name"
-        type="text"
         class="project-input"
-        placeholder="Enter project name" />
+        [(ngModel)]="selectedProject">
+        <option value="" disabled selected>Select a project</option>
+        <option *ngFor="let project of projects" [value]="project.id">
+          {{ project.name }}
+        </option>
+      </select>
     </div>
   </div>
   <input

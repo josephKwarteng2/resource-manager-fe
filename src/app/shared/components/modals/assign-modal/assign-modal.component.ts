@@ -9,9 +9,10 @@ import {
   AfterViewInit,
   ElementRef,
 } from '@angular/core';
-import { User } from '../../../types/types';
+import { Projects, User } from '../../../types/types';
 import { UsersService } from '../../../../accounts/admin/services/users.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { ProjectsService } from '../../../../accounts/admin/services/projects.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -31,6 +32,8 @@ export class AssignModalComponent implements AfterViewInit {
   query: string = '';
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  selectedProject: string = '';
+  projects: Projects[] = [];
 
   @Output() closeAssignEvent = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<void>();
@@ -39,7 +42,8 @@ export class AssignModalComponent implements AfterViewInit {
 
   constructor(
     private usersService: UsersService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private projectsService: ProjectsService
   ) {}
 
   close() {
@@ -66,6 +70,7 @@ export class AssignModalComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     console.log('View has been initialized');
     this.fetchBookableUsers(this.query);
+    this.fetchProjects();
   }
 
   onSearchChange(event: Event): void {
@@ -91,6 +96,19 @@ export class AssignModalComponent implements AfterViewInit {
         this.loading = false;
         this.cdr.detectChanges();
       },
+    });
+  }
+
+  private fetchProjects(): void {
+    this.projectsService.fetchProjects().subscribe({
+      next: (response: any) => {
+        this.projects = response.projects || [];
+        console.log('Fetched projects:', this.projects);
+      },
+      error: error => {
+        console.error('Error fetching projects:', error);
+      },
+      complete: () => {},
     });
   }
 

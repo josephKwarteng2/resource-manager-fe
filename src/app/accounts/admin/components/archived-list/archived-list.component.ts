@@ -14,6 +14,7 @@ export class ArchivedListComponent implements OnInit {
   archivedUsers: User[] = [];
   loading: boolean = true;
   showDropdownForUser: User | null = null;
+  totalUsers: number = 0;
 
   constructor(private usersService: UsersService) {}
 
@@ -32,6 +33,7 @@ export class ArchivedListComponent implements OnInit {
         const archivedUsers = response?.archives || [];
         if (Array.isArray(archivedUsers)) {
           this.archivedUsers = archivedUsers as User[];
+          this.totalUsers = archivedUsers.length;
         } else {
           console.error('Invalid archived users format:', archivedUsers);
         }

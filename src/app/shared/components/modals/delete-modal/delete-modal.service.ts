@@ -46,21 +46,24 @@ export class DeleteModalService {
 
   private deleteConfirmed(
     modalComponentRef: ComponentRef<DeleteModalComponent>,
-    userId: string | undefined
+    userEmail: string | undefined
   ): Observable<GenericResponse> {
-    if (userId !== undefined) {
-      return this.usersService.deleteUser(userId).pipe(
-        tap(response => {
+    if (userEmail !== undefined) {
+      this.usersService.deleteUser(userEmail).subscribe(
+        response => {
           console.log(response);
-        }),
-        finalize(() => {
           this.destroyModal(modalComponentRef);
-        })
+        },
+        error => {
+          console.error('Error deleting user:', error);
+          this.destroyModal(modalComponentRef);
+        }
       );
     } else {
-      console.error('User ID is undefined');
-      return EMPTY;
+      console.error('User email is undefined');
+      this.destroyModal(modalComponentRef);
     }
+    return EMPTY;
   }
 
   cancelModal(modalComponentRef: ComponentRef<DeleteModalComponent>) {

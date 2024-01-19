@@ -44,9 +44,6 @@ export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles' > & {
  */
 export interface User extends CurrentUser {}
 
-/**
- * @description you can use this type, anywhere the response is not of utmost importance
- */
 export type GenericResponse = {
   success: boolean;
   message: string;

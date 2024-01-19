@@ -1,3 +1,4 @@
+<!-- <p class="total-users">{{ totalUsers }}</p> -->
 <div *ngIf="successMessage" class="success-message">
   {{ successMessage }}
 </div>
@@ -14,9 +15,10 @@
     </div>
   </div>
 </ng-container>
+
 <ng-template #userList>
   <div class="user-list-container">
-    <table>
+    <table class="user-table">
       <thead>
         <tr>
           <th>Name</th>
@@ -26,59 +28,31 @@
           <th>Specialization</th>
           <th>Actions</th>
         </tr>
-        <!-- <delete-modal
-          *ngIf="showDeleteModal"
-          [userEmailToDelete]="userToDeleteEmail"
-          (deleteConfirmed)="deleteUser($event)"
-          (cancel)="cancelDeleteModal()"></delete-modal> -->
       </thead>
       <tbody>
         <tr *ngFor="let user of users">
-          <td style="display: flex">
-            <input
-              type="checkbox"
-              [checked]="false"
-              style="
-                width: 20px;
-                height: 20px;
-                margin-right: 8px;
-                font-family: 'LexendMedium';
-                color: #022f54;
-              " />
+          <td class="grid-item">
+            <input type="checkbox" [checked]="false" class="checkbox-input" />
             {{ user.firstName }} {{ user.lastName }}
           </td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.roles }}</td>
-          <td>{{ user.department }}</td>
-          <td *ngIf="user.specializations && user.specializations.length > 0">
+          <td class="grid-item">{{ user.email }}</td>
+          <td class="grid-item">{{ user.roles }}</td>
+          <td class="grid-item">{{ user.department }}</td>
+          <td
+            class="grid-item"
+            *ngIf="user.specializations && user.specializations.length > 0">
             <span
               *ngFor="let specialization of user.specializations[0] | keyvalue">
               {{ specialization.value }}
             </span>
           </td>
           <td
+            class="grid-item"
             *ngIf="
               !user.specializations || user.specializations.length === 0
             "></td>
-
-          <td>
-            <div
-              class="dropdown-container"
-              *ngIf="showDropdownForUser === user">
-              <ul class="dropdown-details-container">
-                <li (click)="openAssignModal(user)">Assign</li>
-                <li>Edit</li>
-                <li (click)="openViewModal(user)" style="cursor: pointer">
-                  View
-                </li>
-                <li (click)="archiveUser(user.email)">Archive</li>
-                <li (click)="openDeleteModal(user)" style="cursor: pointer">
-                  Delete
-                </li>
-              </ul>
-            </div>
-
-            <button class="actions-btn" (click)="toggleDropdown(user)">
+          <td class="grid-item">
+            <button class="actions-btn" (click)="openDropdown($event, user)">
               <div class="actions-dot">
                 <img src="assets/images/user/dots-v.svg" alt="dots" />
               </div>

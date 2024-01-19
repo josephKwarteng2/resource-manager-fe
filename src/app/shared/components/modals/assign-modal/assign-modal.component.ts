@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';
 import { User } from '../../../types/types';
 import { UsersService } from '../../../../accounts/admin/services/users.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -12,16 +21,21 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './assign-modal.component.html',
   styleUrl: './assign-modal.component.css',
 })
-export class AssignModalComponent {
+export class AssignModalComponent implements AfterViewInit {
   @Input() user!: User;
   opening: boolean = false;
   closed: boolean = false;
   loading: boolean = false;
   bookableUsers: User[] = [];
   searchQuery: string = '';
+  query: string = '';
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   @Output() closeAssignEvent = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<void>();
+  @ViewChild('projectNameInput', { static: false })
+  projectNameInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private usersService: UsersService,
@@ -33,46 +47,35 @@ export class AssignModalComponent {
     this.closeAssignEvent.emit();
   }
 
-  edit() {
-    /**
-     * do something to edit the user
-     */
-  }
+  edit() {}
 
   submit() {
-    /**
-     * Access the user to make an api call before the last line
-     */
     this.submitEvent.emit();
+    this.assignUsersToProject();
   }
 
-  /**
-   * Just animations for modal fading in and out
-   */
   ngOnInit(): void {
     setTimeout(() => {
       this.opening = false;
     }, 100);
     console.log(this.user);
 
-    this.fetchBookableUsers();
+    this.fetchBookableUsers(this.query);
   }
 
-  onSearchInput(): void {
-    this.fetchBookableUsers();
+  ngAfterViewInit(): void {
+    console.log('View has been initialized');
+    this.fetchBookableUsers(this.query);
   }
 
-  /**
-   * The service being used by this should be able to take a query parameter as an argument and return
-   * the users that match the query
-   *
-   * @example this.usersService.getBookableUsers(this.searchQuery).subscribe(...)
-   *
-   * so that the  User array can be updated dynamically as the user types in the search bar
-   */
-  fetchBookableUsers(): void {
+  onSearchChange(event: Event): void {
+    const query = (event.target as HTMLInputElement).value;
+    this.fetchBookableUsers(query);
+  }
+
+  fetchBookableUsers(query: string): void {
     this.loading = true;
-    this.usersService.getBookableUsers().subscribe({
+    this.usersService.getBookableUsers(query).subscribe({
       next: (response: any) => {
         const bookableUsers = response.users || response.data;
         if (Array.isArray(bookableUsers)) {
@@ -84,12 +87,35 @@ export class AssignModalComponent {
       error: error => {
         console.log('Error fetching users:', error);
       },
-
       complete: () => {
         this.loading = false;
         this.cdr.detectChanges();
       },
     });
+  }
+
+  private assignUsersToProject(): void {
+    if (!this.projectNameInput || !this.projectNameInput.nativeElement) {
+      console.error('ProjectNameInput is not yet initialized.');
+      return;
+    }
+
+    const projectName = this.projectNameInput.nativeElement.value;
+    const selectedUserId = this.bookableUsers
+      .filter(user => user.selected)
+      .map(user => user.userId);
+
+    this.usersService.assignUser(projectName, selectedUserId).subscribe(
+      response => {
+        this.successMessage = response.message;
+
+        console.log('Users assigned successfully:', response);
+      },
+      error => {
+        this.errorMessage = error.message;
+        console.error('Error assigning users:', error);
+      }
+    );
   }
 
   get modalClasses() {

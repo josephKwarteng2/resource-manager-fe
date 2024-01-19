@@ -221,6 +221,30 @@ main.visible > .backdrop {
   margin-top: -20px;
 }
 
+.no-user-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 10% auto;
+  gap: 200px;
+}
+
+.no-user p {
+  font-size: 32px;
+  display: block;
+  /* font-size: 16px; */
+  /* font-weight: 600; */
+  color: #1a212b;
+}
+
+.image-illustration img {
+  width: 300px;
+  height: auto;
+  margin-top: 20px;
+}
+
 .modal-content img {
   width: 80px;
   height: 80px;
@@ -398,6 +422,28 @@ main.visible > .backdrop {
     width: 123px;
     height: 76px;
     border-radius: 8px 8px 0px 0px;
+  }
+
+  .no-user-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 8% auto;
+    gap: 200px;
+  }
+
+  .no-user p {
+    font-size: 32px;
+    display: block;
+    color: #1a212b;
+  }
+
+  .image-illustration img {
+    width: 240px;
+    height: auto;
+    margin-top: 20px;
   }
 
   ul {

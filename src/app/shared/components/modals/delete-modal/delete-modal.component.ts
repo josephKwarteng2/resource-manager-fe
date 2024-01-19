@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { User } from '../../../types/types';
+import { User, GenericResponse } from '../../../types/types';
 import { UsersService } from '../../../../accounts/admin/services/users.service';
 @Component({
   selector: 'delete-modal',
@@ -11,11 +11,12 @@ import { UsersService } from '../../../../accounts/admin/services/users.service'
 })
 export class DeleteModalComponent {
   @Input() user!: User | undefined;
-  @Input() userToDelete!: User | undefined;
   users: User[] = [];
   closed: boolean = false;
   opening: boolean = true;
-
+  loading: boolean = false;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
   showDeleteModal = false;
 
   constructor(private usersService: UsersService) {}
@@ -51,30 +52,49 @@ export class DeleteModalComponent {
   }
 
   openDeleteModal(user: User): void {
-    this.userToDelete = user;
+    // this.userToDelete = user;
     this.showDeleteModal = true;
   }
 
   closeDeleteModal(): void {
-    this.userToDelete = undefined;
+    // this.userToDelete = undefined;
     this.showDeleteModal = false;
   }
 
-  deleteUser(): void {
-    if (this.userToDelete) {
-      this.usersService.deleteUser(this.userToDelete.email).subscribe(
-        () => {
-          console.log('User deleted successfully.');
-          this.fetchUsers();
-          this.closeDeleteModal();
-        },
-        error => {
-          console.error('Error deleting user:', error);
-        }
-      );
+  confirmDeletion(): void {
+    if (this.user?.email) {
+      this.deleteUser(this.user.email);
     }
+    this.deleteConfirmedEvent.emit();
   }
 
+  deleteUser(email: string): void {
+    this.loading = true;
+    this.successMessage = null;
+    this.errorMessage = null;
+
+    this.usersService.deleteUser(email).subscribe({
+      next: () => {
+        this.successMessage = 'User archived successfully';
+        this.errorMessage = null;
+        this.fetchUsers();
+        setTimeout(() => {
+          this.successMessage = null;
+        }, 1000);
+      },
+      error: error => {
+        this.errorMessage = 'Error archiving user.';
+        this.successMessage = null;
+        console.error('Error archiving user:', error);
+        setTimeout(() => {
+          this.errorMessage = null;
+        }, 3000);
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
+  }
   get modalClasses() {
     return {
       [`modal`]: true,

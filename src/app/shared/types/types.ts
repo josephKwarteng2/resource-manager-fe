@@ -31,6 +31,12 @@ export type CurrentUser = {
   selected?: boolean;
 };
 
+export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles' > & {
+  skills: string;
+  department: string;
+  specializations : string;
+};
+
 /**
  * @description
  * Yes CurrentUser is the same as User, but it may be used in different contexts where typing an object
@@ -45,6 +51,17 @@ export type GenericResponse = {
   success: boolean;
   message: string;
 };
+
+export type ClientDetails = {
+  name: string;
+  details: string;
+  employees: string[];
+  totalProjects: number;
+
+}
+export type ProjectDetails = Pick<ClientDetails, 'name' | 'details' > & {
+  date: Date;
+  }
 
 export interface UserNotifications {
   created_by: string;

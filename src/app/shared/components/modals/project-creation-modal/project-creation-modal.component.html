@@ -67,7 +67,7 @@
           class="self-stretch flex justify-between gap-5 px-px items-start max-md:max-w-full max-md:flex-wrap">
           <div
             class="text-slate-700 text-1xl font-semibold leading-6 grow shrink basis-auto">
-            Add Client
+            Add Project
           </div>
           <button>
             <img
@@ -139,10 +139,12 @@
                 *ngFor="let client of filteredClients"
                 (click)="selectClient(client)">
                 {{ client.name }}
+                <input type="hidden" formControlName="clientId" />
               </li>
             </ul>
           </div>
         </div>
+
 
         <div
           class="text-red-500 text-xs leading-5 self-stretch py-2 w-full mr-2.5 mt-2 max-md:max-w-full">
@@ -181,14 +183,14 @@
           <div class="flex flex-col mr-2.5 mt-2 max-md:max-w-full">
             <div
               class="text-red-500 text-xs leading-5 self-stretch py-2 w-full">
-              <label for="start-date" class="text-slate-700">Start date</label>
+              <label for="startDate" class="text-slate-700">Start date</label>
             </div>
             <div class="dates">
               <input
-                formControlName="start-date"
+                formControlName="startDate"
                 type="date"
-                id="start-date"
-                name="start-date"
+                id="startDate"
+                name="startDate"
                 placeholder=""
                 class="text-slate-500 text-base leading-6 grow shrink basis-auto w-full py-1 focus:border-white" />
             </div>
@@ -198,14 +200,14 @@
           <div class="flex flex-col mr-2.5 mt-2 max-md:max-w-full">
             <div
               class="text-red-500 text-xs leading-5 self-stretch py-2 w-full">
-              <label for="end_date" class="text-slate-700">End date</label>
+              <label for="endDate" class="text-slate-700">End date</label>
             </div>
             <div class="dates">
               <input
-                formControlName="end_date"
+                formControlName="endDate"
                 type="date"
-                id="end_date"
-                name="end_date"
+                id="endDate"
+                name="endDate"
                 placeholder=""
                 class="end-date text-slate-500 text-base leading-6 grow shrink basis-auto w-full py-1 focus:border-white" />
             </div>
@@ -213,31 +215,33 @@
         </div>
      
         <div class="text-red-500 text-xs leading-5 self-stretch pt-6 w-full">
-          <label for="end_date" class="text-slate-700">Project Status</label>
+          <label for="ProjectType" class="text-slate-700">Project Status</label>
         </div>
         <div class="flex justify-start items-start py-1 w-full">
           <div class="flex items-center me-4">
             <input
+              formControlName="projectType"
               id="internal-radio"
               type="radio"
-              value=""
-              name="internal-radio"
+              value="Internal"
+              name="projectType"
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
             <label
-              for="inline-radio"
+              for="Internal"
               class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >Internal</label
             >
           </div>
           <div class="flex items-center me-4">
             <input
-              id="inline-2-radio"
+            formControlName="projectType"
+              id="external-radio"
               type="radio"
-              value=""
-              name="inline-radio-group"
+              value="External"
+              name="projectType"
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
             <label
-              for="inline-2-radio"
+              for="External"
               class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >External</label
             >
@@ -249,7 +253,7 @@
         >
         <div class="flex justify-start items-start w-full">
           <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" class="sr-only peer" checked />
+            <input type="checkbox"formControlName="billable" value="on" name="billable" class="sr-only peer" checked />
             <div
               class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
           </label>

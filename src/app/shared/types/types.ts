@@ -51,6 +51,7 @@ export type GenericResponse = {
 
 export type ClientDetails = {
   name: string;
+  clientId: string;
   details: string;
   employees: string[];
   totalProjects: number;
@@ -58,6 +59,10 @@ export type ClientDetails = {
 }
 export type ProjectDetails = Pick<ClientDetails, 'name' | 'details' > & {
   date: Date;
+  client: string;
+  projectCode: string;
+  projectName: string;
+  billable: Boolean;
   }
 
 export interface UserNotifications {

@@ -19,11 +19,12 @@ import {
   selectUpdateUserPassword,
 } from '../../../../auth/store/authorization/AuthReducers';
 import { Subscription } from 'rxjs';
+import { GlobalInputComponent } from '../../../../shared/components/global-input/global-input.component';
 
 @Component({
   selector: 'new-password-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, GlobalInputComponent],
   templateUrl: './new-password-form.component.html',
   styleUrls: [
     './new-password-form.component.css',
@@ -32,7 +33,7 @@ import { Subscription } from 'rxjs';
 })
 export class NewPasswordFormComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
-  resetPasswordForm!: FormGroup;
+  setNewPasswordForm!: FormGroup;
   setupProgress!: SetupProgress;
   @Input() userDetails!: {
     accessToken: string;
@@ -52,7 +53,7 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.resetPasswordForm = new FormGroup(
+    this.setNewPasswordForm = new FormGroup(
       {
         password: new FormControl('', [
           Validators.required,
@@ -90,7 +91,7 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
   }
 
   getPasswordErrors() {
-    const control = this.resetPasswordForm.get('password');
+    const control = this.setNewPasswordForm.get('password');
     if (control?.invalid && (control.dirty || control.touched)) {
       if (control.hasError('required')) {
         return "Password can't be empty";
@@ -105,7 +106,7 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
   }
 
   getConfirmPasswordErrors() {
-    const control = this.resetPasswordForm;
+    const control = this.setNewPasswordForm;
     if (control?.invalid && (control.dirty || control.touched)) {
       if (control.hasError('passwordMismatch')) {
         return 'Passwords do not match';
@@ -126,7 +127,7 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
   }
 
   updatePasswordStrength() {
-    const passwordControl = this.resetPasswordForm.get('password');
+    const passwordControl = this.setNewPasswordForm.get('password');
     if (passwordControl?.errors?.['passwordStrength']) {
       this.passwordStrength = passwordControl.errors['passwordStrength'];
     } else {
@@ -144,11 +145,10 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
 
   submitForm(event: Event) {
     event.preventDefault();
-    const credentials = this.resetPasswordForm.value;
+    const credentials = this.setNewPasswordForm.value;
     const { email, userId } = this.userDetails;
 
-    if (this.resetPasswordForm.valid === true) {
-      //send this to the backend
+    if (this.setNewPasswordForm.valid === true) {
       const reqBody = {
         ...credentials,
         email,

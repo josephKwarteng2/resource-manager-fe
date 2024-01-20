@@ -38,18 +38,14 @@ export class HeaderComponent implements OnInit {
     this.notificationService.getNotifications().subscribe(
       (response: any) => {
         const notifications = response.notifications || response.data;
-        console.log(notifications);
         if (Array.isArray(notifications)) {
           this.notifications = notifications as UserNotifications[];
-          // this.hasNewNotifications = this.notifications.some(
-          //   notification => !notification.isRead
-          // );
         } else {
-          console.log('Invalid notifications format for users', notifications);
+          notifications;
         }
       },
       error => {
-        console.log('Error fetching users', error);
+        error;
       }
     );
   }
@@ -60,20 +56,17 @@ export class HeaderComponent implements OnInit {
         const currentUser = response.user;
         this.notificationService.markAllAsRead(currentUser.email).subscribe(
           (markAsReadResponse: any) => {
-            console.log(
-              'Marked all notifications as read:',
-              markAsReadResponse
-            );
+            markAsReadResponse;
+
             this.fetchNotifications();
           },
           error => {
-            console.log('Error marking notifications as read', error);
+            error;
           }
         );
-        console.log('email', currentUser.email);
       },
       error => {
-        console.log('Error fetching current user', error);
+        error;
       }
     );
   }

@@ -14,6 +14,8 @@ import { User } from '../../../types/types';
   providedIn: 'root',
 })
 export class AssignModalService {
+  private onSelectCallback: ((selectedUsers: User[]) => void) | null = null;
+
   constructor(
     private injector: Injector,
     @Inject(DOCUMENT) private document: Document
@@ -35,6 +37,14 @@ export class AssignModalService {
     modalComponentRef.instance.submitEvent.subscribe(() =>
       this.submitModal(modalComponentRef)
     );
+
+    modalComponentRef.instance.selectedUsersEvent.subscribe(
+      (selectedUsers: User[]) => {
+        if (this.onSelectCallback) {
+          this.onSelectCallback(selectedUsers);
+        }
+      }
+    );
     this.document.body.appendChild(modalComponentRef.location.nativeElement);
 
     return modalComponentRef;
@@ -51,5 +61,16 @@ export class AssignModalService {
 
   submitModal(modalComponentRef: ComponentRef<AssignModalComponent>) {
     modalComponentRef.destroy();
+  }
+
+  private handleSelect(selectedUsers: User[]) {
+    if (this.onSelectCallback) {
+      this.onSelectCallback(selectedUsers);
+    }
+  }
+
+  // Expose a method to set the onSelect callback
+  setOnSelectCallback(callback: (selectedUsers: User[]) => void) {
+    this.onSelectCallback = callback;
   }
 }

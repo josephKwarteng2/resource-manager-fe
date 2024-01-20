@@ -16,6 +16,7 @@ export type SendOtp = {
 
 export type SendOtpResponse = {
   message: string;
+  isSubmitting: boolean;
   user: {
     email: string;
     userId: string;

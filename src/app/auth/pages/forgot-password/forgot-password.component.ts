@@ -28,6 +28,7 @@ import { Subscription } from 'rxjs';
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   formField: InputFields = 'email';
+  successMessage: string | null = null;
 
   constructor(private resetToggleService: ResetToggleService) {}
 

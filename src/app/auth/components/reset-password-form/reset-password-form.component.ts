@@ -28,11 +28,17 @@ import {
   ResetPasswordError,
 } from '../../types/reset-types';
 import { Subscription } from 'rxjs';
+import { GlobalInputComponent } from '../../../shared/components/global-input/global-input.component';
 
 @Component({
   selector: 'reset-password-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    GlobalInputComponent,
+  ],
   templateUrl: './reset-password-form.component.html',
   styleUrls: ['./reset-password-form.component.css', '../../styles/styles.css'],
 })
@@ -59,6 +65,7 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
         password: new FormControl('', [
           Validators.required,
           Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/),
         ]),
         password_confirmation: new FormControl('', [
           Validators.required,
@@ -72,7 +79,6 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
 
     const storeSubscription$ = this.store.select(selectResponse).subscribe({
       next: res => {
-        console.log(res);
         if ((res as ResetPasswordResponse).accessToken) {
           this.successMessage = res?.message;
         }
@@ -80,7 +86,6 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
       },
       error: err => {
         this.errors.message = err;
-        console.log(err);
       },
     });
 
@@ -106,11 +111,12 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     if (control?.invalid && (control.dirty || control.touched)) {
       if (control.hasError('required')) {
         return "Password can't be empty";
+      } else if (control.hasError('pattern')) {
+        return 'Password must have at least one uppercase, one lowercase and a number';
       } else if (control.hasError('minlength')) {
         return 'Password must be at least 8 characters';
       }
     }
-
     return '';
   }
 
@@ -152,6 +158,10 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     };
   }
 
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   submitForm(event: Event) {
     event.preventDefault();
     const credentials = this.resetPasswordForm.value;
@@ -164,16 +174,11 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
       email,
     };
 
-    console.log(requestBody);
     if (this.resetPasswordForm.valid) {
-      console.log(requestBody);
       this.store.dispatch(ResetActions.resetPassword(requestBody));
     }
   }
 
-  /**
-   * Cleanup subscriptions
-   */
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => {
       subscription.unsubscribe();

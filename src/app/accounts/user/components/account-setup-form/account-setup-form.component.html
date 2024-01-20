@@ -1,25 +1,23 @@
 <h2>Welcome</h2>
 <p>Finish setting up your RM.io account</p>
 <form (submit)="submitForm($event)" [formGroup]="userDetails">
-  <!------    Profile picture   ------>
   <div class="profile-picture">
     <img [src]="imgUrl" alt="profile picture" />
     <label for="image" class="visibly-hidden">Profile picture</label>
-    <input
-      type="file"
-      id="image"
-      name="image"
+    <global-input
+      [type]="'file'"
+      [id]="'image'"
+      [name]="'image'"
       (change)="onFileChange($event)"
       accept=".jpg,.jpeg,.png" />
   </div>
 
-  <!------    Email field    ------>
   <label for="email" class="form-label">Email</label>
-  <input
-    id="email"
-    type="email"
+  <global-input
+    [id]="'email'"
+    [type]="'email'"
     class="global-input-auth {{ getEmailErrors() ? 'error' : '' }}"
-    placeholder="ella.naizer@amalitech.org"
+    [placeholder]="'something@example.com'"
     [ngModel]="email"
     formControlName="email" />
   @if(getEmailErrors()){
@@ -28,44 +26,41 @@
   </div>
   }
 
-  <!------    First name field    ------>
   <label for="firsName" class="form-label">First Name</label>
-  <input
-    id="firsName"
-    type="text"
+  <global-input
+    [id]="'firsName'"
+    [type]="'text'"
     class="global-input-auth {{ getNameErrors('firstName') ? 'error' : '' }}"
-    placeholder="Ella"
-    formControlName="firstName" />
+    [placeholder]="'Enter FirstName'"
+    [control]="userDetails.get('firstName')" />
   @if(getNameErrors('firstName')){
   <div class="validation-error-message">
     {{ getNameErrors('firstName') }}
   </div>
   }
 
-  <!------    Last name field    ------>
   <label for="lastName" class="form-label">Last Name</label>
-  <input
-    id="lastName"
-    type="text"
+  <global-input
+    [id]="'lastName'"
+    [type]="'text'"
     class="global-input-auth {{ getNameErrors('lastName') ? 'error' : '' }}"
-    placeholder="Naizer"
-    formControlName="lastName" />
+    [placeholder]="'Enter LastName'"
+    [control]="userDetails.get('lastName')" />
   @if(getNameErrors('lastName')){
   <div class="validation-error-message">
     {{ getNameErrors('lastName') }}
   </div>
   }
 
-  <!------    Phone number field    ------>
   <label for="phoneNumber" class="form-label">Phone number</label>
-  <input
-    id="phoneNumber"
-    type="tel"
+  <global-input
+    [id]="'phoneNumber'"
+    [type]="'tel'"
     class="global-input-auth {{ getNumberErrors() ? 'error' : '' }}"
     pattern="[0-9]{10}"
     maxlength="10"
-    placeholder="0512345678"
-    formControlName="phoneNumber" />
+    [placeholder]="'0512345678'"
+    [control]="userDetails.get('phoneNumber')" />
   @if(getNumberErrors()){
   <div class="validation-error-message">
     {{ getNumberErrors() }}

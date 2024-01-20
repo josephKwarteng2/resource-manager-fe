@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AssignModalComponent implements AfterViewInit {
   @Input() user!: User;
+  @Input() users: User[] = [];
   opening: boolean = false;
   closed: boolean = false;
   loading: boolean = false;
@@ -38,6 +39,8 @@ export class AssignModalComponent implements AfterViewInit {
   @Output() closeAssignEvent = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<void>();
   @ViewChild('projectNameInput', { static: false })
+  @Output()
+  selectedUsersEvent = new EventEmitter<User[]>();
   projectNameInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -53,9 +56,13 @@ export class AssignModalComponent implements AfterViewInit {
 
   edit() {}
 
-  submit() {
+  submit(): void {
     this.submitEvent.emit();
     this.assignUsersToProject();
+    this.close();
+    this.selectedUsersEvent.emit(
+      this.bookableUsers.filter(user => user.selected)
+    );
   }
 
   ngOnInit(): void {
@@ -65,12 +72,12 @@ export class AssignModalComponent implements AfterViewInit {
     console.log(this.user);
 
     this.fetchBookableUsers(this.query);
+    this.fetchProjects();
   }
 
   ngAfterViewInit(): void {
     console.log('View has been initialized');
     this.fetchBookableUsers(this.query);
-    this.fetchProjects();
   }
 
   onSearchChange(event: Event): void {
@@ -123,17 +130,21 @@ export class AssignModalComponent implements AfterViewInit {
       .filter(user => user.selected)
       .map(user => user.userId);
 
-    this.usersService.assignUser(projectName, selectedUserId).subscribe(
-      response => {
+    this.usersService.assignUser(projectName, selectedUserId).subscribe({
+      next: (response: any) => {
         this.successMessage = response.message;
-
         console.log('Users assigned successfully:', response);
       },
-      error => {
+      error: (error: any) => {
         this.errorMessage = error.message;
         console.error('Error assigning users:', error);
-      }
-    );
+      },
+      complete: () => {
+        this.selectedUsersEvent.emit(
+          this.bookableUsers.filter(user => user.selected)
+        );
+      },
+    });
   }
 
   get modalClasses() {

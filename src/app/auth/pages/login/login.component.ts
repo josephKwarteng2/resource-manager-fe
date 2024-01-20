@@ -13,8 +13,9 @@ import {
   LoginState,
   selectLogin,
 } from '../../store/authorization/AuthReducers';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GlobalInputComponent } from '../../../shared/components/global-input/global-input.component';
 
 @Component({
   selector: 'login',
@@ -24,6 +25,7 @@ import { Subscription } from 'rxjs';
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
+    GlobalInputComponent,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../../styles/styles.css'],
@@ -35,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   storeData!: LoginState;
   successMessage: string | null = null;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -46,12 +48,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     const storeSubscription = this.store.select(selectLogin).subscribe({
       next: res => {
         this.storeData = res;
-        if (this.storeData.message === 'Login successful') {
-          this.successMessage = 'Login Successful';
-
-          setTimeout(() => {
-            this.successMessage = null;
-          }, 5000);
+        if (res.success) {
+          this.successMessage = 'Login successful!';
         }
       },
     });

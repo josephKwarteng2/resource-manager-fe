@@ -14,22 +14,35 @@ import { ResetState, SendOtpError } from '../../types/reset-types';
 import {
   selectIsSubmitting,
   selectError,
+  selectResponse,
 } from '../../store/reset-password/ResetReducers';
+import { GlobalInputComponent } from '../../../shared/components/global-input/global-input.component';
 
 @Component({
   selector: 'email-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    GlobalInputComponent,
+  ],
   templateUrl: './email-form.component.html',
   styleUrls: ['./email-form.component.css', '../../styles/styles.css'],
 })
 export class EmailFormComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   emailForm!: FormGroup;
-  storeData!: Pick<ResetState, 'error' | 'isSubmitting'>;
+  successMessage: string | null = null;
+  storeData: Pick<ResetState, 'error' | 'isSubmitting' | 'response'> = {
+    error: null,
+    isSubmitting: false,
+    response: null,
+  };
   storeData$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
     error: this.store.select(selectError),
+    response: this.store.select(selectResponse),
   });
 
   constructor(private store: Store) {}
@@ -44,8 +57,12 @@ export class EmailFormComponent implements OnInit, OnDestroy {
         if (res.error) {
           this.storeData.error = res.error;
         }
-        this.storeData = res;
+        this.storeData.isSubmitting = res.isSubmitting;
+        if (res.response) {
+          this.storeData.response = res.response;
+        }
       },
+
       error: (err: SendOtpError) => {
         this.storeData.error = err;
       },

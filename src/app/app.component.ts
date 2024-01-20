@@ -21,13 +21,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     window.addEventListener('beforeunload', () => {
-      console.log('beforeunload', this.router.url);
       tokenService.set(this.router.url, 'lastRoute');
     });
   }
 
   ngOnInit(): void {
-    // try to relog in a user from here
     const token = this.tokenService.get();
     if (token) {
       this.store.dispatch(AuthActions.fetchCurrentUser());

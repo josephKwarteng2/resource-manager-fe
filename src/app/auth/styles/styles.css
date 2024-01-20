@@ -27,7 +27,6 @@
   margin: 12px 0px;
 }
 
-/* to do */
 .global-button-auth {
   padding: 0.75rem 1rem;
   width: 100%;
@@ -66,7 +65,6 @@
   outline: 2px solid #dc3545;
 }
 
-/* SMALLER DESKTOP */
 @media only screen and (max-height: 700px) {
   .validation-error-message {
     font-size: 0.85rem;

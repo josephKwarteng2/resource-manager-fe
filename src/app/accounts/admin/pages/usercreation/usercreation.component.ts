@@ -116,7 +116,7 @@ export class UsercreationComponent implements OnInit {
   }
 
   selectOption(option: string) {
-    console.log('Selected Option:', option);
+    option;
     this.SpecializationDropdown();
     this.DepartmentDropdown();
     this.RolesDropdown();
@@ -167,10 +167,7 @@ export class UsercreationComponent implements OnInit {
   private fetchSpecializations() {
     this.specializationService.getSpecializations().subscribe(
       (specializations: string[]) => {
-        console.log(
-          'Fetched specializations from the backend:',
-          specializations
-        );
+        specializations;
       },
       err => {
         console.error('Error fetching specializations from the backend:', err);
@@ -212,10 +209,10 @@ export class UsercreationComponent implements OnInit {
   fetchDepartments() {
     this.departmentService.getDepartments().subscribe(
       (departments: string[]) => {
-        console.log('Fetched departments from the backend:', departments);
+        departments;
       },
       err => {
-        console.error('Error fetching departments from the backend:', err);
+        err;
       }
     );
   }
@@ -238,8 +235,7 @@ export class UsercreationComponent implements OnInit {
         )
         .subscribe(
           response => {
-            console.log('Post request successful', response);
-
+            response;
             this.success = true;
           },
           error => {

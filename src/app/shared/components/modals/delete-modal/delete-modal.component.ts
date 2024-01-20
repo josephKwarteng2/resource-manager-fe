@@ -52,12 +52,10 @@ export class DeleteModalComponent {
   }
 
   openDeleteModal(user: User): void {
-    // this.userToDelete = user;
     this.showDeleteModal = true;
   }
 
   closeDeleteModal(): void {
-    // this.userToDelete = undefined;
     this.showDeleteModal = false;
   }
 

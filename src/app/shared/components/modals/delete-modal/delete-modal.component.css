@@ -65,7 +65,7 @@ header > div > h2 {
 }
 
 .delete-button {
-  padding-top: 30px;
+  padding-top: -20px;
   padding: 12px 16px;
   border-radius: 16px;
   width: 70px;

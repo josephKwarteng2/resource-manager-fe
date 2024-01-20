@@ -1,31 +1,28 @@
-import { Component, OnInit,} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClientDetails, GenericResponse } from '../../../../shared/types/types';
 import { ClientCreationModalService } from '../../services/client-creation-modal.service';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-client-table',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './client-table.component.html',
-  styleUrl: './client-table.component.css'
+  styleUrl: './client-table.component.css',
 })
 export class ClientTableComponent implements OnInit {
-  clients : ClientDetails[] = [];
+  clients: ClientDetails[] = [];
   loading: boolean = false;
-  constructor(
-   private clientcreationmodalService: ClientCreationModalService,){}
+  constructor(private clientcreationmodalService: ClientCreationModalService) {}
   ngOnInit(): void {
     this.loading = false;
-   this.fetchClients();
+    this.fetchClients();
   }
 
   fetchClients(): void {
     this.loading = true;
     this.clientcreationmodalService.getClients().subscribe(
       (response: any) => {
-        console.log(response);
         const clients = response.clients || response;
         if (Array.isArray(clients)) {
           this.clients = clients as ClientDetails[];
@@ -41,6 +38,4 @@ export class ClientTableComponent implements OnInit {
       }
     );
   }
-  
-
 }

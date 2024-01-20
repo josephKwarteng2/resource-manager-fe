@@ -49,7 +49,7 @@ export class OtpFormComponent implements OnDestroy {
   @ViewChild('otpInput') otpInput!: ElementRef;
   otpValues: string[] = [];
   errorMessage: string = '';
-
+  successMessage: string = '';
   otp: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
@@ -85,10 +85,22 @@ export class OtpFormComponent implements OnDestroy {
   submitForm() {
     const otp = Number(this.otp?.value);
     if (otp === this.resBody.OTP) {
-      this.nextFormField = 'changePassword';
-      this.resetToggleService.toggle(this.nextFormField);
+      this.successMessage = 'Valid OTP. Redirecting to the next step...';
+      setTimeout(() => {
+        this.nextFormField = 'changePassword';
+        this.resetToggleService.toggle(this.nextFormField);
+        this.errorMessage = '';
+      }, 3000);
     } else {
-      this.errorMessage = 'Invalid OTP';
+      if (this.resBody.OTP !== undefined) {
+        this.errorMessage = 'Invalid OTP. OTP Mismatch';
+      } else {
+        this.errorMessage = 'Invalid OTP';
+      }
+
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
     }
   }
 

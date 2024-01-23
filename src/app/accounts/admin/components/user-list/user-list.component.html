@@ -34,7 +34,6 @@
           <td class="grid-item">
             <input
               type="checkbox"
-              [checked]="selectedUsers.has(user)"
               (change)="toggleUserSelection(user)"
               class="checkbox-input" />
             {{ user.firstName }} {{ user.lastName }}

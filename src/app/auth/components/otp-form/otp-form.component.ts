@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   OnDestroy,
   Input,
   Output,
@@ -20,13 +19,7 @@ import {
   Validators,
   FormsModule,
 } from '@angular/forms';
-import {
-  selectIsSubmitting,
-  selectError,
-} from '../../store/reset-password/ResetReducers';
-import { combineLatest } from 'rxjs';
-import { AuthState } from '../../types/auth-types';
-import { RouterLink } from '@angular/router';
+
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { SendOtpResponse } from '../../types/reset-types';

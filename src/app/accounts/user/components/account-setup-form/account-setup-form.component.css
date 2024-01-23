@@ -37,11 +37,6 @@ input[type='file'] {
   pointer-events: all;
 }
 
-/* .validation-error-message {
-  position: absolute;
-} */
-
-/* SMALLER DESKTOP */
 @media only screen and (max-height: 700px) {
   h2,
   p {

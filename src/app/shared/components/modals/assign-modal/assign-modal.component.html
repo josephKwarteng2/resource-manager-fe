@@ -35,7 +35,9 @@
     placeholder="Search for individuals or specialization"
     [(ngModel)]="searchQuery"
     (input)="onSearchChange($event)" />
-
+  <div *ngFor="let user of selectedUsers">
+    {{ user.firstName }} {{ user.lastName }}
+  </div>
   <div *ngIf="loading; else userList">
     <div class="spinner-dots">
       <div class="custom-spinner">

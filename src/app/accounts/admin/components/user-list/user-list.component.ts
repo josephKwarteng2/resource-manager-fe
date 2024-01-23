@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { UsersService } from '../../services/users.service';
 import { CommonModule } from '@angular/common';
 import { ViewModalComponent } from '../../../../shared/components/modals/view-modal/view-modal.component';
-import { DeleteModalComponent } from '../../../../shared/components/modals/delete-modal/delete-modal.component';
+// import { DeleteModalComponent } from '../../../../shared/components/modals/delete-modal/delete-modal.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
@@ -24,7 +24,7 @@ import { DropdownComponent } from '../../../../shared/components/dropdown/dropdo
     CommonModule,
     ViewModalComponent,
     PaginationComponent,
-    DeleteModalComponent,
+    // DeleteModalComponent,
     AssignModalComponent,
   ],
   templateUrl: './user-list.component.html',
@@ -40,7 +40,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   totalUsers: number = 0;
-  selectedUsers: Set<User> = new Set<User>();
+  // selectedUsers: Set<User> = new Set<User>();
+  selectedUsers: User[] = [];
 
   private dataSubscription: Subscription | undefined;
   private viewModalRef?: ComponentRef<ViewModalComponent>;
@@ -109,13 +110,21 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   toggleUserSelection(user: User): void {
-    if (this.selectedUsers.has(user)) {
-      this.selectedUsers.delete(user);
+    if (this.isSelected(user)) {
+      this.selectedUsers = this.selectedUsers.filter(u => u !== user);
     } else {
-      this.selectedUsers.add(user);
+      this.selectedUsers.push(user);
     }
   }
 
+  isSelected(user: User): boolean {
+    return this.selectedUsers.includes(user);
+  }
+
+  // archiveUser(user: User): void {
+  //   console.log(user);
+  //   this.archiveUserEvent.emit(user.email);
+  // }
   archiveUser(email: string): void {
     this.usersService.archiveUser(email).subscribe({
       next: () => {
@@ -126,7 +135,7 @@ export class UserListComponent implements OnInit, OnDestroy {
           this.successMessage = null;
         }, 3000);
       },
-      error: error => {
+      error: (error: any) => {
         this.errorMessage = 'Error archiving user.';
         this.successMessage = null;
         console.error('Error archiving user:', error);

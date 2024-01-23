@@ -42,6 +42,7 @@ export class AssignModalComponent implements AfterViewInit {
   @Output()
   selectedUsersEvent = new EventEmitter<User[]>();
   projectNameInput!: ElementRef<HTMLInputElement>;
+  selectedUsers: any;
 
   constructor(
     private usersService: UsersService,
@@ -71,40 +72,40 @@ export class AssignModalComponent implements AfterViewInit {
     }, 100);
     console.log(this.user);
 
-    this.fetchBookableUsers(this.query);
+    // this.fetchBookableUsers(this.query);
     this.fetchProjects();
   }
 
   ngAfterViewInit(): void {
     console.log('View has been initialized');
-    this.fetchBookableUsers(this.query);
+    // this.fetchBookableUsers(this.query);
   }
 
   onSearchChange(event: Event): void {
     const query = (event.target as HTMLInputElement).value;
-    this.fetchBookableUsers(query);
+    // this.fetchBookableUsers(query);
   }
 
-  fetchBookableUsers(query: string): void {
-    this.loading = true;
-    this.usersService.getBookableUsers(query).subscribe({
-      next: (response: any) => {
-        const bookableUsers = response.users || response.data;
-        if (Array.isArray(bookableUsers)) {
-          this.bookableUsers = bookableUsers as User[];
-        } else {
-          console.log('Invalid bookable users format:', bookableUsers);
-        }
-      },
-      error: error => {
-        console.log('Error fetching users:', error);
-      },
-      complete: () => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-    });
-  }
+  // fetchBookableUsers(query: string): void {
+  //   this.loading = true;
+  //   this.usersService.getBookableUsers(query).subscribe({
+  //     next: (response: any) => {
+  //       const bookableUsers = response.users || response.data;
+  //       if (Array.isArray(bookableUsers)) {
+  //         this.bookableUsers = bookableUsers as User[];
+  //       } else {
+  //         console.log('Invalid bookable users format:', bookableUsers);
+  //       }
+  //     },
+  //     error: error => {
+  //       console.log('Error fetching users:', error);
+  //     },
+  //     complete: () => {
+  //       this.loading = false;
+  //       this.cdr.detectChanges();
+  //     },
+  //   });
+  // }
 
   private fetchProjects(): void {
     this.projectsService.fetchProjects().subscribe({

@@ -5,7 +5,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   AccountSetupService,
   SetupProgress,
@@ -48,7 +48,6 @@ export class NewPasswordFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private setupService: AccountSetupService,
-    private router: Router,
     private store: Store
   ) {}
 

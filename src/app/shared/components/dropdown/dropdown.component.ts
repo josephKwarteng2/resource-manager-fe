@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { GenericResponse, User } from '../../types/types';
-import { DeleteModalService } from '../modals/delete-modal/delete-modal.service';
+// import { DeleteModalService } from '../modals/delete-modal/delete-modal.service';
 import { ViewModalService } from '../modals/view-modal/view-modal.service';
 import { AssignModalService } from '../modals/assign-modal/assign.service';
 import { ViewModalComponent } from '../modals/view-modal/view-modal.component';
@@ -33,27 +33,27 @@ export class DropdownComponent {
   private assignModalRef?: ComponentRef<AssignModalComponent>;
 
   constructor(
-    private deleteModalService: DeleteModalService,
+    // private deleteModalService: DeleteModalService,
     private viewModalService: ViewModalService,
     private viewContainerRef: ViewContainerRef,
     private assignModalService: AssignModalService,
     private usersService: UsersService
   ) {}
 
-  openDeleteModal(user: User): void {
-    const modalRef = this.deleteModalService.open(this.viewContainerRef, {
-      user,
-    });
+  // openDeleteModal(user: User): void {
+  //   const modalRef = this.deleteModalService.open(this.viewContainerRef, {
+  //     user,
+  //   });
 
-    modalRef.instance.deleteConfirmedEvent.subscribe({
-      next: (response: GenericResponse) => {
-        console.log('Deletion successful:', response);
-      },
-      error: (error: any) => {
-        console.error('Error deleting user:', error);
-      },
-    });
-  }
+  // modalRef.instance.deleteConfirmedEvent.subscribe({
+  //   next: (response: GenericResponse) => {
+  //     console.log('Deletion successful:', response);
+  //   },
+  //   error: (error: any) => {
+  //     console.error('Error deleting user:', error);
+  //   },
+  // });
+  // }
 
   openViewModal(user: User) {
     this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
@@ -62,6 +62,7 @@ export class DropdownComponent {
   }
 
   archiveUser(user: User): void {
+    console.log(user);
     this.archiveUserEvent.emit(user.email);
   }
 

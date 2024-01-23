@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginSideIllustrationComponent } from '../../../../auth/components/login-side-illustration/login-side-illustration.component';
-import { passwordMatchValidator } from '../../../../auth/validators/passwordmismatch';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -132,7 +131,6 @@ export class AccountSetupComponent implements OnInit, OnDestroy {
     const credentials = this.resetPasswordForm.value;
     const email = this.email;
     if (this.resetPasswordForm.valid) {
-      //send this to the backend
       const reqBody = {
         ...credentials,
         email,

@@ -1,6 +1,9 @@
-import { Component, OnInit,OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ProjectDetails, GenericResponse } from '../../../../shared/types/types';
+import {
+  ProjectDetails,
+  GenericResponse,
+} from '../../../../shared/types/types';
 import { ProjectCreationModalService } from '../../services/project-creation-modal.service';
 import { CommonModule } from '@angular/common';
 interface ProjectsApiResponse {
@@ -12,7 +15,7 @@ interface ProjectsApiResponse {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './project-table.component.html',
-  styleUrl: './project-table.component.css'
+  styleUrl: './project-table.component.css',
 })
 export class ProjectTableComponent implements OnInit, OnDestroy {
   totalPages: number = 0;
@@ -38,8 +41,8 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.projectService.getProjects().subscribe(
       (response: any) => {
-        console.log(response)
-        
+        console.log(response);
+
         const projects = response.projects || response;
         if (Array.isArray(projects)) {
           this.projects = projects as ProjectDetails[];
@@ -55,9 +58,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
 
-  
   deleteProject(projectCode: string): void {
     this.projectService.deleteProject(projectCode).subscribe({
       next: () => {
@@ -68,7 +69,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
           this.successMessage = null;
         }, 3000);
       },
-      error: (error) => {
+      error: error => {
         this.errorMessage = 'Error deleting project.';
         this.successMessage = null;
         console.error('Error deleting project:', error);
@@ -78,6 +79,4 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-
 }

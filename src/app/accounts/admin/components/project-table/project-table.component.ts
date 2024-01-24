@@ -36,12 +36,15 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   totalProjects: number = 0;
+  isMenuOpen: boolean = false;
+
+
 
   private dataSubscription: Subscription | undefined;
   private dropdownRef?: ComponentRef<DropdownComponent>;
   private assignModalRef?: ComponentRef<AssignModalComponent>;
 
-  constructor(private projectService: ProjectCreationModalService, private modalService: NgbModal) {}
+  constructor(private projectService: ProjectCreationModalService, private modalService: NgbModal,  private viewContainerRef: ViewContainerRef,private assignModalService: AssignModalService) {}
 
   ngOnInit(): void {
     this.fetchProjects();

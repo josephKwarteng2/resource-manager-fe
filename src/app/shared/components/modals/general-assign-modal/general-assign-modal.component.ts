@@ -13,6 +13,7 @@ import { UsersService } from '../../../../accounts/admin/services/users.service'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GlobalInputComponent } from '../../global-input/global-input.component';
+import { ProjectsService } from '../../../../accounts/admin/services/projects.service';
 
 @Component({
   selector: 'app-general-assign-modal',
@@ -34,6 +35,7 @@ export class GeneralAssignModalComponent {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   response: string | null = null;
+  projects: any;
 
   @Output() closeAssignEvent = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<void>();
@@ -41,7 +43,8 @@ export class GeneralAssignModalComponent {
   selectedUsers: any;
 
   constructor(
-    private usersService: UsersService // private cdr: ChangeDetectorRef
+    private usersService: UsersService,
+    private projectsService: ProjectsService // private cdr: ChangeDetectorRef
   ) {}
 
   close() {
@@ -98,7 +101,7 @@ export class GeneralAssignModalComponent {
     console.log(this.user);
 
     this.fetchBookableUsers(this.query);
-    // this.fetchProjects();
+    this.fetchProjects();
   }
 
   ngAfterViewInit(): void {
@@ -132,18 +135,18 @@ export class GeneralAssignModalComponent {
     });
   }
 
-  // private fetchProjects(): void {
-  //   this.projectsService.fetchProjects().subscribe({
-  //     next: (response: any) => {
-  //       this.projects = response.projects || [];
-  //       console.log('Fetched projects:', this.projects);
-  //     },
-  //     error: error => {
-  //       console.error('Error fetching projects:', error);
-  //     },
-  //     complete: () => {},
-  //   });
-  // }
+  private fetchProjects(): void {
+    this.projectsService.fetchProjects().subscribe({
+      next: (response: any) => {
+        this.project = response.projects || [];
+        console.log('Fetched projects:', this.project);
+      },
+      error: error => {
+        console.error('Error fetching projects:', error);
+      },
+      complete: () => {},
+    });
+  }
 
   get modalClasses() {
     return {

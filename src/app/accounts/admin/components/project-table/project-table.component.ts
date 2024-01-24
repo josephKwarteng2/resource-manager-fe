@@ -3,27 +3,29 @@ import { Subscription } from 'rxjs';
 import { ProjectDetails, GenericResponse } from '../../../../shared/types/types';
 import { ProjectCreationModalService } from '../../services/project-creation-modal.service';
 import { CommonModule } from '@angular/common';
-interface ProjectsApiResponse {
-  projects: ProjectDetails[];
-}
-
+import { ProjectDetailsModalComponent } from '../../../../shared/components/modals/project-details-modal/project-details-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 @Component({
   selector: 'app-project-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProjectDetailsModalComponent, PaginationComponent],
   templateUrl: './project-table.component.html',
   styleUrl: './project-table.component.css'
 })
 export class ProjectTableComponent implements OnInit, OnDestroy {
   totalPages: number = 0;
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
   projects: ProjectDetails[] = [];
   loading: boolean = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  totalProjects: number = 0;
 
   private dataSubscription: Subscription | undefined;
 
-  constructor(private projectService: ProjectCreationModalService) {}
+  constructor(private projectService: ProjectCreationModalService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.fetchProjects();
@@ -33,22 +35,32 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       this.dataSubscription.unsubscribe();
     }
   }
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.fetchProjects();
+  }
 
   fetchProjects(): void {
     this.loading = true;
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+
+    const endIndex = startIndex + this.itemsPerPage;
+
     this.projectService.getProjects().subscribe(
       (response: any) => {
-        console.log(response)
+       
         
         const projects = response.projects || response;
         if (Array.isArray(projects)) {
-          this.projects = projects as ProjectDetails[];
+          this.projects = projects.slice(startIndex, endIndex) as ProjectDetails[];
+          this.totalProjects = projects.length;
+          this.totalPages = Math.ceil(projects.length / this.itemsPerPage);
         } else {
           console.error('Invalid response format for projects:', projects);
         }
       },
       error => {
-        console.error('Error fetching clients:', error);
+        console.error('Error fetching Projects:', error);
       },
       () => {
         this.loading = false;
@@ -77,6 +89,10 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
         }, 3000);
       },
     });
+  }
+  openProjectDetailsModal(project: ProjectDetails): void {
+    const modalRef = this.modalService.open(ProjectDetailsModalComponent);
+    modalRef.componentInstance.project = project;
   }
 
 

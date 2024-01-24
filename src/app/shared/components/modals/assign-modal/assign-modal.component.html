@@ -1,9 +1,9 @@
 <div [class]="modalClasses">
-  <div *ngIf="successMessage" class="success-message">
+  <div *ngIf="successMessage" class="validation-success-message backend">
     {{ successMessage }}
   </div>
 
-  <div *ngIf="errorMessage" class="error-message">
+  <div *ngIf="errorMessage" class="validation-error-message backend">
     {{ errorMessage }}
   </div>
   <header>
@@ -15,17 +15,7 @@
   <div>
     <div>
       <label for="projectName">Project</label>
-      <select
-        #projectNameInput
-        id="name"
-        name="name"
-        class="project-input"
-        [(ngModel)]="selectedProject">
-        <option value="" disabled selected>Select a project</option>
-        <option *ngFor="let project of projects" [value]="project.id">
-          {{ project.name }}
-        </option>
-      </select>
+      <div class="project-name">{{ project.name }}</div>
     </div>
   </div>
   <input

@@ -1,9 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewContainerRef,
+  ComponentRef,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { DropdownService } from '../../../../shared/components/dropdown/dropdown.service';
+import { User } from '../../../../shared/types/types';
+import { DropdownComponent } from '../../../../shared/components/dropdown/dropdown.component';
 import {
   ProjectDetails,
   GenericResponse,
 } from '../../../../shared/types/types';
+import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
+import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { ProjectCreationModalService } from '../../services/project-creation-modal.service';
 import { CommonModule } from '@angular/common';
 interface ProjectsApiResponse {
@@ -13,7 +24,7 @@ interface ProjectsApiResponse {
 @Component({
   selector: 'app-project-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AssignModalComponent],
   templateUrl: './project-table.component.html',
   styleUrl: './project-table.component.css',
 })
@@ -23,14 +34,35 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
+  users: User[] = [];
+  isMenuOpen: boolean = false;
 
   private dataSubscription: Subscription | undefined;
+  private dropdownRef?: ComponentRef<DropdownComponent>;
+  private assignModalRef?: ComponentRef<AssignModalComponent>;
 
-  constructor(private projectService: ProjectCreationModalService) {}
+  constructor(
+    private projectService: ProjectCreationModalService,
+    private dropdownService: DropdownService,
+    private viewContainerRef: ViewContainerRef,
+    private assignModalService: AssignModalService
+  ) {}
 
   ngOnInit(): void {
     this.fetchProjects();
   }
+
+  openAssignModal(project: ProjectDetails): void {
+    const modalComponentRef = this.assignModalService.open(
+      this.viewContainerRef
+    );
+    modalComponentRef.instance.project = project;
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
   ngOnDestroy(): void {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();

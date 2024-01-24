@@ -31,10 +31,10 @@ export type CurrentUser = {
   selected?: boolean;
 };
 
-export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles' > & {
+export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles'> & {
   skills: string;
   department: string;
-  specializations : string;
+  specializations: string;
 };
 
 /**
@@ -55,15 +55,14 @@ export type ClientDetails = {
   details: string;
   employees: string[];
   totalProjects: number;
-
-}
-export type ProjectDetails = Pick<ClientDetails, 'name' | 'details' > & {
+};
+export type ProjectDetails = Pick<ClientDetails, 'name' | 'details'> & {
   date: Date;
   client: string;
   projectCode: string;
   projectName: string;
   billable: Boolean;
-  }
+};
 
 export interface UserNotifications {
   created_by: string;
@@ -84,10 +83,6 @@ export type Permisions = {
   can_update_user_role: boolean;
 };
 
-/**
- * @description This type can be used as a type argument for any signal where we are tracking
- * success, error and pending states
- */
 export type InitialSig = {
   success: { user?: CurrentUser; message: string } | null;
   error: { message: string } | null;

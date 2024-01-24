@@ -16,6 +16,7 @@ import { AssignModalComponent } from '../../../../shared/components/modals/assig
 import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
 import { DropdownService } from '../../../../shared/components/dropdown/dropdown.service';
 import { DropdownComponent } from '../../../../shared/components/dropdown/dropdown.component';
+import { ViewModalService } from '../../../../shared/components/modals/view-modal/view-modal.service';
 
 @Component({
   selector: 'user-list',
@@ -24,7 +25,6 @@ import { DropdownComponent } from '../../../../shared/components/dropdown/dropdo
     CommonModule,
     ViewModalComponent,
     PaginationComponent,
-    // DeleteModalComponent,
     AssignModalComponent,
   ],
   templateUrl: './user-list.component.html',
@@ -40,7 +40,6 @@ export class UserListComponent implements OnInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   totalUsers: number = 0;
-  // selectedUsers: Set<User> = new Set<User>();
   selectedUsers: User[] = [];
 
   private dataSubscription: Subscription | undefined;
@@ -52,11 +51,18 @@ export class UserListComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private dropdownService: DropdownService,
     private viewContainerRef: ViewContainerRef,
-    private assignModalService: AssignModalService
+    private assignModalService: AssignModalService,
+    private viewModalService: ViewModalService
   ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
+  }
+
+  openViewModal(user: User) {
+    this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
+      user,
+    });
   }
 
   openDropdown(event: MouseEvent, user: User) {

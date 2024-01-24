@@ -21,7 +21,7 @@
       <form (submit)="submitForm($event)" [formGroup]="loginForm">
         <label for="email" class="form-label">Email</label>
 
-        <global-input
+        <!-- <global-input
           [id]="'email'"
           [control]="loginForm.get('email')"
           [placeholder]="'something@example.com'"
@@ -31,9 +31,9 @@
         <div class="validation-error-message">
           {{ getEmailErrors() }}
         </div>
-        }
+        } -->
 
-        <!-- <input
+        <input
           id="email"
           type="email"
           class="global-input-auth {{ getEmailErrors() ? 'error' : '' }}"
@@ -43,7 +43,7 @@
         <div class="validation-error-message">
           {{ getEmailErrors() }}
         </div>
-        } -->
+        }
         <label for="password" class="form-label">Password</label>
         <div class="password-input">
           <global-input

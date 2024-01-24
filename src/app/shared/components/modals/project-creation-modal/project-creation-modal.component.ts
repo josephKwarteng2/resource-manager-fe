@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-
 import {
   FormGroup,
 
@@ -15,29 +13,30 @@ import { finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
 import { ProjectCreationModalService } from '../../../../accounts/admin/services/project-creation-modal.service';
 import { ClientCreationModalService } from '../../../../accounts/admin/services/client-creation-modal.service';
 import { ClientDetails } from '../../../types/types';
+import { ClientCreationModalComponent } from '../client-creation-modal/client-creation-modal.component';
 // import { CalenderComponent } from '../calender/calender.component';
 
 @Component({
   selector: 'app-project-creation-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,ClientCreationModalComponent],
   templateUrl: './project-creation-modal.component.html',
   styleUrl: './project-creation-modal.component.css'
 })
 export class ProjectCreationModalComponent implements OnInit{
   @Input() isOpen = true;
+  clientCreationModalOpen = false;
   showClientDropdown = false;
   formData: FormGroup;
   loading = false;
   success = false;
   error = false;
-  errorMessages: { roles?: string; email?: string } = {};
+  errorMessages: { serverError?: string } = {};
   clients: ClientDetails[] = [];
   filteredClients: ClientDetails[] = [];
   date: Date | undefined;
 
   constructor(
-    private router: Router,
     private projectcreationService: ProjectCreationModalService,
     private clientService: ClientCreationModalService,
     private fb: FormBuilder,
@@ -58,10 +57,11 @@ export class ProjectCreationModalComponent implements OnInit{
   }
 
   OnCreateProject(){
-    this.loading = false;
+    this.loading = true;
     this.success = false;
     this.error = false;
     this.errorMessages = {};
+
     if (this.formData.valid) {
       const formDataValue = this.formData.value;
       const startDate = formDataValue['start-date'];
@@ -69,10 +69,9 @@ export class ProjectCreationModalComponent implements OnInit{
       const projectStatus = formDataValue['project-status'];
       const billable = formDataValue['billable'];
 
-      // Convert 'billable' to boolean
+
       const isBillable = billable === 'on';
 
-      // Prepare data to be sent to the service
       const projectData = {
         details: formDataValue['details'],
         name: formDataValue['name'],
@@ -89,14 +88,13 @@ export class ProjectCreationModalComponent implements OnInit{
         .addNewProject(this.formData.value)
         .pipe(
           finalize(() => {
-            // this.loading = false;
+            this.loading = false;
           })
         )
         .subscribe(
           response => {
-            console.log('Post request successful', response);
-
-            // this.success = true;
+            this.formData.reset();
+            this.success = true;
           },
           error => {
             console.error('Error in post request', error);
@@ -106,18 +104,23 @@ export class ProjectCreationModalComponent implements OnInit{
             if (error.error && typeof error.error === 'object') {
               this.errorMessages = error.error;
             }
+            this.formData.markAsTouched();
           }
         );
     } else {
       console.error('Form is not valid');
     }
   }
-  closeUsercreationModal() {
+  closeProjectcreationModal() {
     this.isOpen = false;
 
   }
+  openClientCreationModal(){
+    this.clientCreationModalOpen = true;
+  }
   ngOnInit(): void {
     this.fetchClients();
+
     
     this.formData.get('clientSearch')?.valueChanges.pipe(
       debounceTime(300),
@@ -145,20 +148,18 @@ export class ProjectCreationModalComponent implements OnInit{
   
   filterClients(): void {
     const searchTerm = this.formData.get('clientSearch')!.value;
-    // Implement client filtering logic based on the searchTerm
     this.filteredClients = this.clients.filter(client =>
       client.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
   selectClient(client: ClientDetails): void {
     if (this.formData.get('clientSearch')) {
-      // Update the form control 'clientId' with the selected client's ID
+   
       this.formData.get('clientId')!.setValue(client.clientId);
   
-      // Update the 'clientSearch' control to display the client's name
+
       this.formData.get('clientSearch')!.setValue(client.name);
-  
-      // Hide the client dropdown
+
       this.showClientDropdown = false;
     }
   }

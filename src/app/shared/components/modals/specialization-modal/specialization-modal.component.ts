@@ -6,12 +6,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { SpecializationService } from '../../../../accounts/admin/services/specialization.service';
-//import { SpecializationResponse } from '../reponse.model';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { specializationResponse } from '../../../../accounts/admin/interfaces';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -63,10 +59,7 @@ export class SpecializationModalComponent implements OnInit {
   fetchSpecializations() {
     this.specializationService.getSpecializations().subscribe({
       next: (specializations: string[]) => {
-        console.log(
-          'Fetched specializations from the backend:',
-          specializations
-        );
+
       },
       error: err => {
         console.error('Error fetching specializations from the backend:', err);
@@ -75,5 +68,7 @@ export class SpecializationModalComponent implements OnInit {
     });
   }
 
-  closeModal() {}
+  closeModal() {
+    this.isOpen = false;
+  }
 }

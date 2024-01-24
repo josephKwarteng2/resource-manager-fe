@@ -50,40 +50,31 @@ export class ArchivedListComponent implements OnInit {
   }
 
   restoreUser(email: string): void {
-    this.usersService.restoreUser(email).subscribe(
-      (response: GenericResponse) => {
+    this.usersService.restoreUser(email).subscribe({
+      next: (response: any) => {
+        this.successMessage = response.message;
+        setTimeout(() => {
+          this.successMessage = null;
+        }, 3000);
         this.fetchArchivedUsers();
-
-        if (response.message) {
-          this.successMessage = response.message;
-          setTimeout(() => {
-            this.successMessage = null;
-          }, 3000);
-        }
       },
-      error => {
-        console.error('Error restoring user:', error);
-        if (error.message) {
-          this.errorMessage = error.message;
+
+      error: (error: any) => {
+        if (error.status >= 500) {
+          this.errorMessage =
+            'Server Error" Something went wrong on the server.';
         } else {
-          this.errorMessage = 'Error restoring user. Please try again.';
+          if (error.error && error.error.message) {
+            this.errorMessage = error.error.message;
+          } else {
+            this.errorMessage = 'An unexpected error occured.';
+          }
         }
 
         setTimeout(() => {
           this.errorMessage = null;
-        }, 3000);
-      }
-    );
+        }, 6000);
+      },
+    });
   }
-  // restoreUser(email: string): void {
-  //   this.usersService.restoreUser(email).subscribe({
-  //     next: (response: any) => {
-  //       console.log('User restored successfully:', response);
-  //       //       this.fetchArchivedUsers();
-  //       //     },
-  //       //     error => {
-  //       //       console.error('Error restoring user:', error);
-  //       //     }
-  //     },
-  //   });
 }

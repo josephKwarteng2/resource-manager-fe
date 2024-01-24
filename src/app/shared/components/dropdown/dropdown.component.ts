@@ -28,6 +28,8 @@ export class DropdownComponent {
   @Output() closeEvent = new EventEmitter<void>();
   @Input() user!: User;
   @Output() archiveUserEvent = new EventEmitter<string>();
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   private viewModalRef?: ComponentRef<ViewModalComponent>;
   private assignModalRef?: ComponentRef<AssignModalComponent>;
@@ -55,15 +57,39 @@ export class DropdownComponent {
   // });
   // }
 
+  archiveUser(user: User): void {
+    console.log(user);
+    this.usersService.archiveUser(user.email).subscribe({
+      next: (response: any) => {
+        this.successMessage = response.message;
+
+        setTimeout(() => {
+          this.successMessage = null;
+        }, 3000);
+      },
+      error: (error: any) => {
+        if (error.status >= 500) {
+          this.errorMessage =
+            'Server Error: Something went wrong on the server.';
+        } else {
+          if (error.error && error.error.message) {
+            this.errorMessage = error.error.message;
+          } else {
+            this.errorMessage = 'An unexpected error occurred.';
+          }
+        }
+
+        setTimeout(() => {
+          this.errorMessage = null;
+        }, 3000);
+      },
+    });
+  }
+
   openViewModal(user: User) {
     this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
       user,
     });
-  }
-
-  archiveUser(user: User): void {
-    console.log(user);
-    this.archiveUserEvent.emit(user.email);
   }
 
   openAssignModal(user: User) {
@@ -72,6 +98,10 @@ export class DropdownComponent {
     });
   }
 
+  // archiveUser(user: User): void {
+  //   console.log(user);
+  //   this.archiveUserEvent.emit();
+  // }
   close() {
     this.closeEvent.emit();
   }

@@ -4,6 +4,7 @@ import {
   OnDestroy,
   ViewContainerRef,
   ComponentRef,
+  Input,
 } from '@angular/core';
 import { GenericResponse, User } from '../../../../shared/types/types';
 import { Subscription } from 'rxjs';
@@ -32,6 +33,7 @@ import { ViewModalService } from '../../../../shared/components/modals/view-moda
 })
 export class UserListComponent implements OnInit, OnDestroy {
   users: User[] = [];
+  @Input() user!: User;
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 0;
@@ -125,30 +127,5 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   isSelected(user: User): boolean {
     return this.selectedUsers.includes(user);
-  }
-
-  // archiveUser(user: User): void {
-  //   console.log(user);
-  //   this.archiveUserEvent.emit(user.email);
-  // }
-  archiveUser(email: string): void {
-    this.usersService.archiveUser(email).subscribe({
-      next: () => {
-        this.successMessage = 'User archived successfully.';
-        this.errorMessage = null;
-        this.fetchUsers();
-        setTimeout(() => {
-          this.successMessage = null;
-        }, 3000);
-      },
-      error: (error: any) => {
-        this.errorMessage = 'Error archiving user.';
-        this.successMessage = null;
-        console.error('Error archiving user:', error);
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 3000);
-      },
-    });
   }
 }

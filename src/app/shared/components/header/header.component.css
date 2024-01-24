@@ -73,11 +73,26 @@
 .avatar {
   margin-right: 30px;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  margin-right: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #eaecf0;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #fff;
+}
 
 .overlay-notification {
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
   background: #fff;
-  border-radius: 5px;
-  border-bottom: 0.5px solid #d7dfe9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
   ul {
     list-style: none;
@@ -106,7 +121,6 @@
     &.notification-message-container {
       cursor: pointer;
       display: flex;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.16);
     }
 
     .notification-subject {

@@ -25,27 +25,14 @@ getClients(): Observable<{clients: ClientDetails[]}> {
   })
   .pipe(
     catchError(error => {
-      console.error('Error in getClients:', error);
-      throw error; // rethrow the error
+      throw error; 
     })
   );
 }
-// getEmployeeImages():Observable<{employees: ClientDetails[]}> {
-//   return this.http.get<{clients: ClientDetails[]}>(`${BASE_URL}/client/fetch`, {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'ngrok-skip-browser-warning': 'skip-browser-warning',
-//     },
-//   })
-//   .pipe(
-//     catchError(error => {
-//       console.error('Error in getClients:', error);
-//       throw error; // rethrow the error
-//     })
-//   );
-// }
+
 
   openClientCreationModal(): NgbModalRef {
+    
 
     const modalRef = this.clientcreationmodalService.open(ClientCreationModalComponent, {
       centered: true,

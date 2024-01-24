@@ -1,5 +1,4 @@
 import { Component,  OnInit, Input  } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   FormGroup,
 
@@ -7,9 +6,6 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-
-import { NgbModal, } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { ClientCreationModalService } from '../../../../accounts/admin/services/client-creation-modal.service';
 
@@ -29,11 +25,11 @@ export class ClientCreationModalComponent implements OnInit{
   errorMessages: { roles?: string; email?: string } = {};
 
   constructor(
-    private router: Router,
+  
     private clientcreationService: ClientCreationModalService,
 
     private fb: FormBuilder,
-    private modalService: NgbModal,
+
 
   ){
     this.formData = this.fb.group({
@@ -78,7 +74,7 @@ export class ClientCreationModalComponent implements OnInit{
       console.error('Form is not valid');
     }
   }
-  closeUsercreationModal() {
+  closeClientcreationModal() {
     this.isOpen = false;
 
   }

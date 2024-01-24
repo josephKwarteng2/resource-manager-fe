@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { AuthActions } from './AuthActions';
-import { catchError, map, switchMap, of, tap, throwError } from 'rxjs';
+import { catchError, map, switchMap, of, tap, delay } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
@@ -26,7 +26,6 @@ export const loginEffect = createEffect(
         return loginService.post(userDetails).pipe(
           map(response => {
             tokenService.set(response.accessToken);
-            console.log(response);
             return AuthActions.loginSuccess(response);
           }),
           catchError((error: HttpErrorResponse) => {
@@ -65,7 +64,6 @@ export const redirectAfterLogin = createEffect(
               router.navigateByUrl('/manager/dashboard');
               break;
             case 'Administrator':
-              console.log(res.user.changePassword);
               if (res.user.changePassword) {
                 router.navigateByUrl('/admin/account-setup');
               } else {
@@ -101,7 +99,6 @@ export const relogInUserEffect = createEffect(
             return AuthActions.fetchCurrentUserSuccess(response);
           }),
           catchError((error: HttpErrorResponse) => {
-            // Immediately logout if there is an error
             router.navigateByUrl('/login');
 
             if (error.status === 0) {
@@ -112,7 +109,6 @@ export const relogInUserEffect = createEffect(
                 })
               );
             }
-            console.log(error);
             tokenService.clear('lastRoute');
             return of(AuthActions.fetchCurrentUserFailure(error.error));
           })
@@ -136,14 +132,12 @@ export const redirectAfterReLogin = createEffect(
       ofType(AuthActions.fetchCurrentUserSuccess),
       tap({
         next: res => {
-          console.log(res);
           const lastRoute = tokenService.get('lastRoute') as string;
           switch (res.user.roles) {
             case 'Basic User':
               router.navigateByUrl(lastRoute || '/user/dashboard');
               break;
             case 'Administrator':
-              console.log(res.user.changePassword);
               if (res.user.changePassword) {
                 router.navigateByUrl('/admin/account-setup');
               } else {

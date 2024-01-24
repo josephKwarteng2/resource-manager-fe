@@ -1,4 +1,12 @@
-<div *ngIf="loading" class="loading-message">Loading projects...</div>
+<ng-container *ngIf="loading; else projectList">
+  <div class="spinner-dots">
+    <div class="custom-spinner">
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+      <div class="spinner-dot"></div>
+    </div>
+  </div>
+</ng-container>
 <div *ngIf="successMessage" class="success-message">
   {{ successMessage }}
 </div>

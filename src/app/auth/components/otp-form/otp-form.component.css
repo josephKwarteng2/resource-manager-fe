@@ -16,11 +16,9 @@ span {
 
 h2 {
   margin-bottom: 28px;
+  font-family: 'LexendBold';
 }
 
-/* input[type='email'] {
-  margin-bottom: 20px;
-} */
 p {
   margin-bottom: 34px;
 }
@@ -58,7 +56,6 @@ input {
   outline: var(--colors-primary-slate-500);
 }
 
-/* SMALLER DESKTOP */
 @media only screen and (max-height: 700px) {
   h2 {
     margin-bottom: 20px;

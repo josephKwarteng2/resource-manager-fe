@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -9,21 +8,21 @@ import {
   AfterViewInit,
   ElementRef,
 } from '@angular/core';
-
 import { User, ProjectDetails } from '../../../types/types';
 import { UsersService } from '../../../../accounts/admin/services/users.service';
-import { ChangeDetectorRef } from '@angular/core';
-import { ProjectsService } from '../../../../accounts/admin/services/projects.service';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GlobalInputComponent } from '../../global-input/global-input.component';
+import { ProjectsService } from '../../../../accounts/admin/services/projects.service';
 
 @Component({
-  selector: 'assign-modal',
+  selector: 'app-general-assign-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './assign-modal.component.html',
-  styleUrl: './assign-modal.component.css',
+  imports: [CommonModule, FormsModule, GlobalInputComponent],
+  templateUrl: './general-assign-modal.component.html',
+  styleUrl: './general-assign-modal.component.css',
 })
-export class AssignModalComponent implements AfterViewInit {
+export class GeneralAssignModalComponent {
   @Input() user!: User;
   @Input() users: User[] = [];
   @Input() project!: ProjectDetails;
@@ -36,6 +35,7 @@ export class AssignModalComponent implements AfterViewInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   response: string | null = null;
+  projects: any;
 
   @Output() closeAssignEvent = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<void>();
@@ -44,7 +44,7 @@ export class AssignModalComponent implements AfterViewInit {
 
   constructor(
     private usersService: UsersService,
-    private cdr: ChangeDetectorRef
+    private projectsService: ProjectsService // private cdr: ChangeDetectorRef
   ) {}
 
   close() {
@@ -101,7 +101,7 @@ export class AssignModalComponent implements AfterViewInit {
     console.log(this.user);
 
     this.fetchBookableUsers(this.query);
-    // this.fetchProjects();
+    this.fetchProjects();
   }
 
   ngAfterViewInit(): void {
@@ -130,23 +130,23 @@ export class AssignModalComponent implements AfterViewInit {
       },
       complete: () => {
         this.loading = false;
-        this.cdr.detectChanges();
+        // this.cdr.detectChanges();
       },
     });
   }
 
-  // private fetchProjects(): void {
-  //   this.projectsService.fetchProjects().subscribe({
-  //     next: (response: any) => {
-  //       this.projects = response.projects || [];
-  //       console.log('Fetched projects:', this.projects);
-  //     },
-  //     error: error => {
-  //       console.error('Error fetching projects:', error);
-  //     },
-  //     complete: () => {},
-  //   });
-  // }
+  private fetchProjects(): void {
+    this.projectsService.fetchProjects().subscribe({
+      next: (response: any) => {
+        this.project = response.projects || [];
+        console.log('Fetched projects:', this.project);
+      },
+      error: error => {
+        console.error('Error fetching projects:', error);
+      },
+      complete: () => {},
+    });
+  }
 
   get modalClasses() {
     return {

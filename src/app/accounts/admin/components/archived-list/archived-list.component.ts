@@ -15,6 +15,8 @@ export class ArchivedListComponent implements OnInit {
   loading: boolean = true;
   showDropdownForUser: User | null = null;
   totalUsers: number = 0;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private usersService: UsersService) {}
 
@@ -48,25 +50,31 @@ export class ArchivedListComponent implements OnInit {
   }
 
   restoreUser(email: string): void {
-    this.usersService.restoreUser(email).subscribe(
-      (response: GenericResponse) => {
-        console.log('User restored successfully:', response);
+    this.usersService.restoreUser(email).subscribe({
+      next: (response: any) => {
+        this.successMessage = response.message;
+        setTimeout(() => {
+          this.successMessage = null;
+        }, 3000);
         this.fetchArchivedUsers();
       },
-      error => {
-        console.error('Error restoring user:', error);
-      }
-    );
+
+      error: (error: any) => {
+        if (error.status >= 500) {
+          this.errorMessage =
+            'Server Error" Something went wrong on the server.';
+        } else {
+          if (error.error && error.error.message) {
+            this.errorMessage = error.error.message;
+          } else {
+            this.errorMessage = 'An unexpected error occured.';
+          }
+        }
+
+        setTimeout(() => {
+          this.errorMessage = null;
+        }, 6000);
+      },
+    });
   }
-  // restoreUser(email: string): void {
-  //   this.usersService.restoreUser(email).subscribe({
-  //     next: (response: any) => {
-  //       console.log('User restored successfully:', response);
-  //       //       this.fetchArchivedUsers();
-  //       //     },
-  //       //     error => {
-  //       //       console.error('Error restoring user:', error);
-  //       //     }
-  //     },
-  //   });
 }

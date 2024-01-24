@@ -47,7 +47,6 @@ export class AccountSetupComponent implements OnDestroy {
     });
     this.subscriptions.push(setupSub);
 
-    // Retrieve route parameters
     this.route.params.subscribe(params => {
       this.userDetails.accessToken = params['accesstoken'];
       tokenService.set(params['accesstoken']);

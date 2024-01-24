@@ -3,18 +3,25 @@
   <div class="validation-error-message backend">
     {{ storeData.error.message }}
   </div>
-  }
+  @if (storeData.response) {
+  <div class="validation-success-message backend">
+    {{ storeData.response.message }}
+  </div>
+  } }
+
   <h2>Forgot password?</h2>
-  <p>No worries we'll send you reset instructions</p>
+  <p>No worries, we'll send you reset instructions</p>
   <form [formGroup]="emailForm" (submit)="submitForm($event)">
     <label for="email" class="form-label">Email</label>
-    <input
-      id="email"
-      type="email"
-      class="global-input-auth {{ getEmailErrors() ? 'error' : '' }}"
-      formControlName="email"
-      placeholder="something@example.com" />
-    @if(getEmailErrors()){
+    <global-input
+      [id]="'email'"
+      [control]="emailForm.get('email')"
+      [placeholder]="'something@example.com'"
+      [class]="'global-input-auth'"
+      [type]="'email'"
+      [errorMessage]="'Email field is required'">
+    </global-input>
+    @if(getEmailErrors()) {
     <div class="validation-error-message">
       {{ getEmailErrors() }}
     </div>
@@ -22,7 +29,7 @@
     <button
       type="submit"
       class="global-button-auth"
-      [disabled]="this.storeData.isSubmitting"
+      [disabled]="storeData.isSubmitting"
       style="font-family: 'LexendMedium'">
       RESET PASSWORD
     </button>

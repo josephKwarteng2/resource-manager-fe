@@ -1,6 +1,20 @@
-import { Component, OnInit,OnDestroy} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewContainerRef,
+  ComponentRef,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ProjectDetails, GenericResponse } from '../../../../shared/types/types';
+import { DropdownService } from '../../../../shared/components/dropdown/dropdown.service';
+import { User } from '../../../../shared/types/types';
+import { DropdownComponent } from '../../../../shared/components/dropdown/dropdown.component';
+import {
+  ProjectDetails,
+  GenericResponse,
+} from '../../../../shared/types/types';
+import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
+import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { ProjectCreationModalService } from '../../services/project-creation-modal.service';
 import { CommonModule } from '@angular/common';
 import { ProjectDetailsModalComponent } from '../../../../shared/components/modals/project-details-modal/project-details-modal.component';
@@ -9,9 +23,9 @@ import { PaginationComponent } from '../../../../shared/components/pagination/pa
 @Component({
   selector: 'app-project-table',
   standalone: true,
-  imports: [CommonModule, ProjectDetailsModalComponent, PaginationComponent],
+  imports: [CommonModule, AssignModalComponent, ProjectDetailsModalComponent, PaginationComponent],
   templateUrl: './project-table.component.html',
-  styleUrl: './project-table.component.css'
+  styleUrl: './project-table.component.css',
 })
 export class ProjectTableComponent implements OnInit, OnDestroy {
   totalPages: number = 0;
@@ -24,12 +38,26 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   totalProjects: number = 0;
 
   private dataSubscription: Subscription | undefined;
+  private dropdownRef?: ComponentRef<DropdownComponent>;
+  private assignModalRef?: ComponentRef<AssignModalComponent>;
 
   constructor(private projectService: ProjectCreationModalService, private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.fetchProjects();
   }
+
+  openAssignModal(project: ProjectDetails): void {
+    const modalComponentRef = this.assignModalService.open(
+      this.viewContainerRef
+    );
+    modalComponentRef.instance.project = project;
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
   ngOnDestroy(): void {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
@@ -67,9 +95,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
 
-  
   deleteProject(projectCode: string): void {
     this.projectService.deleteProject(projectCode).subscribe({
       next: () => {
@@ -80,7 +106,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
           this.successMessage = null;
         }, 3000);
       },
-      error: (error) => {
+      error: error => {
         this.errorMessage = 'Error deleting project.';
         this.successMessage = null;
         console.error('Error deleting project:', error);

@@ -1,13 +1,11 @@
 import { inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ResetActions } from './ResetActions';
-import { AuthActions } from '../authorization/AuthActions';
 import { catchError, map, switchMap, of, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResetService } from '../../services/reset.service';
 import { ResetToggleService } from '../../services/reset-toggle.service';
 import { Router } from '@angular/router';
-import { AccesstokenService } from '../../../shared/services/accesstoken.service';
 
 /**
  * Effect for sending otp to user's mail

@@ -124,6 +124,7 @@ export class UsercreationComponent implements OnInit {
   }
 
   selectOption(option: string) {
+    option;
     this.SpecializationDropdown();
     this.DepartmentDropdown();
     this.RolesDropdown();
@@ -176,6 +177,7 @@ export class UsercreationComponent implements OnInit {
     this.specializationService.getSpecializations().subscribe(
       (specializations: string[]) => {
    
+        specializations;
       },
       err => {
         this.handleSpecializationFetchError(err);

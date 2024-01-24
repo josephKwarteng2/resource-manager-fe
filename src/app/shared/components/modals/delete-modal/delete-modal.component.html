@@ -16,7 +16,7 @@
   </header>
   <div class="delete-content">
     <p>
-      Are you sure you want to archive {{ user?.firstName }}
+      Are you sure you want to delete {{ user?.firstName }}
       {{ user?.lastName }} ?
     </p>
   </div>
@@ -29,11 +29,11 @@
     </button>
     <button
       type="submit"
-      class="delete-button bg-[#ff574d] text-white hover:bg-[#e64e45]"
-      (click)="confirmDeletion()">
+      class="delete-button bg-[#ff574d] text-white hover:bg-[#e64e45]">
       Yes
     </button>
   </div>
 </div>
 
 <div [class]="backdropClasses" (click)="close()"></div>
+(click)="confirmDeletion()">

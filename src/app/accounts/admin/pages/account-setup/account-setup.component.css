@@ -69,7 +69,6 @@ rect.strong {
   fill: green;
 }
 
-/* SMALLER DESKTOP */
 @media only screen and (max-height: 700px) {
   .password-input img {
     top: 4px;

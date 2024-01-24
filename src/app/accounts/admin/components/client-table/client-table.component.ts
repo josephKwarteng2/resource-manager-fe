@@ -1,4 +1,4 @@
-import { Component, OnInit,} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ClientDetails, GenericResponse } from '../../../../shared/types/types';
 import { ClientCreationModalService } from '../../services/client-creation-modal.service';
 import { CommonModule } from '@angular/common';
@@ -6,19 +6,18 @@ import { ClientDetailsComponent } from '../../../../shared/components/modals/cli
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'app-client-table',
   standalone: true,
   imports: [CommonModule, ClientDetailsComponent, PaginationComponent],
   templateUrl: './client-table.component.html',
-  styleUrl: './client-table.component.css'
+  styleUrl: './client-table.component.css',
 })
 export class ClientTableComponent implements OnInit {
   totalPages: number = 0;
   currentPage: number = 1;
   itemsPerPage: number = 10;
-  clients : ClientDetails[] = [];
+  clients: ClientDetails[] = [];
   loading: boolean = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
@@ -28,7 +27,7 @@ export class ClientTableComponent implements OnInit {
    private clientcreationmodalService: ClientCreationModalService,private modalService: NgbModal){}
   ngOnInit(): void {
     this.loading = false;
-   this.fetchClients();
+    this.fetchClients();
   }
   onPageChange(page: number): void {
     this.currentPage = page;

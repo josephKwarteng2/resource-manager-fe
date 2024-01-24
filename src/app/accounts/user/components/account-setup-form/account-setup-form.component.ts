@@ -13,16 +13,21 @@ import {
   selectLogin,
   LoginState,
 } from '../../../../auth/store/authorization/AuthReducers';
-import { Subscription, combineLatest } from 'rxjs';
-import { AuthState } from '../../../../auth/types/auth-types';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../../auth/store/authorization/AuthActions';
 import { Input } from '@angular/core';
+import { GlobalInputComponent } from '../../../../shared/components/global-input/global-input.component';
 
 @Component({
   selector: 'account-setup-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LoginSideIllustrationComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    LoginSideIllustrationComponent,
+    GlobalInputComponent,
+  ],
   templateUrl: './account-setup-form.component.html',
   styleUrls: [
     './account-setup-form.component.css',
@@ -104,7 +109,6 @@ export class AccountSetupFormComponent implements OnInit, OnDestroy {
 
   onFileChange(event: any) {
     if (event.target?.files.length > 0) {
-      // Extract file and file reader
       let reader = new FileReader();
       const file = event.target.files[0];
 
@@ -113,7 +117,6 @@ export class AccountSetupFormComponent implements OnInit, OnDestroy {
         this.imgUrl = event.target.result;
       };
 
-      // add image file to form data
       this.userDetails.patchValue({
         profilePicture: file,
       });

@@ -40,6 +40,46 @@ export class DeleteModalComponent {
     console.log(this.user);
   }
 
+  openDeleteModal(user: User): void {
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
+
+  confirmDeletion(): void {
+    if (this.user?.email) {
+      this.loading = true;
+      this.successMessage = null;
+      this.errorMessage = null;
+
+      this.usersService.deleteUser(this.user.email).subscribe({
+        next: (response: GenericResponse) => {
+          this.successMessage =
+            response.message || 'User archived successfully';
+          this.errorMessage = null;
+          setTimeout(() => {
+            this.successMessage = null;
+            this.loading = false;
+            this.closed = true;
+            this.fetchUsers();
+          }, 1000);
+        },
+        error: (error: any) => {
+          this.errorMessage =
+            error.message || 'Error archiving user. Please try again.';
+          this.successMessage = null;
+          console.error('Error archiving user:', error);
+          setTimeout(() => {
+            this.errorMessage = null;
+            this.loading = false;
+          }, 3000);
+        },
+      });
+    }
+  }
+
   fetchUsers(): void {
     this.usersService.getUsers().subscribe(
       users => {
@@ -51,63 +91,19 @@ export class DeleteModalComponent {
     );
   }
 
-  openDeleteModal(user: User): void {
-    // this.userToDelete = user;
-    this.showDeleteModal = true;
-  }
-
-  closeDeleteModal(): void {
-    // this.userToDelete = undefined;
-    this.showDeleteModal = false;
-  }
-
-  confirmDeletion(): void {
-    if (this.user?.email) {
-      this.deleteUser(this.user.email);
-    }
-    this.deleteConfirmedEvent.emit();
-  }
-
-  deleteUser(email: string): void {
-    this.loading = true;
-    this.successMessage = null;
-    this.errorMessage = null;
-
-    this.usersService.deleteUser(email).subscribe({
-      next: () => {
-        this.successMessage = 'User archived successfully';
-        this.errorMessage = null;
-        this.fetchUsers();
-        setTimeout(() => {
-          this.successMessage = null;
-        }, 1000);
-      },
-      error: error => {
-        this.errorMessage = 'Error archiving user.';
-        this.successMessage = null;
-        console.error('Error archiving user:', error);
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 3000);
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
-  }
   get modalClasses() {
     return {
-      [`modal`]: true,
-      [`opening`]: this.opening,
-      [`closed`]: this.closed,
+      modal: true,
+      opening: this.opening,
+      closed: this.closed,
     };
   }
 
   get backdropClasses() {
     return {
-      [`backdrop`]: true,
-      [`opening`]: this.opening,
-      [`closed`]: this.closed,
+      backdrop: true,
+      opening: this.opening,
+      closed: this.closed,
     };
   }
 }

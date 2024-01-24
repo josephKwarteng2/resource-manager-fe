@@ -4,23 +4,20 @@ import {
   OnDestroy,
   ViewContainerRef,
   ComponentRef,
+  Input,
 } from '@angular/core';
 import { GenericResponse, User } from '../../../../shared/types/types';
 import { Subscription } from 'rxjs';
-import { CreateUserService } from '../../services/create-user.service';
 import { UsersService } from '../../services/users.service';
 import { CommonModule } from '@angular/common';
 import { ViewModalComponent } from '../../../../shared/components/modals/view-modal/view-modal.component';
-import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { DeleteModalComponent } from '../../../../shared/components/modals/delete-modal/delete-modal.component';
+// import { DeleteModalComponent } from '../../../../shared/components/modals/delete-modal/delete-modal.component';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
-import { ViewModalService } from '../../../../shared/components/modals/view-modal/view-modal.service';
-import { DeleteModalService } from '../../../../shared/components/modals/delete-modal/delete-modal.service';
 import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
 import { DropdownService } from '../../../../shared/components/dropdown/dropdown.service';
 import { DropdownComponent } from '../../../../shared/components/dropdown/dropdown.component';
+import { ViewModalService } from '../../../../shared/components/modals/view-modal/view-modal.service';
 
 @Component({
   selector: 'user-list',
@@ -29,7 +26,6 @@ import { DropdownComponent } from '../../../../shared/components/dropdown/dropdo
     CommonModule,
     ViewModalComponent,
     PaginationComponent,
-    DeleteModalComponent,
     AssignModalComponent,
   ],
   templateUrl: './user-list.component.html',
@@ -37,6 +33,7 @@ import { DropdownComponent } from '../../../../shared/components/dropdown/dropdo
 })
 export class UserListComponent implements OnInit, OnDestroy {
   users: User[] = [];
+  @Input() user!: User;
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 0;
@@ -45,6 +42,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   totalUsers: number = 0;
+  selectedUsers: User[] = [];
 
   private dataSubscription: Subscription | undefined;
   private viewModalRef?: ComponentRef<ViewModalComponent>;
@@ -54,11 +52,19 @@ export class UserListComponent implements OnInit, OnDestroy {
   constructor(
     private usersService: UsersService,
     private dropdownService: DropdownService,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private assignModalService: AssignModalService,
+    private viewModalService: ViewModalService
   ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
+  }
+
+  openViewModal(user: User) {
+    this.viewModalRef = this.viewModalService.open(this.viewContainerRef, {
+      user,
+    });
   }
 
   openDropdown(event: MouseEvent, user: User) {
@@ -111,24 +117,15 @@ export class UserListComponent implements OnInit, OnDestroy {
     });
   }
 
-  archiveUser(email: string): void {
-    this.usersService.archiveUser(email).subscribe({
-      next: () => {
-        this.successMessage = 'User archived successfully.';
-        this.errorMessage = null;
-        this.fetchUsers();
-        setTimeout(() => {
-          this.successMessage = null;
-        }, 3000);
-      },
-      error: error => {
-        this.errorMessage = 'Error archiving user.';
-        this.successMessage = null;
-        console.error('Error archiving user:', error);
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 3000);
-      },
-    });
+  toggleUserSelection(user: User): void {
+    if (this.isSelected(user)) {
+      this.selectedUsers = this.selectedUsers.filter(u => u !== user);
+    } else {
+      this.selectedUsers.push(user);
+    }
+  }
+
+  isSelected(user: User): boolean {
+    return this.selectedUsers.includes(user);
   }
 }

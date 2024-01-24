@@ -31,10 +31,10 @@ export type CurrentUser = {
   selected?: boolean;
 };
 
-export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles' > & {
+export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles'> & {
   skills: string;
   department: string;
-  specializations : string;
+  specializations: string;
 };
 
 /**
@@ -94,10 +94,6 @@ export type Permisions = {
   can_update_user_role: boolean;
 };
 
-/**
- * @description This type can be used as a type argument for any signal where we are tracking
- * success, error and pending states
- */
 export type InitialSig = {
   success: { user?: CurrentUser; message: string } | null;
   error: { message: string } | null;

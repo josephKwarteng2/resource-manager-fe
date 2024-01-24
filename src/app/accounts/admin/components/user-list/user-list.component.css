@@ -57,13 +57,6 @@ td {
   cursor: pointer;
 }
 
-.container {
-  display: flex;
-  width: 32px;
-  height: 32px;
-  border: 1px solid red;
-}
-
 .custom-spinner {
   display: flex;
   flex-direction: row;

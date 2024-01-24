@@ -7,13 +7,13 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { AssignModalComponent } from './assign-modal.component';
+import { GeneralAssignModalComponent } from './general-assign-modal.component';
 import { User } from '../../../types/types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AssignModalService {
+export class GeneralAssignModalService {
   private onSelectCallback: ((selectedUsers: User[]) => void) | null = null;
 
   constructor(
@@ -23,7 +23,7 @@ export class AssignModalService {
 
   open(viewContainerRef: ViewContainerRef, options?: { user?: User }) {
     const modalComponentRef = viewContainerRef.createComponent(
-      AssignModalComponent,
+      GeneralAssignModalComponent,
       {
         injector: this.injector,
       }
@@ -50,7 +50,7 @@ export class AssignModalService {
     return modalComponentRef;
   }
 
-  closeModal(modalComponentRef: ComponentRef<AssignModalComponent>) {
+  closeModal(modalComponentRef: ComponentRef<GeneralAssignModalComponent>) {
     /**
      * This timer is to make the modal fade out before destroying it
      */
@@ -59,7 +59,7 @@ export class AssignModalService {
     // }, 5000);
   }
 
-  submitModal(modalComponentRef: ComponentRef<AssignModalComponent>) {
+  submitModal(modalComponentRef: ComponentRef<GeneralAssignModalComponent>) {
     modalComponentRef.destroy();
   }
 

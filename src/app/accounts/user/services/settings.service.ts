@@ -14,6 +14,7 @@ import {
   Specializations,
   Skills,
 } from '../../../shared/types/types';
+import { GenericResponse, SkillData } from '../../../shared/types/types';
 
 export type SettingsFields = 'profile' | 'password' | 'work specialization';
 
@@ -137,6 +138,12 @@ export class SettingsService {
         }),
         catchError((error: HttpErrorResponse) => this.onError(error))
       );
+  }
+
+  addSkill(skillData: SkillData): Observable<GenericResponse> {
+    return this.http
+      .post<GenericResponse>(`${BASE_URL}/store`, skillData, this.headers)
+      .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
   }
 
   /**

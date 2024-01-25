@@ -93,3 +93,8 @@ export type Projects = {
   id: string;
   name: string;
 };
+
+export interface SkillData {
+  name: string;
+  userId: string;
+}

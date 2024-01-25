@@ -14,7 +14,7 @@
   </div>
   <div class="d-block">
     <div>
-      <label for="department">DEPARTMENT</label>
+      <label for="department">Department</label>
       <select
         name="department"
         class="input-settings {{ getDepartmentErrors() ? 'error' : '' }}"
@@ -32,7 +32,7 @@
     </div>
 
     <div>
-      <label for="specialization">SPECIALIZATION</label>
+      <label for="specialization">Specialization</label>
       <select
         name="specialization"
         class="input-settings {{ getSpecializationErrors() ? 'error' : '' }}"
@@ -49,12 +49,31 @@
       }
     </div>
     <div>
-      <label for="skills">SKILLS</label>
-      <select id="skills" class="input-settings" formControlName="skills">
-        <option *ngFor="let skill of skills" [value]="skill">
-          {{ skill }}
-        </option>
-      </select>
+      <div>
+        <label for="skills">Skills</label>
+        <div class="skills-container">
+          <input
+            class="input-settings"
+            formControlName="skills"
+            placeholder="Enter skill, rate and add" />
+          <!-- <option *ngFor="let skill of skills" [value]="skill">
+              {{ skill }}
+            </option> -->
+
+          <button>Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <label class="text-added-skill">Added skills </label>
+  <div class="skill-cards-container">
+    <div class="skill-card" *ngFor="let skill of enteredSkills">
+      {{ skill }}
+
+      <button (click)="removeSkill(skill)">
+        <img src="assets/images/user/x-close.svg" />
+      </button>
     </div>
   </div>
   <div class="buttons">

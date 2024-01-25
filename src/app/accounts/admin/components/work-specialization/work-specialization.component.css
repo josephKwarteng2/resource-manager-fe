@@ -21,6 +21,14 @@
   border: 1px solid #9aa8bc;
   width: 200px;
   cursor: pointer;
+  margin-top: 140px;
+}
+
+.separator {
+  display: flex;
+  /* padding-bottom: 10px; */
+  width: 48%;
+  border-bottom: 1px solid #000;
 }
 
 h4 {
@@ -60,6 +68,22 @@ label:not(.visibly-hidden) {
   margin-bottom: 40px;
 }
 
+.skills-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.skills-container > button {
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid #9aa8bc;
+  width: 100px;
+  background: #022f54;
+  cursor: pointer;
+  color: #fff;
+}
+
 .buttons {
   display: flex;
   gap: 40px;
@@ -87,4 +111,39 @@ label:not(.visibly-hidden) {
 
 .error-message {
   color: #fc2e20;
+}
+
+.skill-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.skill-card {
+  display: flex;
+  gap: 140px;
+  width: 120px;
+  height: 49px;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'LexendRegular';
+  color: #6d6d6d;
+}
+
+.text-added-skill {
+  margin-top: 30px;
+}
+
+@media only screen and (max-height: 700px) {
+  .separator {
+    display: flex;
+    /* padding-bottom: 10px; */
+    width: 54%;
+    border-bottom: 1px solid #000;
+  }
 }

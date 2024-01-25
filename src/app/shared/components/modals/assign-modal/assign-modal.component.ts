@@ -47,6 +47,14 @@ export class AssignModalComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  closeErrorMessage(): void {
+    this.errorMessage = null;
+  }
+
+  closeSuccessMessage(): void {
+    this.successMessage = null;
+  }
+
   close() {
     this.closed = true;
     this.closeAssignEvent.emit();
@@ -65,29 +73,33 @@ export class AssignModalComponent implements AfterViewInit {
       .subscribe({
         next: (response: any) => {
           if (response.status === 201) {
-            this.successMessage = `${this.project.name} is successfully assigned to ${this.user.firstName}.`;
+            this.successMessage =
+              response.response && response.response.message;
           } else {
-            this.successMessage = response.message;
+            this.errorMessage =
+              response.message || 'An unexpected error occurred.';
           }
           this.response = response;
+
+          setTimeout(() => {
+            this.errorMessage = null;
+          }, 6000);
         },
         error: (error: any) => {
           if (error.status >= 500) {
             this.errorMessage =
               'Server Error: Something went wrong on the server.';
           } else {
-            if (error.error && error.error.message) {
-              this.errorMessage = error.error.message;
-            } else {
-              this.errorMessage = 'An unexpected error occurred.';
-            }
+            this.errorMessage =
+              error.error && error.error.message
+                ? error.error.message
+                : 'An unexpected error occurred.';
           }
 
           setTimeout(() => {
             this.errorMessage = null;
           }, 6000);
         },
-
         complete: () => {
           this.close();
         },

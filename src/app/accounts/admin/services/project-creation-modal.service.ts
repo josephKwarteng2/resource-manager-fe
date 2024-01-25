@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { BASE_URL } from '../../../../environment/config';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ProjectDetails, GenericResponse } from '../../../shared/types/types';
+import { ProjectDetails, GenericResponse } from '../../../shared/interfaces/types';
 import { ProjectCreationModalComponent } from '../../../shared/components/modals/project-creation-modal/project-creation-modal.component';
 import { ErrorHandlingService } from './error-handling.service';
 

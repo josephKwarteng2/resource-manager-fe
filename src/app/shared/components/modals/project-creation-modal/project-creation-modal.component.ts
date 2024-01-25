@@ -12,14 +12,15 @@ import { NgbModal, } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
 import { ProjectCreationModalService } from '../../../../accounts/admin/services/project-creation-modal.service';
 import { ClientCreationModalService } from '../../../../accounts/admin/services/client-creation-modal.service';
-import { ClientDetails } from '../../../types/types';
+import { ClientDetails } from '../../../interfaces/types';
 import { ClientCreationModalComponent } from '../client-creation-modal/client-creation-modal.component';
-// import { CalenderComponent } from '../calender/calender.component';
+import { GlobalInputComponent } from '../../global-input/global-input.component';
+
 
 @Component({
   selector: 'app-project-creation-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,ClientCreationModalComponent],
+  imports: [CommonModule, ReactiveFormsModule,ClientCreationModalComponent, GlobalInputComponent],
   templateUrl: './project-creation-modal.component.html',
   styleUrl: './project-creation-modal.component.css'
 })
@@ -32,6 +33,7 @@ export class ProjectCreationModalComponent implements OnInit{
   success = false;
   error = false;
   errorMessages: { serverError?: string } = {};
+  successMessage: string = '';
   clients: ClientDetails[] = [];
   filteredClients: ClientDetails[] = [];
   date: Date | undefined;
@@ -82,7 +84,7 @@ export class ProjectCreationModalComponent implements OnInit{
         projectStatus: projectStatus,
         billable: isBillable,
       };
-      // this.loading = true;
+      this.loading = true;
 
       this.projectcreationService
         .addNewProject(this.formData.value)
@@ -95,20 +97,29 @@ export class ProjectCreationModalComponent implements OnInit{
           response => {
             this.formData.reset();
             this.success = true;
+            this.successMessage = 'Project created successfully!';
           },
           error => {
-            console.error('Error in post request', error);
 
             this.error = true;
-
-            if (error.error && typeof error.error === 'object') {
-              this.errorMessages = error.error;
+            if (error.status === 400) {
+              this.errorMessages.serverError = 'Invalid inputs. Please check your input.';
+            } else if (error.status === 401) {
+              this.errorMessages.serverError = 'Unauthorized. Please log in as Admin or Manager.';
+            } else if (error.status === 403) {
+              this.errorMessages.serverError = 'You do not have the necessary permission to perform this task.';
+            } else if (error.status === 404) {
+              this.errorMessages.serverError = 'Resource not found. Please try again or contact IT support';
+            } else if (error.status >= 500) {
+              this.errorMessages.serverError = 'Server error. Please try again later.';
+            } else {
+              this.errorMessages.serverError = 'An error occurred. Please try again.';
             }
             this.formData.markAsTouched();
           }
         );
     } else {
-      console.error('Form is not valid');
+       this.errorMessages.serverError= 'Please enter valid inputs or complete the form';
     }
   }
   closeProjectcreationModal() {
@@ -135,13 +146,15 @@ export class ProjectCreationModalComponent implements OnInit{
           if (Array.isArray(response.clients)) {
             this.clients = response.clients;
           } else {
-            console.error('Invalid clients array in API response:', response);
+            this.handleError('Error retrieving clients. Please try again later.');
           }
-        },
-        error => {
-          console.error('Error fetching clients:', error);
         }
       );
+  }
+  private handleError(errorMessage: string): void {
+    this.error = true;
+    this.errorMessages.serverError = errorMessage;
+
   }
   
     

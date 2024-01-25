@@ -1,4 +1,4 @@
-import { Component,  OnInit, Input  } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormGroup,
 
@@ -16,22 +16,25 @@ import { ClientCreationModalService } from '../../../../accounts/admin/services/
   templateUrl: './client-creation-modal.component.html',
   styleUrl: './client-creation-modal.component.css'
 })
-export class ClientCreationModalComponent implements OnInit{
+export class ClientCreationModalComponent implements OnInit {
   @Input() isOpen = true;
   formData: FormGroup;
   loading = false;
   success = false;
   error = false;
-  errorMessages: { roles?: string; email?: string } = {};
+  errorMessage: string = '' ;
+  successMessage: string = '' ;
+  nullFormControlMessage: string = '' ;
+  formInvalidMessage: string = '';
 
   constructor(
-  
+
     private clientcreationService: ClientCreationModalService,
 
     private fb: FormBuilder,
 
 
-  ){
+  ) {
     this.formData = this.fb.group({
       details: [''],
       name: [''],
@@ -39,46 +42,62 @@ export class ClientCreationModalComponent implements OnInit{
     });
   }
 
-  OnCreateClient(){
+  clearErrorMessagesAfterDelay() {
+    setTimeout(() => {
+      this.errorMessage = '';
+      this.formInvalidMessage = '';
+      this.nullFormControlMessage = '';
+    }, 3000); 
+  }
+
+  OnCreateClient() {
     this.loading = false;
     this.success = false;
     this.error = false;
-    this.errorMessages = {};
     if (this.formData.valid) {
-      // this.loading = true;
+      this.loading = true;
 
       this.clientcreationService
         .addNewClient(this.formData.value)
         .pipe(
           finalize(() => {
-            // this.loading = false;
+            this.loading = false;
           })
         )
         .subscribe(
           response => {
-            console.log('Post request successful', response);
 
-            // this.success = true;
+            this.success = true;
+            this.successMessage = 'Client created successfully!';
           },
           error => {
-            console.error('Error in post request', error);
-
             this.error = true;
-
-            if (error.error && typeof error.error === 'object') {
-              this.errorMessages = error.error;
+            if (error.status === 400) {
+              this.errorMessage = '  Invalid inputs, please check your inputs and try again';
+            } else if (error.status === 401) {
+              this.errorMessage = '  Unauthorized. Please log in as an Admin or Manager.';
+            } else if (error.status === 403) {
+              this.errorMessage = '  You do not have the necessary permission to perfom this task.';
+            } else if (error.status === 404) {
+              this.errorMessage = '  Resource not found, please contact IT support.';
+            } else if (error.status >= 500) {
+              this.errorMessage = '  Server error. Please try again later.';
+            } else {
+              this.errorMessage = '  An error occurred. Please try again.';
             }
+            this.clearErrorMessagesAfterDelay();
           }
         );
     } else {
-      console.error('Form is not valid');
+      this.formInvalidMessage = 'Please complete the form or enter valid inputs';
+      this.clearErrorMessagesAfterDelay();
     }
   }
   closeClientcreationModal() {
     this.isOpen = false;
 
   }
-  
+
   ngOnInit(): void {
 
   }

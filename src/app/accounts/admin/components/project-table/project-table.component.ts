@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DropdownService } from '../../../../shared/components/dropdown/dropdown.service';
-import { User } from '../../../../shared/types/types';
+import { User } from '../../../../shared/interfaces/types';
 import { DropdownComponent } from '../../../../shared/components/dropdown/dropdown.component';
 import {
   ProjectDetails,
   GenericResponse,
-} from '../../../../shared/types/types';
+} from '../../../../shared/interfaces/types';
 import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
 import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { ProjectCreationModalService } from '../../services/project-creation-modal.service';

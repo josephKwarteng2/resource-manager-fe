@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '../../../types/types';
+import { User } from '../../../interfaces/types';
 
 /**
  * how to use modal

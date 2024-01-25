@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BASE_URL } from '../../../environment/config';
-import { UserNotifications, CurrentUser } from '../types/types';
+import { UserNotifications, CurrentUser } from '../interfaces/types';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 @Injectable({

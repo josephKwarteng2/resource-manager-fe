@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProjectDetails, EmployeeDetails } from '../../../types/types';
+import { ProjectDetails, EmployeeDetails } from '../../../interfaces/types';
 import { CommonModule } from '@angular/common';
 
 @Component({

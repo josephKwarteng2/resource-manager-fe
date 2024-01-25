@@ -10,7 +10,7 @@ import {
   ElementRef,
 } from '@angular/core';
 
-import { User, ProjectDetails } from '../../../types/types';
+import { User, ProjectDetails } from '../../../interfaces/types';
 import { UsersService } from '../../../../accounts/admin/services/users.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { ProjectsService } from '../../../../accounts/admin/services/projects.service';

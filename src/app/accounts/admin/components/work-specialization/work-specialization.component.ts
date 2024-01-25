@@ -16,7 +16,7 @@ import {
   InitialSig,
   Specializations,
   Skills,
-} from '../../../../shared/types/types';
+} from '../../../../shared/interfaces/types';
 
 @Component({
   selector: 'adm-work-specialization',

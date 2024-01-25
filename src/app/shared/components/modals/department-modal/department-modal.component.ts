@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { DepartmentService } from '../../../../accounts/admin/services/department.service';
 import { CommonModule } from '@angular/common';
-import { GenericResponse } from '../../../types/types';
+import { GenericResponse } from '../../../interfaces/types';
 
 @Component({
   selector: 'app-department-modal',

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../../shared/types/types';
+import { User } from '../../../shared/interfaces/types';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ManagerUsercreationComponent } from '../../manager/pages/manager-usercreation/manager-usercreation.component';
 import { HttpClient } from '@angular/common/http';

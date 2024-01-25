@@ -1,4 +1,4 @@
-import { CurrentUser } from '../../shared/types/types';
+import { CurrentUser } from '../../shared/interfaces/types';
 
 //Initial state of the Auth slice of state
 export type AuthState = {

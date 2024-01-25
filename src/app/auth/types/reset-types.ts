@@ -1,4 +1,4 @@
-import { CurrentUser } from '../../shared/types/types';
+import { CurrentUser } from '../../shared/interfaces/types';
 
 export type ResetState = {
   isSubmitting: boolean;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../../shared/types/types';
+import { User } from '../../../shared/interfaces/types';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BASE_URL } from '../../../../environment/config';

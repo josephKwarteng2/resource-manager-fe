@@ -12,7 +12,7 @@ import { SpecializationModalComponent } from '../../../../shared/components/moda
 import { DepartmentModalComponent } from '../../../../shared/components/modals/department-modal/department-modal.component';
 import { DepartmentService } from '../../services/department.service';
 import { finalize } from 'rxjs/operators';
-import { GenericResponse } from '../../../../shared/types/types';
+import { GenericResponse } from '../../../../shared/interfaces/types';
 
 @Component({
   selector: 'app-usercreation',

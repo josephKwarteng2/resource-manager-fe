@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClientDetails,} from '../../../types/types';
+import { ClientDetails,} from '../../../interfaces/types';
 import { CommonModule } from '@angular/common';
 
 @Component({

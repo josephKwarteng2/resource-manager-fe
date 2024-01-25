@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../../../environment/config';
 import { Observable } from 'rxjs';
-import { GenericResponse, User } from '../../../shared/types/types';
+import { GenericResponse, User } from '../../../shared/interfaces/types';
 
 @Injectable({
   providedIn: 'root',

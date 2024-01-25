@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../../../environment/config';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DepartmentModalComponent } from '../../../shared/components/modals/department-modal/department-modal.component';
-import { GenericResponse } from '../../../shared/types/types';
+import { GenericResponse } from '../../../shared/interfaces/types';
 
 @Injectable({
   providedIn: 'root',

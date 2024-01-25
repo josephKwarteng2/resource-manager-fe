@@ -1,4 +1,4 @@
-<div
+<!-- <div
   *ngIf="successMessage"
   class="validation-success-message backend"
   style="font-size: 14px">
@@ -7,8 +7,18 @@
 
 <div *ngIf="errorMessage" class="validation-error-message backend">
   {{ errorMessage }}
-</div>
+</div> -->
+<div class="message-container">
+  <div class="alert-error" *ngIf="errorMessage">
+    <span class="closebtn"></span>
+    {{ errorMessage }}
+  </div>
 
+  <div class="alert-success" *ngIf="successMessage">
+    <span class="closebtn"></span>
+    {{ successMessage }}
+  </div>
+</div>
 <!-- <p>{{ totalUsers }}</p> -->
 <ng-container *ngIf="loading; else userListOrNoUsers">
   <div class="spinner-dots">

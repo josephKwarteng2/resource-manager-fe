@@ -1,11 +1,15 @@
-<div [class]="modalClasses">
-  <div *ngIf="successMessage" class="validation-success-message backend">
-    {{ successMessage }}
-  </div>
-
-  <div *ngIf="errorMessage" class="validation-error-message backend">
+<div class="message-container">
+  <div class="alert-error" *ngIf="errorMessage">
+    <span class="closebtn" (click)="closeErrorMessage()"></span>
     {{ errorMessage }}
   </div>
+
+  <div class="alert-success" *ngIf="successMessage">
+    <span class="closebtn" (click)="closeSuccessMessage()"></span>
+    {{ successMessage }}
+  </div>
+</div>
+<div [class]="modalClasses">
   <header>
     <h2>Assign Resources</h2>
     <span (click)="close()">

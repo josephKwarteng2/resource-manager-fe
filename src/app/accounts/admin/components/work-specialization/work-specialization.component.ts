@@ -16,7 +16,9 @@ import {
   InitialSig,
   Specializations,
   Skills,
-} from '../../../../shared/interfaces/types';
+  SkillData,
+  GenericResponse,
+} from '../../../../shared/types/types';
 
 @Component({
   selector: 'adm-work-specialization',
@@ -35,6 +37,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
   departments!: Departments[];
   skills: Skills[] = [];
   loading: Boolean = false;
+  enteredSkills: string[] = [];
   user!: CurrentUser;
   settingsSig = signal<InitialSig>({
     success: null,
@@ -63,11 +66,11 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       },
     });
 
-    const skillsSub = this.settingsService.getUserSkills().subscribe({
-      next: res => {
-        this.skills = res;
-      },
-    });
+    // const skillsSub = this.settingsService.getUserSkills().subscribe({
+    //   next: res => {
+    //     this.skills = res;
+    //   },
+    // });
     const storeSub = this.store.select(selectCurrentUser).subscribe({
       next: user => {
         if (user) {
@@ -77,7 +80,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.subscriptions.push(specSub, departmentSub, storeSub, skillsSub);
+    this.subscriptions.push(specSub, departmentSub, storeSub);
   }
 
   getSpecializationErrors(): string {
@@ -105,7 +108,7 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
       this.userSpecializationForm.patchValue({
         department: this.user.department || '',
         specialization: this.user.specializations[0] || '',
-        skills: this.user.skills || '',
+        // skills: this.user.skills || '',
       });
     }
   }
@@ -113,6 +116,13 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
   get signalValues() {
     const val = this.settingsSig();
     return val;
+  }
+
+  removeSkill(skill: string): void {
+    const index = this.enteredSkills.indexOf(skill);
+    if (index !== -1) {
+      this.enteredSkills.splice(index, 1);
+    }
   }
 
   submitForm(event: Event) {
@@ -135,6 +145,12 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
         this.userSpecializationForm.get('specialization')?.value || '',
       skills: this.userSpecializationForm.get('skills')?.value || [],
     };
+
+    const skill = this.userSpecializationForm.get('skills')?.value;
+    if (skill && skill.trim() !== '') {
+      this.enteredSkills.push(skill.trim());
+      this.userSpecializationForm.get('skills')?.reset();
+    }
 
     if (this.userSpecializationForm.valid) {
       this.loading = true;
@@ -181,5 +197,18 @@ export class WorkSpecializationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  addSkill(skillData: SkillData): void {
+    this.settingsService.addSkill(skillData).subscribe({
+      next: (response: GenericResponse) => {
+        // Handle the success response if needed
+        console.log(response);
+      },
+      error: (error: any) => {
+        // Handle the error response if needed
+        console.error(error);
+      },
+    });
   }
 }

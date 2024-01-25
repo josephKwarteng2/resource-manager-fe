@@ -87,6 +87,10 @@ label:not(.visibly-hidden) {
   text-transform: capitalize;
 }
 
+/* .section-project-name {
+  margin-top: 50px;
+} */
+
 .search-input {
   margin-top: 20px;
   border-radius: 8px;
@@ -105,6 +109,33 @@ label:not(.visibly-hidden) {
 
 .search-input:focus {
   outline: 1px solid #4a72ff;
+}
+
+.message-container {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35%;
+  z-index: 1000;
+  padding: 20px;
+  text-align: center;
+}
+
+.alert-success {
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.alert-error {
+  padding: 10px;
+  border: 1.5px solid #ce1407e3;
+  background-color: #ff5044;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .dropdown-list-item {
@@ -242,4 +273,11 @@ label:not(.visibly-hidden) {
   50% {
     transform: translateY(-10px);
   }
+}
+
+.validation-error-msg {
+  color: red;
+  position: absolute;
+  font-size: 12px;
+  top: 0;
 }

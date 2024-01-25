@@ -56,11 +56,11 @@
         {{ user.bookable }}
       </div>
       <div class="key">Assigned Project</div>
-      <div class="value">Capstone</div>
+      <div class="value">{{ user.project }}</div>
       <div class="key">Assigned Client</div>
-      <div class="value">Joseph</div>
+      <div class="value">{{ user.client }}</div>
       <div class="key">Time Zone</div>
-      <div class="value">Capstone</div>
+      <div class="value">{{ user.timeZone }}</div>
       <div class="key">Created At</div>
       <div class="value">{{ user.created_at }}</div>
     </div>

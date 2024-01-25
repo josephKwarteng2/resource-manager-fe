@@ -13,7 +13,7 @@ import {
   Departments,
   Specializations,
   Skills,
-} from '../../../shared/types/types';
+} from '../../../shared/interfaces/types';
 
 export type SettingsFields = 'profile' | 'password' | 'work specialization';
 

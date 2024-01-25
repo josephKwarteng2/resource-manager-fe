@@ -17,7 +17,7 @@ import {
   Departments,
   InitialSig,
   Specializations,
-} from '../../../../shared/types/types';
+} from '../../../../shared/interfaces/types';
 
 @Component({
   selector: 'user-profile',

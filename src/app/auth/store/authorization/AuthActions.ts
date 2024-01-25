@@ -1,5 +1,5 @@
 import { createActionGroup, props, emptyProps } from '@ngrx/store';
-import { CurrentUser } from '../../../shared/types/types';
+import { CurrentUser } from '../../../shared/interfaces/types';
 import {
   AuthErrorResponse,
   LoginUserDetails,

@@ -91,7 +91,10 @@ h6 {
   min-height: 100vh;
   padding: 10vh 40px 40px calc(16% + 40px);
 }
+.clickable {
+  cursor: pointer;
 
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

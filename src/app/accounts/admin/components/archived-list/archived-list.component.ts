@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
-import { GenericResponse, User } from '../../../../shared/types/types';
+import { GenericResponse, User } from '../../../../shared/interfaces/types';
 
 @Component({
   selector: 'archived-list',

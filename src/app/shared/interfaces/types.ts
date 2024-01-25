@@ -29,9 +29,6 @@ export type CurrentUser = {
   bookable: boolean;
   created_at: string;
   selected?: boolean;
-  timeZone: string;
-  client: string;
-  project: string;
 };
 
 export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles'> & {
@@ -107,8 +104,3 @@ export type Projects = {
   id: string;
   name: string;
 };
-
-export interface SkillData {
-  name: string;
-  userId: string;
-}

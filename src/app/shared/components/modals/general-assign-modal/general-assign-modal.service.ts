@@ -8,7 +8,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { GeneralAssignModalComponent } from './general-assign-modal.component';
-import { User } from '../../../types/types';
+import { User } from '../../../interfaces/types';
 
 @Injectable({
   providedIn: 'root',

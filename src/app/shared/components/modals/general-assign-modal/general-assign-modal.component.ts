@@ -8,7 +8,7 @@ import {
   AfterViewInit,
   ElementRef,
 } from '@angular/core';
-import { User, ProjectDetails } from '../../../types/types';
+import { User, ProjectDetails } from '../../../interfaces/types';
 import { UsersService } from '../../../../accounts/admin/services/users.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

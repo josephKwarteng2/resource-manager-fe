@@ -7,7 +7,7 @@ import {
   ComponentRef,
 } from '@angular/core';
 import { RestoreModalComponent } from './restore-modal.component';
-import { User } from '../../../types/types';
+import { User } from '../../../interfaces/types';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable({

@@ -6,7 +6,7 @@ import {
   ComponentRef,
   Input,
 } from '@angular/core';
-import { GenericResponse, User } from '../../../../shared/types/types';
+import { GenericResponse, User } from '../../../../shared/interfaces/types';
 import { Subscription } from 'rxjs';
 import { UsersService } from '../../services/users.service';
 import { CommonModule } from '@angular/common';

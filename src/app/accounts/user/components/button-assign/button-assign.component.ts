@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { AssignModalComponent } from '../../../../shared/components/modals/assign-modal/assign-modal.component';
 import { AssignModalService } from '../../../../shared/components/modals/assign-modal/assign.service';
-import { User } from '../../../../shared/types/types';
+import { User } from '../../../../shared/interfaces/types';
 import { GeneralAssignModalComponent } from '../../../../shared/components/modals/general-assign-modal/general-assign-modal.component';
 import { GeneralAssignModalService } from '../../../../shared/components/modals/general-assign-modal/general-assign-modal.service';
 @Component({

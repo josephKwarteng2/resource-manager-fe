@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchComponent } from '../search/search.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { NotificationsService } from '../../services/notifications.service';
-import { UserNotifications, CurrentUser } from '../../types/types';
+import { UserNotifications, CurrentUser } from '../../interfaces/types';
 import { CurrentUserService } from '../../../auth/services/current-user.service';
 @Component({
   selector: 'rm-header',

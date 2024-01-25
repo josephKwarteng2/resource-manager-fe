@@ -6,8 +6,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DropdownComponent } from './dropdown.component';
-import { User } from '../../types/types';
-import { ProjectDetails } from '../../types/types';
+import { User } from '../../interfaces/types';
+import { ProjectDetails } from '../../interfaces/types';
 
 @Injectable({
   providedIn: 'root',

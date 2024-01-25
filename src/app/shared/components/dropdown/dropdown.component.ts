@@ -8,7 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
-import { GenericResponse, User } from '../../types/types';
+import { GenericResponse, User } from '../../interfaces/types';
 // import { DeleteModalService } from '../modals/delete-modal/delete-modal.service';
 import { ViewModalService } from '../modals/view-modal/view-modal.service';
 import { AssignModalService } from '../modals/assign-modal/assign.service';

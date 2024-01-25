@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { BASE_URL } from '../../../../environment/config';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ClientDetails } from '../../../shared/types/types';
+import { ClientDetails } from '../../../shared/interfaces/types';
 import { ClientCreationModalComponent } from '../../../shared/components/modals/client-creation-modal/client-creation-modal.component';
 
 @Injectable({
@@ -25,27 +25,14 @@ getClients(): Observable<{clients: ClientDetails[]}> {
   })
   .pipe(
     catchError(error => {
-      console.error('Error in getClients:', error);
-      throw error; // rethrow the error
+      throw error; 
     })
   );
 }
-// getEmployeeImages():Observable<{employees: ClientDetails[]}> {
-//   return this.http.get<{clients: ClientDetails[]}>(`${BASE_URL}/client/fetch`, {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'ngrok-skip-browser-warning': 'skip-browser-warning',
-//     },
-//   })
-//   .pipe(
-//     catchError(error => {
-//       console.error('Error in getClients:', error);
-//       throw error; // rethrow the error
-//     })
-//   );
-// }
+
 
   openClientCreationModal(): NgbModalRef {
+    
 
     const modalRef = this.clientcreationmodalService.open(ClientCreationModalComponent, {
       centered: true,

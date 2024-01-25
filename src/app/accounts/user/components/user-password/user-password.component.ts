@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { selectCurrentUser } from '../../../../auth/store/authorization/AuthReducers';
 import { passwordMatchValidator } from '../../../../auth/validators/passwordmismatch';
 import { SettingsService } from '../../services/settings.service';
-import { CurrentUser, InitialSig } from '../../../../shared/types/types';
+import { CurrentUser, InitialSig } from '../../../../shared/interfaces/types';
 import { Store } from '@ngrx/store';
 
 @Component({

@@ -15,7 +15,7 @@ import { AssignModalService } from '../modals/assign-modal/assign.service';
 import { ViewModalComponent } from '../modals/view-modal/view-modal.component';
 import { AssignModalComponent } from '../modals/assign-modal/assign-modal.component';
 import { UsersService } from '../../../accounts/admin/services/users.service';
-
+import { UserListComponent } from '../../../accounts/admin/components/user-list/user-list.component';
 @Component({
   selector: 'app-dropdown',
   standalone: true,
@@ -23,11 +23,10 @@ import { UsersService } from '../../../accounts/admin/services/users.service';
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.css',
 })
-export class DropdownComponent {
+export class DropdownComponent implements OnInit {
   @Input() position?: { top: number; left: number };
   @Output() closeEvent = new EventEmitter<void>();
-  @Input() user!: User;
-  @Output() archiveUserEvent = new EventEmitter<string>();
+  user!: User;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
@@ -57,6 +56,8 @@ export class DropdownComponent {
   // });
   // }
 
+  ngOnInit(): void {}
+
   archiveUser(user: User): void {
     console.log(user);
     this.usersService.archiveUser(user.email).subscribe({
@@ -67,6 +68,7 @@ export class DropdownComponent {
           this.successMessage = null;
         }, 3000);
       },
+
       error: (error: any) => {
         if (error.status >= 500) {
           this.errorMessage =

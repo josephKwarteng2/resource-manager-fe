@@ -29,6 +29,9 @@ export type CurrentUser = {
   bookable: boolean;
   created_at: string;
   selected?: boolean;
+  client: string;
+  timeZone: string;
+  project: string;
 };
 
 export type AdminUser = Pick<CurrentUser, 'email' | 'department' | 'roles'> & {

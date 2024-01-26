@@ -260,16 +260,19 @@ main.visible > .backdrop {
   gap: 200px;
 }
 
+.nuf {
+  font-family: 'LexendBold';
+}
+
 .no-user p {
   font-size: 32px;
   display: block;
-  /* font-size: 16px; */
-  /* font-weight: 600; */
+
   color: #1a212b;
 }
 
 .image-illustration img {
-  width: 300px;
+  width: 360px;
   height: auto;
   margin-top: 20px;
 }
@@ -461,6 +464,10 @@ main.visible > .backdrop {
     text-align: center;
     margin: 8% auto;
     gap: 200px;
+  }
+
+  .nuf {
+    font-family: 'LexendBold';
   }
 
   .no-user p {
